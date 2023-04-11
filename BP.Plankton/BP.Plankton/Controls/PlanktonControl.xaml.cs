@@ -1705,7 +1705,7 @@ namespace BP.Plankton.Controls
         /// Trigger a current immediately.
         /// </summary>
         /// <param name="current">Specify the current to trigger.</param>
-        private void TriggerCurrent(Current current)
+        internal void TriggerCurrent(Current current)
         {
             ActiveCurrent = current;
             current.Start();
@@ -1826,7 +1826,6 @@ namespace BP.Plankton.Controls
             bool showLocaterLine;
             bool useZOnCurrent;
             CurrentSwellStage currentMode;
-            var culture = CultureInfo.CurrentCulture;
             bool useZoomPreviewBlurEffect;
             BlurEffect blurEffect;
             var zoomPreviewBlurCorrectionFactor = 0.0d;
@@ -1912,7 +1911,17 @@ namespace BP.Plankton.Controls
                     current.IncrementToNextStep();
 
                     if (ShowCurrentIndicator)
-                        CurrentIndicatorMasterGrid.Opacity = UseAnimation ? (double)currentIndicatorOpacityConverter.Convert(ActiveCurrent, typeof (double), null, culture) : 1.0d;
+                    {
+                        if (!UseAnimation)
+                        {
+                            CurrentIndicatorMasterGrid.Opacity = 1;
+                        }
+                        else
+                        {
+                            var strength = 1d / 100d * ActiveCurrent.GetCurrentStrengthOfTotalStrength();
+                            CurrentIndicatorMasterGrid.Opacity = Math.Min(1.0d, Math.Max(strength, 0.25d));
+                        }
+                    }
 
                     currentZAdjustemnt += current.ActiveStep().Z;
 
@@ -2743,7 +2752,7 @@ namespace BP.Plankton.Controls
         /// Apply settings from a file.
         /// </summary>
         /// <param name="file">The file to apply settings from.</param>
-        private void ApplySettingsFromFile(PlanktonSettingsFile file)
+        internal void ApplySettingsFromFile(PlanktonSettingsFile file)
         {
             var wasPaused = IsPaused;
             IsPaused = true;
