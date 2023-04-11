@@ -537,8 +537,6 @@ namespace BP.Plankton.Model.Logic
 
             control.IsUpdating = true;
 
-            Console.WriteLine(control.UseCurrent.ToString() + " " + control.ShowCurrentIndicator.ToString());
-
             var seaBedHeight = control.SeaBedGeometry?.Bounds.Height ?? 0d;
             var mousePosition = Mouse.GetPosition(area);
             var useSeaBed = control.SeaBedGeometry != null && control.UseSeaBed;
