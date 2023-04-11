@@ -96,7 +96,7 @@ namespace BP.Plankton.Model.Logic
         /// <param name="forceBubbleRerender">If bubble re-render should be forced.</param>
         /// <param name="mainBubbleState">The main bubble state.</param>
         /// <param name="mainBubbleRectangle">A rectangle describing the main bubble.</param>
-        private static void UpdateBubbles(PlanktonControl control, FrameworkElement area, Random random, Vector mouseVector, bool useSeaBed, double seaBedHeight, Point mousePosition, out int currentBubbleElements, out bool forceBubbleRerender, out bool mainBubbleState, out Rect mainBubbleRectangle)
+        private static void UpdateBubbles(PlanktonControl control, FrameworkElement area, Random random, Vector mouseVector, bool useSeaBed, double seaBedHeight, Point mousePosition, out int currentBubbleElements, out bool forceBubbleRerender, out Rect mainBubbleRectangle)
         {
             var bubbleBrush = control.FindResource("BubbleBrush") as Brush;
             var maxBubbleSize = control.BubbleSize * Math.PI;
@@ -544,9 +544,10 @@ namespace BP.Plankton.Model.Logic
             var lastRenderedBubbleElements = 0;
             var mousePosition = Mouse.GetPosition(area);
             var useSeaBed = control.SeaBedGeometry != null && control.UseSeaBed;
+            var hadBubble = control.Bubble != null;
 
             UpdateCurrent(control, random);
-            UpdateBubbles(control, area, random, mouseVector, useSeaBed, seaBedHeight, mousePosition, out var currentBubbleElements, out var forceBubbleRerender, out var lastMainBubbleState, out var bubbleElementRectangle);
+            UpdateBubbles(control, area, random, mouseVector, useSeaBed, seaBedHeight, mousePosition, out var currentBubbleElements, out var forceBubbleRerender, out var bubbleElementRectangle);
             UpdatePlankton(control, area, random, useSeaBed, seaBedHeight, currentBubbleElements, bubbleElementRectangle, out var mainBubbleCollisions);
             UpdatePreview(control, area, mousePosition);
 
@@ -569,7 +570,7 @@ namespace BP.Plankton.Model.Logic
             {
                 lock (control.Bubble)
                 {
-                    if (!area.HasBubbleHostVisual || control.Bubble != null && !lastMainBubbleState)
+                    if (!area.HasBubbleHostVisual || control.Bubble != null && !hadBubble)
                     {
                         var mainBubbleHostVisual = new DrawingVisual();
                         control.ElementHost.SpecifyMainBubbleDrawingVisual(mainBubbleHostVisual);
@@ -577,7 +578,7 @@ namespace BP.Plankton.Model.Logic
                     }
                 }
             }
-            else if (lastMainBubbleState)
+            else if (hadBubble)
             {
                 // need to remove the main bubble visual to not leave a hanging element
                 var mainBubbleHostVisual = new DrawingVisual();
