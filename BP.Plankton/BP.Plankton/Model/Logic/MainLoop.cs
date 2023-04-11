@@ -102,6 +102,7 @@ namespace BP.Plankton.Model.Logic
             var maxBubbleSize = control.BubbleSize * Math.PI;
             var childBubbleBuoyancy = control.ChildBubbleBuoyancy * control.WaterViscosity;
             mainBubbleRectangle = new Rect();
+            forceBubbleRerender = false;
 
             if (control.Bubble != null)
                 control.Bubble.Vector = mouseVector;
