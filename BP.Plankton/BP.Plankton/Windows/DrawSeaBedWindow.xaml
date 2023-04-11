@@ -1,0 +1,31 @@
+﻿<Window x:Class="BP.Plankton.Windows.DrawSeaBedWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:BP.Plankton.Controls"
+    Title="Draw Sea Bed" Height="300" Width="300" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" Background="Black">
+    <Window.Resources>
+        <RoutedUICommand x:Key="ClearCommand" Text="Clear"/>
+        <RoutedUICommand x:Key="OKCommand" Text="OK"/>
+        <RoutedUICommand x:Key="CancelCommand" Text="Cancel"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding x:Name="ClearCommandBinding" Command="{StaticResource ClearCommand}" Executed="ClearCommandBinding_Executed"/>
+        <CommandBinding x:Name="OKCommandBinding" Command="{StaticResource OKCommand}" Executed="OKCommandBinding_Executed"/>
+        <CommandBinding x:Name="CancelCommandBinding" Command="{StaticResource CancelCommand}" Executed="CancelCommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <controls:DrawSeaBedControl x:Name="SeaBedControl" Margin="6, 6, 6, 0" BorderBrush="Black" BorderThickness="0" Grid.Row="0" Grid.ColumnSpan="3"/>
+        <Button Name="ClearButton" Command="{StaticResource ClearCommand}" Content="Clear" Margin="6" Grid.Row="1" Grid.Column="0"/>
+        <Button Name="CancelButton" Command="{StaticResource CancelCommand}" Content="Cancel" Margin="6" Grid.Row="1" Grid.Column="1"/>
+        <Button Name="OkButton" Command="{StaticResource OKCommand}" Content="OK" Margin="6" Grid.Row="1" Grid.Column="2"/>
+    </Grid>
+</Window>
