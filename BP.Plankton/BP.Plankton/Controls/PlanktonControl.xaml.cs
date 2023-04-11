@@ -42,26 +42,15 @@ namespace BP.Plankton.Controls
         private Point previousMousePoint = new Point(0, 0);
         private Point currentMousePoint = new Point(0, 0);
         private Vector mouseVector;
-        public double ZoomPreviewFactor { get; set; }
-        public Vector3D ZoomPreviewVector { get; set; } = new Vector3D(0, 0, 0);
-        public Pen SeaBedPen { get; set; }
-        public PathGeometry SeaBedGeometry { get; private set; }
         private bool isHandlingMousePositionUpdate;
         private bool hasResizeProcessBeenRequested;
         private Size newestSizeRenderRequest;
-        public MoveableElement Bubble { get; set; }
-        public Pen BubblePen { get; set; }
         private MoveableElement zoomPreviewFocusedPlankton;
-        public double CurrentZAdjustemnt { get; set; }
         private Brush[] lastGeneratedPlanktonBrushes;
         private Brush lastGeneratedSeaBedBrush;
         private Brush lastGeneratedBackgroundBrush;
         private bool preventRegenerationOfPlanktonOnColourChange = true;
-        public double NextZoomPreviewBlurRadius { get; set; }
         private Point lastZoomPreviewVisualLocation = new Point(0, 0);
-        public List<MoveableElement> Plankton { get; set; } = new List<MoveableElement>();
-        public readonly Dictionary<MoveableElement, bool> ChildBubbles = new Dictionary<MoveableElement, bool>();
-        public readonly Queue<int> BubbleCollisionHistory = new Queue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
         #endregion
 
@@ -986,6 +975,61 @@ namespace BP.Plankton.Controls
         }
 
         /// <summary>
+        /// Get or set the plankton elements.
+        /// </summary>
+        public List<MoveableElement> Plankton { get; set; } = new List<MoveableElement>();
+
+        /// <summary>
+        /// Get the child bubble elements.
+        /// </summary>
+        public Dictionary<MoveableElement, bool> ChildBubbles { get; } = new Dictionary<MoveableElement, bool>();
+
+        /// <summary>
+        /// Get the bubble collision history.
+        /// </summary>
+        public Queue<int> BubbleCollisionHistory { get; } = new Queue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+
+        /// <summary>
+        /// Get or set the bubble.
+        /// </summary>
+        public MoveableElement Bubble { get; set; }
+
+        /// <summary>
+        /// Get the pen used to draw bubbles.
+        /// </summary>
+        public Pen BubblePen { get; }
+
+        /// <summary>
+        /// Get or set the pen used to draw the sea bed.
+        /// </summary>
+        public Pen SeaBedPen { get; set; }
+
+        /// <summary>
+        /// Get the sea bed geometry.
+        /// </summary>
+        public PathGeometry SeaBedGeometry { get; private set; }
+
+        /// <summary>
+        /// Get or set the current Z value.
+        /// </summary>
+        public double CurrentZ { get; set; }
+
+        /// <summary>
+        /// Get the next zoom preview blur radius.
+        /// </summary>
+        public double NextZoomPreviewBlurRadius { get; set; }
+
+        /// <summary>
+        /// Get or set the zoom preview factor.
+        /// </summary>
+        public double ZoomPreviewFactor { get; set; }
+
+        /// <summary>
+        /// Get or set the zoom preview vector.
+        /// </summary>
+        public Vector3D ZoomPreviewVector { get; set; } = new Vector3D(0, 0, 0);
+
+        /// <summary>
         /// Occurs when full screen mode should be entered.
         /// </summary>
         public event EventHandler EnterFullScreenMode;
@@ -1721,7 +1765,7 @@ namespace BP.Plankton.Controls
                 MinimumZAdjustment = -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d
             };
 
-            CurrentZAdjustemnt = 0.0d;
+            CurrentZ = 0.0d;
 
             var area = ElementHost;
 
@@ -3341,7 +3385,7 @@ namespace BP.Plankton.Controls
 
         private void TriggerCurrentCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, ElementsSizeSlider.Maximum / ElementsSize, -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d, CurrentZAdjustemnt, RandomGenerator) : 0.0d, CurrentMode)
+            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, ElementsSizeSlider.Maximum / ElementsSize, -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d, CurrentZ, RandomGenerator) : 0.0d, CurrentMode)
             {
                 Deceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentDeceleration : WaterViscosity,
                 Acceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentAcceleration : WaterViscosity

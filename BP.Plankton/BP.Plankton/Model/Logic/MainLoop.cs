@@ -42,7 +42,7 @@ namespace BP.Plankton.Model.Logic
                 control.ActiveCurrent.Strength = control.CurrentStrength - control.CurrentStrength / 100d * random.Next(0, (int)control.CurrentVariation);
                 control.ActiveCurrent.Deceleration = control.IgnoreWaterViscosityWhenGeneratingCurrent ? control.CurrentDeceleration : control.WaterViscosity;
                 control.ActiveCurrent.Acceleration = control.IgnoreWaterViscosityWhenGeneratingCurrent ? control.CurrentAcceleration : control.WaterViscosity;
-                control.ActiveCurrent.ZAdjustmentPerStep = control.UseZOnCurrent ? Current.GenerateZStep(control.CurrentZStep, control.CurrentZStepVariation, control.ActiveCurrent.MaximumZAdjustment, control.ActiveCurrent.MinimumZAdjustment, control.CurrentZAdjustemnt, random) : 0.0d;
+                control.ActiveCurrent.ZAdjustmentPerStep = control.UseZOnCurrent ? Current.GenerateZStep(control.CurrentZStep, control.CurrentZStepVariation, control.ActiveCurrent.MaximumZAdjustment, control.ActiveCurrent.MinimumZAdjustment, control.CurrentZ, random) : 0.0d;
                 control.ActiveCurrent.Start(control.CurrentMode);
                 control.IsCurrentActive = true;
             }
@@ -63,7 +63,7 @@ namespace BP.Plankton.Model.Logic
                     }
                 }
 
-                control.CurrentZAdjustemnt += control.ActiveCurrent.ActiveStep().Z;
+                control.CurrentZ += control.ActiveCurrent.ActiveStep().Z;
 
                 // determine degrees - add 90 as Atan2 returns north as -90, east a 0, south as 90 and west as 180
                 control.ActiveCurrentDirection = Math.Round(90 + Math.Atan2(control.ActiveCurrent.ActiveStep().Y, control.ActiveCurrent.ActiveStep().X) * (180d / Math.PI), 0d);
