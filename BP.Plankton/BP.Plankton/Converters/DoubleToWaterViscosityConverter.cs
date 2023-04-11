@@ -4,11 +4,8 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    /// <summary>
-    /// Converts between a Double and a String representing a water viscosity value. If a value other than 1 is provided it is returned as it is, if it is equal to 1 then infine (∞) is returned. 
-    /// </summary>
-    [ValueConversion(typeof (double), typeof (string))]
-    public class DoubleToWaterViscosityConverter : IValueConverter
+    [ValueConversion(typeof(double), typeof(string))]
+    internal class DoubleToWaterViscosityConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -22,9 +19,8 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double convertedValue;
-            if ((value != null) && (double.TryParse(value.ToString(), out convertedValue)))
-                return Math.Abs(convertedValue - 1) < 0.0 ? "∞" : value.ToString();
+            if (double.TryParse(value?.ToString() ?? string.Empty, out var d))
+                return Math.Abs(d - 1) < 0.0 ? "∞" : d.ToString(CultureInfo.InvariantCulture);
 
             return value;
         }

@@ -5,11 +5,8 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    /// <summary>
-    /// Converts between a Double representing a ratio and a Duration. The Duration to base the output on should be provided as the parameter in the form of a string hh:mm:ss.
-    /// </summary>
-    [ValueConversion(typeof (double), typeof (string))]
-    public class DoubleToAnimationDurationConverterConverter : IValueConverter
+    [ValueConversion(typeof(double), typeof(string))]
+    internal class DoubleToAnimationDurationConverterConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -23,12 +20,10 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double ratio;
-            if ((value == null) || (!double.TryParse(value.ToString(), out ratio)))
+            if (!double.TryParse(value?.ToString() ?? string.Empty, out var ratio))
                 return new Duration(TimeSpan.FromMilliseconds(0));
 
-            TimeSpan baseTime;
-            if ((parameter != null) && (TimeSpan.TryParse(parameter.ToString(), out baseTime)))
+            if (TimeSpan.TryParse(parameter?.ToString() ?? string.Empty, out var baseTime))
                 return new Duration(TimeSpan.FromMilliseconds(baseTime.TotalMilliseconds / Math.Max(0.1d, ratio)));
 
             return new Duration(TimeSpan.FromMilliseconds(0));

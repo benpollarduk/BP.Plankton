@@ -4,11 +4,8 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    /// <summary>
-    /// Convert between a Double representing value and a rounded form returned as a Double. Specify a double as the parameter to control the precision.
-    /// </summary>
-    [ValueConversion(typeof (double), typeof (double))]
-    public class DoubleRounderConverter : IValueConverter
+    [ValueConversion(typeof(double), typeof(double))]
+    internal class DoubleRounderConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -22,20 +19,13 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double v;
-            int p;
-            if ((parameter == null) || (!int.TryParse(parameter.ToString(), out p)))
+            if (!int.TryParse(parameter?.ToString() ?? string.Empty, out var p))
                 p = 3;
 
-            if ((value != null) && (double.TryParse(value.ToString(), out v)))
-            {
+            if (double.TryParse(value?.ToString() ?? string.Empty, out var v))
                 return Math.Abs(v) > 0.0d ? Math.Round(v, p) : v;
-            }
 
-            if (string.IsNullOrEmpty(value?.ToString()))
-                return 0d;
-
-            throw new ArgumentException("The value provided as the value parameter is not a double");
+            return 0d;
         }
 
         /// <summary>
@@ -48,16 +38,7 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double v;
-
-            if ((value != null) && (double.TryParse(value.ToString(), out v)))
-                return v;
-
-            if (string.IsNullOrEmpty(value?.ToString()))
-
-                return 0d;
-
-            throw new ArgumentException("The value provided as the value parameter is not a double");
+            throw new NotImplementedException();
         }
 
         #endregion

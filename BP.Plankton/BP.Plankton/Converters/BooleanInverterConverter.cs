@@ -4,11 +4,8 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    /// <summary>
-    /// Converter for inverting a boolean value.
-    /// </summary>
-    [ValueConversion(typeof (bool), typeof (bool))]
-    public class BooleanInverterConverter : IValueConverter
+    [ValueConversion(typeof(bool), typeof(bool))]
+    internal class BooleanInverterConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -22,9 +19,8 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool val;
-            if ((value != null) && (bool.TryParse(value.ToString(), out val)))
-                return !val;
+            if (bool.TryParse(value?.ToString() ?? string.Empty, out var b))
+                return !b;
 
             return false;
         }
@@ -39,10 +35,8 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool val;
-            if ((value != null) && (bool.TryParse(value.ToString(), out val)))
-
-                return !val;
+            if (bool.TryParse(value?.ToString() ?? string.Empty, out var b))
+                return !b;
 
             return false;
         }

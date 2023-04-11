@@ -5,11 +5,8 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    /// <summary>
-    /// Represents a class for converting between Boolean and Visibility values. A boolean value can be specified as the paramater - this will deifne the state that Visibility.Visible is returned, if the boolean provided as the value parameter doesn't match this value then Visibilty.Collapsed is returned.
-    /// </summary>
-    [ValueConversion(typeof (bool), typeof (Visibility))]
-    public class BooleanToVisibiltyCollapsedConverter : IValueConverter
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    internal class BooleanToVisibiltyCollapsedConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -23,16 +20,14 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool v;
-            if ((value == null) || (!bool.TryParse(value.ToString(), out v)))
-                throw new ArgumentException();
+            if (!bool.TryParse(value?.ToString() ?? string.Empty, out var b))
+                return Visibility.Visible;
 
             if (parameter == null)
-                return v ? Visibility.Visible : Visibility.Collapsed;
+                return b ? Visibility.Visible : Visibility.Collapsed;
 
-            bool p;
-            if (bool.TryParse(parameter.ToString(), out p))
-                return v == p ? Visibility.Visible : Visibility.Collapsed;
+            if (!bool.TryParse(parameter.ToString(), out var p))
+                return b == p ? Visibility.Visible : Visibility.Collapsed;
 
             throw new ArgumentException();
         }
@@ -47,18 +42,7 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-                throw new ArgumentException();
-
-            var v = (Visibility)Enum.Parse(typeof (Visibility), value.ToString());
-            if (parameter == null)
-                return v == Visibility.Visible ? true : false;
-
-            bool p;
-            if (bool.TryParse(parameter.ToString(), out p))
-                return v == Visibility.Visible ? p : !p;
-
-            throw new ArgumentException();
+            throw new NotImplementedException();
         }
 
         #endregion

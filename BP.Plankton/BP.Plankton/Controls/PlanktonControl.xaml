@@ -7,98 +7,32 @@
         xmlns:model="clr-namespace:BP.Plankton.Model"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" FocusVisualStyle="{x:Null}" Focusable="True" Background="Transparent" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded" SizeChanged="UserControl_SizeChanged">
     <UserControl.Resources>
-        <converters1:ZoomPreviewMaxHeightConverter x:Key="zoomPreviewMaxHeightConverter"/>
-        <converters1:MultiBooleanOrToVisibilityConverter x:Key="multiBooleanOrToVisibilityConverter"/>
-        <converters1:MultiBooleanAndToVisibilityConverter x:Key="multiBooleanAndToVisibilityConverter"/>
-        <converters1:DoubleToWaterViscosityConverter x:Key="doubleWaterViscosityConverter"/>
-        <converters1:MultiBooleanAndToBooleanConverter x:Key="multiBooleanAndToSingleBooleanConverter"/>
-        <converters1:CurrentToOpacityConverter x:Key="currentOpacityConverter"/>
-        <converters1:DoubleRounderConverter x:Key="doubleRoundingConverter"/>
-        <converters1:DoubleToAnimationBeginTimeConverterConverter x:Key="animationBeginTimeConverter"/>
-        <converters1:DoubleToAnimationDurationConverterConverter x:Key="animationDurationConverter"/>
-        <GridLength x:Key="titleWidth">80</GridLength>
-        <GridLength x:Key="valueWidth">40</GridLength>
-        <RadialGradientBrush x:Key="PlanktonBrush"/>
-        <LinearGradientBrush x:Key="BackgroundBrush"/>
-        <LinearGradientBrush x:Key="SeaBedBrush"/>
-        <RadialGradientBrush x:Key="PlanktonGreenBrush">
-            <GradientStop Offset="0.0" Color="#FFFFFFFF"/>
-            <GradientStop Offset="0.35" Color="#FF5EC564"/>
-            <GradientStop Offset="0.75" Color="#FF5E9F64"/>
-            <GradientStop Offset="1.0" Color="#FF002D00"/>
-        </RadialGradientBrush>
-        <RadialGradientBrush x:Key="PlanktonWhiteBrush">
-            <GradientStop Offset="0.0" Color="#FF000000"/>
-            <GradientStop Offset="0.75" Color="#BFFFFFFF"/>
-            <GradientStop Offset="1.0" Color="#9FFFFFFF"/>
-        </RadialGradientBrush>
-        <RadialGradientBrush x:Key="PlanktonRedBrush">
-            <GradientStop Offset="0.0" Color="#FFFF6F6F"/>
-            <GradientStop Offset="0.35" Color="#CAFF2F63"/>
-            <GradientStop Offset="0.75" Color="#BAAF0013"/>
-            <GradientStop Offset="1.0" Color="#AA002D00"/>
-        </RadialGradientBrush>
-        <RadialGradientBrush x:Key="PlanktonTransparentBrush">
-            <GradientStop Offset="0.0" Color="#146E82BD"/>
-            <GradientStop Offset="0.35" Color="#436E82BD"/>
-            <GradientStop Offset="0.75" Color="#8F4664E3"/>
-            <GradientStop Offset="1.0" Color="#BF004BCF"/>
-        </RadialGradientBrush>
-        <SolidColorBrush x:Key="PlanktonGunkBrush" Color="#FFE191AF"/>
-        <SolidColorBrush x:Key="PlanktonPerformanceBrush" Color="#FF416B5F"/>
-        <RadialGradientBrush x:Key="BubbleBrush" GradientOrigin="0.35,0.35" Opacity="0.45">
-            <GradientStop Offset="0.0" Color="LightSteelBlue"/>
-            <GradientStop Offset="0.25" Color="LightSteelBlue"/>
-            <GradientStop Offset="1.0" Color="SteelBlue"/>
-        </RadialGradientBrush>
-        <LinearGradientBrush x:Key="BlueBlackBackgroundBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
-            <GradientStop Offset="0" Color="#FF225E94"/>
-            <GradientStop Offset="0.65" Color="#FF192F56"/>
-            <GradientStop Offset="1" Color="#FF000000"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="GreenBlueBackgroundBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
-            <GradientStop Offset="0" Color="#FF346659"/>
-            <GradientStop Offset="0.35" Color="#FF346659"/>
-            <GradientStop Offset="0.65" Color="#FF466683"/>
-            <GradientStop Offset="1" Color="#FF464663"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="BlackBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
-            <GradientStop Offset="0" Color="#FF303030"/>
-            <GradientStop Offset="1" Color="#FF000000"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="WhiteBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
-            <GradientStop Offset="0" Color="#FFDEDEDE"/>
-            <GradientStop Offset="1" Color="#FFBEBEBE"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="StrangeBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
-            <GradientStop Offset="0" Color="#FFFF5F8F"/>
-            <GradientStop Offset="0.35" Color="#FF6F008C"/>
-            <GradientStop Offset="0.5" Color="#FFFF008F"/>
-            <GradientStop Offset="0.6" Color="#FFFF4D77"/>
-            <GradientStop Offset="0.7" Color="#FFFF4D37"/>
-            <GradientStop Offset="1" Color="#FFFF0037"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="BrownSeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
-            <GradientStop Offset="0" Color="SandyBrown"/>
-            <GradientStop Offset="1" Color="Black"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="GraySeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
-            <GradientStop Offset="0" Color="SlateGray"/>
-            <GradientStop Offset="1" Color="Black"/>
-        </LinearGradientBrush>
-        <LinearGradientBrush x:Key="StrangeSeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
-            <GradientStop Offset="0" Color="#FFA06E82"/>
-            <GradientStop Offset="0.2" Color="#FFA06E5A"/>
-            <GradientStop Offset="0.4" Color="#FFA06E2C"/>
-            <GradientStop Offset="0.6" Color="#FF5A6E2C"/>
-            <GradientStop Offset="0.8" Color="#FF006E2C"/>
-            <GradientStop Offset="1" Color="#FF00462C"/>
-        </LinearGradientBrush>
-        <Storyboard x:Key="lightingEffectStoryboard" RepeatBehavior="Forever" AutoReverse="False" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:35}">
-            <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" To="0.0" Duration="0:0:0"/>
-            <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="{Binding Path=LightingEffectStrength, Mode=OneWay}" BeginTime="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationBeginTimeConverter}, ConverterParameter=0:0:10}" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:2}"/>
-            <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" From="{Binding Path=LightingEffectStrength, Mode=OneWay}" To="0.0" BeginTime="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationBeginTimeConverter}, ConverterParameter=0:0:15}" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:5}"/>
-        </Storyboard>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Brushes.xaml"/>
+                <ResourceDictionary Source="../Resources/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="../Resources/Commands/Commands.xaml"/>
+                <ResourceDictionary Source="../Resources/Styles/CheckBoxStyles.xaml"/>
+                <ResourceDictionary Source="../Resources/Styles/RadioButtonStyles.xaml"/>
+                <ResourceDictionary Source="../Resources/Styles/SliderStyles.xaml"/>
+                <ResourceDictionary Source="../Resources/Styles/TabStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <converters1:ZoomPreviewMaxHeightConverter x:Key="zoomPreviewMaxHeightConverter"/>
+            <converters1:MultiBooleanOrToVisibilityConverter x:Key="multiBooleanOrToVisibilityConverter"/>
+            <converters1:MultiBooleanAndToVisibilityConverter x:Key="multiBooleanAndToVisibilityConverter"/>
+            <converters1:DoubleToWaterViscosityConverter x:Key="doubleWaterViscosityConverter"/>
+            <converters1:MultiBooleanAndToBooleanConverter x:Key="multiBooleanAndToSingleBooleanConverter"/>
+            <converters1:DoubleRounderConverter x:Key="doubleRoundingConverter"/>
+            <converters1:DoubleToAnimationBeginTimeConverterConverter x:Key="animationBeginTimeConverter"/>
+            <converters1:DoubleToAnimationDurationConverterConverter x:Key="animationDurationConverter"/>
+            <GridLength x:Key="TitleWidth">80</GridLength>
+            <GridLength x:Key="ValueWidth">40</GridLength>
+            <Storyboard x:Key="LightingEffectStoryboard" RepeatBehavior="Forever" AutoReverse="False" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:35}">
+                <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" To="0.0" Duration="0:0:0"/>
+                <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="{Binding Path=LightingEffectStrength, Mode=OneWay}" BeginTime="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationBeginTimeConverter}, ConverterParameter=0:0:10}" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:2}"/>
+                <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" From="{Binding Path=LightingEffectStrength, Mode=OneWay}" To="0.0" BeginTime="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationBeginTimeConverter}, ConverterParameter=0:0:15}" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:5}"/>
+            </Storyboard>
+        </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding x:Name="RegenerateCommandBinding" Command="{StaticResource RegenerateCommand}" Executed="RegenerateCommandBinding_Executed"/>
@@ -467,9 +401,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Amount:" Grid.Row="0" Grid.Column="0"/>
                             <Slider Name="amountSlider" Value="{Binding Path=Elements, Mode=TwoWay}" Minimum="1" Maximum="7500" SmallChange="1" Ticks="1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,75,100,150,200,250,300,350,400,450,500,600,750,1000,1250,1500,1750,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500" Grid.Row="0" Grid.Column="1"/>
@@ -560,9 +494,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Mouse size:" Grid.Row="0" Grid.Column="0"/>
                             <Slider Name="bubbleSizeSlider" Value="{Binding Path=BubbleSize, Mode=TwoWay}" SmallChange="1" Minimum="3" Maximum="50" Grid.Row="0" Grid.Column="1"/>
@@ -592,9 +526,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Viscosity:" Grid.Row="0" Grid.Column="0"/>
                             <Slider Name="viscositySlider" Value="{Binding Path=WaterViscosity, Mode=TwoWay}" SmallChange="0.01" Minimum="0.6" Maximum="1" Ticks="0.6, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.7, 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79, 0.8, 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99, 1" IsDirectionReversed="True" Grid.Row="0" Grid.Column="1"/>
@@ -664,9 +598,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox Content="Use current? (Toggle with Ctrl+T)" IsChecked="{Binding Path=UseCurrent, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="3"/>
                             <CheckBox Content="Show indicator? (Toggle with Ctrl+I)" IsChecked="{Binding Path=ShowCurrentIndicator, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
@@ -872,9 +806,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="Density:" Grid.Row="0" Grid.Column="0"/>
                             <Slider Name="densitySlider" Value="{Binding Path=Density, Mode=TwoWay}" SmallChange="0.1" Minimum="0.01" Maximum="10" Ticks="0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5, 5.5, 61, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10" IsSnapToTickEnabled="True" Grid.Row="0" Grid.Column="1"/>
@@ -895,9 +829,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox Content="Use sea bed? (can cause slow-down)" IsChecked="{Binding Path=UseSeaBed, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="3"/>
                             <Label Content="Smoothness:" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="1" Grid.Column="0"/>
@@ -953,7 +887,7 @@
                             <Grid Grid.Row="7" Grid.Column="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                    <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox Text="{Binding Path=LastSeaBedGeometry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" VerticalContentAlignment="Center">
                                     <TextBox.ContextMenu>
@@ -987,9 +921,9 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox Content="Use zoom preview? (toggle with Ctrl+P)" IsChecked="{Binding Path=UseZoomPreview, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="3"/>
                             <Label Content="Size:" IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" Grid.Row="1" Grid.Column="0"/>
@@ -1060,9 +994,9 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                    <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                    <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="Min zoom:" Grid.Row="0" Grid.Column="0"/>
                                 <Slider Value="{Binding Path=MinimumZoom, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="5" Grid.Row="0" Grid.Column="1"/>
@@ -1091,9 +1025,9 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                    <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                    <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="Max blur:" Grid.Row="0" Grid.Column="0"/>
                                 <Slider Value="{Binding Path=MaximumZoomPreviewBlur, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="15" Grid.Row="0" Grid.Column="1"/>
@@ -1149,9 +1083,9 @@
                             <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                        <ColumnDefinition Width="{StaticResource TitleWidth}"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                        <ColumnDefinition Width="{StaticResource ValueWidth}"/>
                                     </Grid.ColumnDefinitions>
                                     <Label Content="Refresh (ms):" Grid.Row="0" Grid.Column="0"/>
                                     <Slider Name="refreshSlider" Value="{Binding Path=RefreshTime, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="100" Ticks="1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100" Grid.Row="0" Grid.Column="1"/>

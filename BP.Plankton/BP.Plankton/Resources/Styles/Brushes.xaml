@@ -1,6 +1,83 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
     <SolidColorBrush x:Key="ControlEnabledForegroundBrush" Color="White"/>
     <SolidColorBrush x:Key="ControlDisabledForegroundBrush" Color="Gray"/>
+    <RadialGradientBrush x:Key="PlanktonBrush"/>
+    <LinearGradientBrush x:Key="BackgroundBrush"/>
+    <LinearGradientBrush x:Key="SeaBedBrush"/>
+    <RadialGradientBrush x:Key="PlanktonGreenBrush">
+        <GradientStop Offset="0.0" Color="#FFFFFFFF"/>
+        <GradientStop Offset="0.35" Color="#FF5EC564"/>
+        <GradientStop Offset="0.75" Color="#FF5E9F64"/>
+        <GradientStop Offset="1.0" Color="#FF002D00"/>
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="PlanktonWhiteBrush">
+        <GradientStop Offset="0.0" Color="#FF000000"/>
+        <GradientStop Offset="0.75" Color="#BFFFFFFF"/>
+        <GradientStop Offset="1.0" Color="#9FFFFFFF"/>
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="PlanktonRedBrush">
+        <GradientStop Offset="0.0" Color="#FFFF6F6F"/>
+        <GradientStop Offset="0.35" Color="#CAFF2F63"/>
+        <GradientStop Offset="0.75" Color="#BAAF0013"/>
+        <GradientStop Offset="1.0" Color="#AA002D00"/>
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="PlanktonTransparentBrush">
+        <GradientStop Offset="0.0" Color="#146E82BD"/>
+        <GradientStop Offset="0.35" Color="#436E82BD"/>
+        <GradientStop Offset="0.75" Color="#8F4664E3"/>
+        <GradientStop Offset="1.0" Color="#BF004BCF"/>
+    </RadialGradientBrush>
+    <SolidColorBrush x:Key="PlanktonGunkBrush" Color="#FFE191AF"/>
+    <SolidColorBrush x:Key="PlanktonPerformanceBrush" Color="#FF416B5F"/>
+    <RadialGradientBrush x:Key="BubbleBrush" GradientOrigin="0.35,0.35" Opacity="0.45">
+        <GradientStop Offset="0.0" Color="LightSteelBlue"/>
+        <GradientStop Offset="0.25" Color="LightSteelBlue"/>
+        <GradientStop Offset="1.0" Color="SteelBlue"/>
+    </RadialGradientBrush>
+    <LinearGradientBrush x:Key="BlueBlackBackgroundBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+        <GradientStop Offset="0" Color="#FF225E94"/>
+        <GradientStop Offset="0.65" Color="#FF192F56"/>
+        <GradientStop Offset="1" Color="#FF000000"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GreenBlueBackgroundBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+        <GradientStop Offset="0" Color="#FF346659"/>
+        <GradientStop Offset="0.35" Color="#FF346659"/>
+        <GradientStop Offset="0.65" Color="#FF466683"/>
+        <GradientStop Offset="1" Color="#FF464663"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BlackBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
+        <GradientStop Offset="0" Color="#FF303030"/>
+        <GradientStop Offset="1" Color="#FF000000"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="WhiteBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
+        <GradientStop Offset="0" Color="#FFDEDEDE"/>
+        <GradientStop Offset="1" Color="#FFBEBEBE"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="StrangeBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
+        <GradientStop Offset="0" Color="#FFFF5F8F"/>
+        <GradientStop Offset="0.35" Color="#FF6F008C"/>
+        <GradientStop Offset="0.5" Color="#FFFF008F"/>
+        <GradientStop Offset="0.6" Color="#FFFF4D77"/>
+        <GradientStop Offset="0.7" Color="#FFFF4D37"/>
+        <GradientStop Offset="1" Color="#FFFF0037"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="BrownSeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+        <GradientStop Offset="0" Color="SandyBrown"/>
+        <GradientStop Offset="1" Color="Black"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="GraySeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+        <GradientStop Offset="0" Color="SlateGray"/>
+        <GradientStop Offset="1" Color="Black"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="StrangeSeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+        <GradientStop Offset="0" Color="#FFA06E82"/>
+        <GradientStop Offset="0.2" Color="#FFA06E5A"/>
+        <GradientStop Offset="0.4" Color="#FFA06E2C"/>
+        <GradientStop Offset="0.6" Color="#FF5A6E2C"/>
+        <GradientStop Offset="0.8" Color="#FF006E2C"/>
+        <GradientStop Offset="1" Color="#FF00462C"/>
+    </LinearGradientBrush>
 
 </ResourceDictionary>

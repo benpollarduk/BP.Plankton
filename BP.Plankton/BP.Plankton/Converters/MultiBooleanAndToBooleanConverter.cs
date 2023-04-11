@@ -4,11 +4,8 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    /// <summary>
-    /// Converts multiple boolean values to one boolean. If all the booleans are true then true is returned, else false is returned.
-    /// </summary>
-    [ValueConversion(typeof (bool), typeof (bool))]
-    public class MultiBooleanAndToBooleanConverter : IMultiValueConverter
+    [ValueConversion(typeof(bool[]), typeof(bool))]
+    internal class MultiBooleanAndToBooleanConverter : IMultiValueConverter
     {
         #region IMultiValueConverter Members
 
@@ -22,15 +19,17 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            bool booleanValue;
-
             foreach (var element in values)
             {
-                if ((element != null) && (bool.TryParse(element.ToString(), out booleanValue)))
+                if (bool.TryParse(element?.ToString() ?? string.Empty, out var booleanValue))
+                {
                     if (!booleanValue)
                         return false;
+                }
                 else
+                {
                     return false;
+                }
             }
 
             return true;

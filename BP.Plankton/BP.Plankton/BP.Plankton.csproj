@@ -40,7 +40,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <DocumentationFile>bin\Debug\BP.Plankton.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -87,7 +88,6 @@
     <Compile Include="Model\Settings\QuickSetting.cs" />
     <Compile Include="Model\ZoomPreviewLocaterMode.cs" />
     <Compile Include="Converters\BooleanToVisibilityCollapsedConverter.cs" />
-    <Compile Include="Converters\CurrentToOpacityConverter.cs" />
     <Compile Include="Converters\DoubleRoundingConverter.cs" />
     <Compile Include="Converters\DoubleToAnimationBeginTimeConverter.cs" />
     <Compile Include="Converters\DoubleToAnimationDurationConverter.cs" />

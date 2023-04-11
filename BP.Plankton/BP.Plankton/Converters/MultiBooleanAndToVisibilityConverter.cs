@@ -6,11 +6,8 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    /// <summary>
-    /// Converts multiple boolean values to one Visibility. If all the booleans are true then Visibility.Visible is returned, else Visibility.Collapsed is returned.
-    /// </summary>
-    [ValueConversion(typeof (bool), typeof (Visibility))]
-    public class MultiBooleanAndToVisibilityConverter : IMultiValueConverter
+    [ValueConversion(typeof(bool[]), typeof(Visibility))]
+    internal class MultiBooleanAndToVisibilityConverter : IMultiValueConverter
     {
         #region IMultiValueConverter Members
 
@@ -24,9 +21,7 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            bool booleanValue;
-
-            if (values.Any(element => (element != null) && (bool.TryParse(element.ToString(), out booleanValue))))
+            if (values.Any(element => (element != null) && (bool.TryParse(element.ToString(), out _))))
                 return Visibility.Collapsed;
 
             return Visibility.Visible;
