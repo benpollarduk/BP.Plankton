@@ -28,6 +28,16 @@ namespace BP.Plankton.Model.Rendering
         /// </summary>
         protected override int VisualChildrenCount => children.Count;
 
+        /// <summary>
+        /// Get if there is a plankton host visual.
+        /// </summary>
+        public bool HasPlanktonHostVisual => planktonDrawingVisual != null;
+
+        /// <summary>
+        /// Get if there is a bubble host visual.
+        /// </summary>
+        public bool HasBubbleHostVisual => bubbleDrawingVisual != null;
+
         #endregion
 
         #region Constructors
