@@ -1783,7 +1783,7 @@ namespace BP.Plankton.Controls
 
             drawSeaBedWindow.GeomertyAccepted += (sender, e) =>
             {
-                var seaBedData = drawSeaBedWindow.DrawingControl.GenerateScalledGeometry(scale).ToString();
+                var seaBedData = drawSeaBedWindow.DrawingControl.GenerateScaledGeometry(scale).ToString();
                 RenderSeaBed(seaBedData);
                 RegenerateWithCurrentSettings(true);
             };

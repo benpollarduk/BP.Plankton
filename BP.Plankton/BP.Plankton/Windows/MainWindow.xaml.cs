@@ -16,20 +16,9 @@ namespace BP.Plankton.Windows
     {
         #region Fields
 
-        /// <summary>
-        /// Get or set the pre full screen top left coordinates.
-        /// </summary>
-        private Point preFullScreenTopLeft;
-
-        /// <summary>
-        /// Get or set the pre full screen window state.
-        /// </summary>
-        private WindowState preFullScreenWindowState;
-
-        /// <summary>
-        /// Get or set the last location of this window.
-        /// </summary>
-        private Point lastLocation = new Point(0, 0);
+        private Point PreFullScreenTopLeft;
+        private WindowState PreFullScreenWindowState;
+        private Point LastLocation = new Point(0, 0);
 
         #endregion
 
@@ -55,7 +44,7 @@ namespace BP.Plankton.Windows
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -64,80 +53,72 @@ namespace BP.Plankton.Windows
         {
             InitializeComponent();
 
-            applyApplicationSettings(Settings.Default);
+            ApplyApplicationSettings(Settings.Default);
         }
 
-        /// <summary>
-        /// Apply a settings file to this window.
-        /// </summary>
-        /// <param name="settings">Specify the settings to apply.</param>
-        private void applyApplicationSettings(Settings settings)
+        #endregion
+
+        #region Methods
+
+        private void ApplyApplicationSettings(Settings settings)
         {
             try
             {
-                planktonControl.AutoPanSensitivity = settings.AutoPanSensitivity;
-                planktonControl.AutoPanSpeed = settings.AutoPanSpeed;
-                planktonControl.IfMainBubbleNotAvailablePreviewMostInterestingElement = settings.IfMainBubbleNotAvailablePreviewMostInterestingElement;
-                planktonControl.MaintainStandardPhysicsWhenRandomGeneratingSettings = settings.MaintainStandardPhysicsWhenRandomGeneratingSettings;
-                planktonControl.MaximumZoomPreviewBlur = settings.MaximumZoomPreviewBlur;
-                planktonControl.MaximumZoom = settings.MaximumZoom;
-                planktonControl.MinimumZoom = settings.MinimumZoom;
-                planktonControl.RefreshTime = settings.RefreshTime;
-                planktonControl.ShowCurrentIndicator = settings.ShowCurrentIndicator;
-                planktonControl.UseAnimation = settings.UseAnimation;
-                planktonControl.UseAutoPanOnZoomPreview = settings.UseAutoPanOnZoomPreview;
-                planktonControl.UseEfficientValuesWhenRandomGenerating = settings.UseEfficientValuesWhenRandomGenerating;
-                planktonControl.UseOnlyStandardBrushesWhenRandomGenerating = settings.UseOnlyStandardBrushesWhenRandomGenerating;
-                planktonControl.UseSmoothMousePositionUpdating = settings.UseSmoothMousePositionUpdating;
-                planktonControl.UseZoomPreview = settings.UseZoomPreview;
-                planktonControl.UseZoomPreviewBlurEffect = settings.UseZoomPreviewBlurEffect;
-                planktonControl.ZoomPreviewBlurCorrection = settings.ZoomPreviewBlurCorrection;
-                planktonControl.ZoomPreviewBlurStrength = settings.ZoomPreviewBlurStrength;
-                planktonControl.ZoomPreviewLocatorMode = (ZoomPreviewLocaterMode)Enum.Parse(typeof (ZoomPreviewLocaterMode), settings.ZoomPreviewLocatorMode);
-                planktonControl.ZoomPreviewSize = settings.ZoomPreviewSize;
+                PlanktonControl.AutoPanSensitivity = settings.AutoPanSensitivity;
+                PlanktonControl.AutoPanSpeed = settings.AutoPanSpeed;
+                PlanktonControl.IfMainBubbleNotAvailablePreviewMostInterestingElement = settings.IfMainBubbleNotAvailablePreviewMostInterestingElement;
+                PlanktonControl.MaintainStandardPhysicsWhenRandomGeneratingSettings = settings.MaintainStandardPhysicsWhenRandomGeneratingSettings;
+                PlanktonControl.MaximumZoomPreviewBlur = settings.MaximumZoomPreviewBlur;
+                PlanktonControl.MaximumZoom = settings.MaximumZoom;
+                PlanktonControl.MinimumZoom = settings.MinimumZoom;
+                PlanktonControl.RefreshTime = settings.RefreshTime;
+                PlanktonControl.ShowCurrentIndicator = settings.ShowCurrentIndicator;
+                PlanktonControl.UseAnimation = settings.UseAnimation;
+                PlanktonControl.UseAutoPanOnZoomPreview = settings.UseAutoPanOnZoomPreview;
+                PlanktonControl.UseEfficientValuesWhenRandomGenerating = settings.UseEfficientValuesWhenRandomGenerating;
+                PlanktonControl.UseOnlyStandardBrushesWhenRandomGenerating = settings.UseOnlyStandardBrushesWhenRandomGenerating;
+                PlanktonControl.UseSmoothMousePositionUpdating = settings.UseSmoothMousePositionUpdating;
+                PlanktonControl.UseZoomPreview = settings.UseZoomPreview;
+                PlanktonControl.UseZoomPreviewBlurEffect = settings.UseZoomPreviewBlurEffect;
+                PlanktonControl.ZoomPreviewBlurCorrection = settings.ZoomPreviewBlurCorrection;
+                PlanktonControl.ZoomPreviewBlurStrength = settings.ZoomPreviewBlurStrength;
+                PlanktonControl.ZoomPreviewLocatorMode = (ZoomPreviewLocaterMode)Enum.Parse(typeof (ZoomPreviewLocaterMode), settings.ZoomPreviewLocatorMode);
+                PlanktonControl.ZoomPreviewSize = settings.ZoomPreviewSize;
             }
             catch (Exception e)
             {
-                // show
                 MessageBox.Show($"There was a problem with the settings file, some settings may not be loaded\n\\Error: {e.Message}", "Setting Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        /// <summary>
-        /// Update a settings file to comply with this window.
-        /// </summary>
-        /// <param name="settings">Specify the settings to update.</param>
-        private void updateSettingsFile(ref Settings settings)
+        private void UpdateSettingsFile(ref Settings settings)
         {
-            settings.AutoPanSensitivity = planktonControl.AutoPanSensitivity;
-            settings.AutoPanSpeed = planktonControl.AutoPanSpeed;
-            settings.IfMainBubbleNotAvailablePreviewMostInterestingElement = planktonControl.IfMainBubbleNotAvailablePreviewMostInterestingElement;
-            settings.MaintainStandardPhysicsWhenRandomGeneratingSettings = planktonControl.MaintainStandardPhysicsWhenRandomGeneratingSettings;
-            settings.MaximumZoomPreviewBlur = planktonControl.MaximumZoomPreviewBlur;
-            settings.MaximumZoom = planktonControl.MaximumZoom;
-            settings.MinimumZoom = planktonControl.MinimumZoom;
-            settings.RefreshTime = planktonControl.RefreshTime;
-            settings.ShowCurrentIndicator = planktonControl.ShowCurrentIndicator;
-            settings.UseAnimation = planktonControl.UseAnimation;
-            settings.UseAutoPanOnZoomPreview = planktonControl.UseAutoPanOnZoomPreview;
-            settings.UseEfficientValuesWhenRandomGenerating = planktonControl.UseEfficientValuesWhenRandomGenerating;
-            settings.UseOnlyStandardBrushesWhenRandomGenerating = planktonControl.UseOnlyStandardBrushesWhenRandomGenerating;
-            settings.UseSmoothMousePositionUpdating = planktonControl.UseSmoothMousePositionUpdating;
-            settings.UseZoomPreview = planktonControl.UseZoomPreview;
-            settings.ZoomPreviewBlurCorrection = planktonControl.ZoomPreviewBlurCorrection;
-            settings.ZoomPreviewBlurStrength = planktonControl.ZoomPreviewBlurStrength;
-            settings.UseZoomPreviewBlurEffect = planktonControl.UseZoomPreviewBlurEffect;
-            settings.ZoomPreviewLocatorMode = planktonControl.ZoomPreviewLocatorMode.ToString();
-            settings.ZoomPreviewSize = planktonControl.ZoomPreviewSize;
+            settings.AutoPanSensitivity = PlanktonControl.AutoPanSensitivity;
+            settings.AutoPanSpeed = PlanktonControl.AutoPanSpeed;
+            settings.IfMainBubbleNotAvailablePreviewMostInterestingElement = PlanktonControl.IfMainBubbleNotAvailablePreviewMostInterestingElement;
+            settings.MaintainStandardPhysicsWhenRandomGeneratingSettings = PlanktonControl.MaintainStandardPhysicsWhenRandomGeneratingSettings;
+            settings.MaximumZoomPreviewBlur = PlanktonControl.MaximumZoomPreviewBlur;
+            settings.MaximumZoom = PlanktonControl.MaximumZoom;
+            settings.MinimumZoom = PlanktonControl.MinimumZoom;
+            settings.RefreshTime = PlanktonControl.RefreshTime;
+            settings.ShowCurrentIndicator = PlanktonControl.ShowCurrentIndicator;
+            settings.UseAnimation = PlanktonControl.UseAnimation;
+            settings.UseAutoPanOnZoomPreview = PlanktonControl.UseAutoPanOnZoomPreview;
+            settings.UseEfficientValuesWhenRandomGenerating = PlanktonControl.UseEfficientValuesWhenRandomGenerating;
+            settings.UseOnlyStandardBrushesWhenRandomGenerating = PlanktonControl.UseOnlyStandardBrushesWhenRandomGenerating;
+            settings.UseSmoothMousePositionUpdating = PlanktonControl.UseSmoothMousePositionUpdating;
+            settings.UseZoomPreview = PlanktonControl.UseZoomPreview;
+            settings.ZoomPreviewBlurCorrection = PlanktonControl.ZoomPreviewBlurCorrection;
+            settings.ZoomPreviewBlurStrength = PlanktonControl.ZoomPreviewBlurStrength;
+            settings.UseZoomPreviewBlurEffect = PlanktonControl.UseZoomPreviewBlurEffect;
+            settings.ZoomPreviewLocatorMode = PlanktonControl.ZoomPreviewLocatorMode.ToString();
+            settings.ZoomPreviewSize = PlanktonControl.ZoomPreviewSize;
         }
 
-        /// <summary>
-        /// Start the plankton control running.
-        /// </summary>
-        private void startPlanktonControl()
+        private void StartPlanktonControl()
         {
-            planktonControl.ApplySettingsFromFile(StartupFile);
-            planktonControl.IsPaused = false;
+            PlanktonControl.ApplySettingsFromFile(StartupFile);
+            PlanktonControl.IsPaused = false;
         }
 
         #endregion
@@ -146,48 +127,47 @@ namespace BP.Plankton.Windows
 
         private void MainWindow_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            FocusManager.SetIsFocusScope(planktonControl, true);
-            planktonControl.Focus();
+            FocusManager.SetIsFocusScope(PlanktonControl, true);
+            PlanktonControl.Focus();
         }
 
-        private void fadeIntoStoryboard_Completed(object sender, EventArgs e)
+        private void FadeIntoStoryboard_Completed(object sender, EventArgs e)
         {
-            // remove the intro from the main grid
-            layoutGrid.Children.Remove(splashBorder);
+            MainLayoutGrid.Children.Remove(SplashBorder);
         }
 
-        private void mainTitleStoryboard_Completed(object sender, EventArgs e)
+        private void MainTitleStoryboard_Completed(object sender, EventArgs e)
         {
-            if (planktonControl.IsPaused)
-                startPlanktonControl();
+            if (PlanktonControl.IsPaused)
+                StartPlanktonControl();
         }
 
-        private void splashBorder_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void SplashBorder_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            startPlanktonControl();
-            splashBorder.Visibility = Visibility.Collapsed;
+            StartPlanktonControl();
+            SplashBorder.Visibility = Visibility.Collapsed;
         }
 
-        private void planktonControl_ExitFullScreenMode(object sender, EventArgs e)
+        private void PlanktonControl_ExitFullScreenMode(object sender, EventArgs e)
         {
             WindowStyle = WindowStyle.ThreeDBorderWindow;
-            WindowState = preFullScreenWindowState;
+            WindowState = PreFullScreenWindowState;
 
-            if (preFullScreenWindowState != WindowState.Normal)
+            if (PreFullScreenWindowState != WindowState.Normal)
                 return;
 
-            Top = preFullScreenTopLeft.Y;
-            Left = preFullScreenTopLeft.X;
+            Top = PreFullScreenTopLeft.Y;
+            Left = PreFullScreenTopLeft.X;
         }
 
-        private void planktonControl_EnterFullScreenMode(object sender, EventArgs e)
+        private void PlanktonControl_EnterFullScreenMode(object sender, EventArgs e)
         {
             WindowStyle = WindowStyle.None;
 
-            if ((Math.Abs(Left) > 0.0) || (Math.Abs(Top) > 0.0))
-                preFullScreenTopLeft = new Point(Left, Top);
+            if (Math.Abs(Left) > 0.0 || Math.Abs(Top) > 0.0)
+                PreFullScreenTopLeft = new Point(Left, Top);
 
-            preFullScreenWindowState = WindowState;
+            PreFullScreenWindowState = WindowState;
             Top = 0;
             Left = 0;
             WindowState = WindowState.Maximized;
@@ -197,39 +177,39 @@ namespace BP.Plankton.Windows
         {
             var newLocation = new Point(Left, Top);
 
-            if (!planktonControl.IsPaused)
+            if (!PlanktonControl.IsPaused)
             {
-                var vector = new Vector(lastLocation.X - newLocation.X, lastLocation.Y - newLocation.Y);
+                var vector = new Vector(LastLocation.X - newLocation.X, LastLocation.Y - newLocation.Y);
                 var strength = Math.Abs(vector.Length);
 
                 // if no current, or the new vector has yielded a stronger current
-                if ((planktonControl.ActiveCurrent == null) || (strength > Math.Abs(planktonControl.ActiveCurrent.ActiveStep().Length)))
+                if ((PlanktonControl.ActiveCurrent == null) || (strength > Math.Abs(PlanktonControl.ActiveCurrent.ActiveStep().Length)))
                 {
                     // determine degrees - add 90 as Atan2 returns north as -90, east a 0, south as 90 and west as 180
                     var degrees = 90 + Math.Atan2(vector.Y, vector.X) * (180d / Math.PI);
 
                     var c = new Current(strength, degrees, CurrentSwellStage.MainUp)
                     {
-                        Deceleration = planktonControl.IgnoreWaterViscosityWhenGeneratingCurrent ? planktonControl.CurrentDeceleration : planktonControl.WaterViscosity,
-                        Acceleration = planktonControl.IgnoreWaterViscosityWhenGeneratingCurrent ? planktonControl.CurrentAcceleration : planktonControl.WaterViscosity
+                        Deceleration = PlanktonControl.IgnoreWaterViscosityWhenGeneratingCurrent ? PlanktonControl.CurrentDeceleration : PlanktonControl.WaterViscosity,
+                        Acceleration = PlanktonControl.IgnoreWaterViscosityWhenGeneratingCurrent ? PlanktonControl.CurrentAcceleration : PlanktonControl.WaterViscosity
                     };
 
-                    planktonControl.TriggerCurrent(c);
+                    PlanktonControl.TriggerCurrent(c);
                 }
             }
 
-            lastLocation = newLocation;
+            LastLocation = newLocation;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            lastLocation = new Point(Left, Top);
+            LastLocation = new Point(Left, Top);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             var settings = Settings.Default;
-            updateSettingsFile(ref settings);
+            UpdateSettingsFile(ref settings);
             settings.Save();
         }
 

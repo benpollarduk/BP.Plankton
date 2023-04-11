@@ -13,20 +13,9 @@ namespace BP.Plankton.Controls
     {
         #region Fields
 
-        /// <summary>
-        /// Get or set the current segments.
-        /// </summary>
-        private readonly List<LineSegment> segments = new List<LineSegment>();
-
-        /// <summary>
-        /// Get or set the start point.
-        /// </summary>
-        private Point startPoint;
-
-        /// <summary>
-        /// Get or set the current frame skip count.
-        /// </summary>
-        private ushort frameSkipCount;
+        private readonly List<LineSegment> Segments = new List<LineSegment>();
+        private Point StartPoint;
+        private ushort FrameSkipCount;
 
         #endregion
 
@@ -108,7 +97,7 @@ namespace BP.Plankton.Controls
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the DrawSeaBedControl class.
@@ -118,30 +107,34 @@ namespace BP.Plankton.Controls
             InitializeComponent();
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Clear any drawn geometry.
         /// </summary>
         public void Clear()
         {
-            segments.Clear();
-            startPoint = new Point(0, 0);
-            frameSkipCount = 0;
+            Segments.Clear();
+            StartPoint = new Point(0, 0);
+            FrameSkipCount = 0;
             Geometry = null;
         }
 
         /// <summary>
-        /// Generate a scalled PathGeometry from this control.
+        /// Generate a scaled PathGeometry from this control.
         /// </summary>
-        /// <param name="scale">Specify a scale factor to apply to tthe geometry.</param>
+        /// <param name="scale">Specify a scale factor to apply to the geometry.</param>
         /// <returns>A PathGeometry representing the geometry to drawn with this control.</returns>
-        public PathGeometry GenerateScalledGeometry(double scale)
+        public PathGeometry GenerateScaledGeometry(double scale)
         {
             var geometry = new PathGeometry();
             var scalledSegments = new List<PathSegment>();
-            var start = new Point(0d, segments[0].Point.Y / scale);
+            var start = new Point(0d, Segments[0].Point.Y / scale);
 
-            for (var index = 1; index < segments.Count; index++)
-                scalledSegments.Add(new LineSegment(new Point(segments[index].Point.X / scale, segments[index].Point.Y / scale), false));
+            for (var index = 1; index < Segments.Count; index++)
+                scalledSegments.Add(new LineSegment(new Point(Segments[index].Point.X / scale, Segments[index].Point.Y / scale), false));
 
             geometry.Figures.Add(new PathFigure(start, scalledSegments, true));
             geometry.FillRule = FillRule.Nonzero;
@@ -152,65 +145,63 @@ namespace BP.Plankton.Controls
         /// Handle the mouse moving over the drawing canvas.
         /// </summary>
         /// <param name="mousePointOverDrawingCanvas">The current mouse point over the canvas.</param>
-        /// <param name="observeCaptureSkip">Specify if capure skipping should be observed.</param>
+        /// <param name="observeCaptureSkip">Specify if capture skipping should be observed.</param>
         protected virtual void OnHandleMouseMove(Point mousePointOverDrawingCanvas, bool observeCaptureSkip)
         {
             if (observeCaptureSkip)
             {
-                if (frameSkipCount == CaptureSkip)
-                    frameSkipCount = 0;
+                if (FrameSkipCount == CaptureSkip)
+                    FrameSkipCount = 0;
                 else
                 {
-                    frameSkipCount++;
+                    FrameSkipCount++;
                     return;
                 }
             }
 
             LineSegment dummySegment = null;
 
-            if (segments.Count == 0)
+            if (Segments.Count == 0)
             {
-                segments.Add(new LineSegment(new Point(0, drawingCanvas.ActualHeight), false));
-                startPoint = new Point(0, drawingCanvas.ActualHeight);
+                Segments.Add(new LineSegment(new Point(0, DrawingCanvas.ActualHeight), false));
+                StartPoint = new Point(0, DrawingCanvas.ActualHeight);
 
                 // if x is not 0 add line segment at start height
                 if (mousePointOverDrawingCanvas.X > 0)
-                    segments.Add(new LineSegment(new Point(0, mousePointOverDrawingCanvas.Y), false));
+                    Segments.Add(new LineSegment(new Point(0, mousePointOverDrawingCanvas.Y), false));
             }
-            else if (segments.Count > 0)
+            else if (Segments.Count > 0)
             {
-                dummySegment = segments[segments.Count - 1];
-                segments.RemoveAt(segments.Count - 1);
+                dummySegment = Segments[Segments.Count - 1];
+                Segments.RemoveAt(Segments.Count - 1);
             }
 
             if (dummySegment == null)
-                dummySegment = new LineSegment(new Point(drawingCanvas.ActualWidth, drawingCanvas.ActualHeight), false);
+                dummySegment = new LineSegment(new Point(DrawingCanvas.ActualWidth, DrawingCanvas.ActualHeight), false);
 
-            segments.Add(new LineSegment(mousePointOverDrawingCanvas, false));
+            Segments.Add(new LineSegment(mousePointOverDrawingCanvas, false));
 
             // add line segment to bottom right to prevent strange fill behaviour
-            segments.Add(dummySegment);
+            Segments.Add(dummySegment);
 
-            Geometry = new PathGeometry(new[] { new PathFigure(startPoint, segments, false) });
+            Geometry = new PathGeometry(new[] { new PathFigure(StartPoint, Segments, false) });
         }
 
         #endregion
 
         #region EventHandlers
 
-        private void drawingCanvas_PreviewMouseMove(object sender, MouseEventArgs e)
+        private void DrawingCanvas_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (Mouse.LeftButton != MouseButtonState.Pressed)
                 return;
 
-            var p = Mouse.GetPosition(drawingCanvas);
-            OnHandleMouseMove(p, CaptureSkip > 0);
+            OnHandleMouseMove(Mouse.GetPosition(DrawingCanvas), CaptureSkip > 0);
         }
 
-        private void drawingCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DrawingCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var p = Mouse.GetPosition(drawingCanvas);
-            OnHandleMouseMove(p, false);
+            OnHandleMouseMove(Mouse.GetPosition(DrawingCanvas), false);
         }
 
         #endregion

@@ -9,43 +9,13 @@
                 <ResourceDictionary Source="Resources/Styles/ButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <RoutedUICommand x:Key="RegenerateCommand" Text="Regenerate"/>
-            <RoutedUICommand x:Key="RandomCommand" Text="Random"/>
-            <RoutedUICommand x:Key="TogglePreviewCommand" Text="Toggle Preview"/>
-            <RoutedUICommand x:Key="QuickIncreasePlanktonCommand" Text="IncreasePlankton"/>
-            <RoutedUICommand x:Key="QuickDecreasePlanktonCommand" Text="DecreasePlankton"/>
-            <RoutedUICommand x:Key="PopChildBubblesCommand" Text="Pop Bubbles"/>
-            <RoutedUICommand x:Key="ToggleAttractionCommand" Text="Toggle Attraction"/>
-            <RoutedUICommand x:Key="ToggleChildBubblesCommand" Text="Toggle Child Bubbles"/>
-            <RoutedUICommand x:Key="SaveCommand" Text="Save"/>
-            <RoutedUICommand x:Key="LoadCommand" Text="Load"/>
-            <RoutedUICommand x:Key="DefaultOptionsCommand" Text="Default Options"/>
-            <RoutedUICommand x:Key="DefaultZoomCommand" Text="Default Zoom"/>
-            <RoutedUICommand x:Key="FullScreenCommand" Text="Full Screen Mode"/>
-            <RoutedUICommand x:Key="ExitFullScreenCommand" Text="Exit Full Screen Mode"/>
-            <RoutedUICommand x:Key="GenerateGeometryCommand" Text="Generate Geometry"/>
-            <RoutedUICommand x:Key="GenerateGeometryFromStringCommand" Text="Generate Geometry From String"/>
-            <RoutedUICommand x:Key="GenerateGeometryRealtimeCommand" Text="Generate Geometry Realtime"/>
-            <RoutedUICommand x:Key="ImportPlanktonBrushFromImageFileCommand" Text="Import Plankton Brush From Image File"/>
-            <RoutedUICommand x:Key="ImportBackgroundBrushFromImageFileCommand" Text="Import Background Brush From Image File"/>
-            <RoutedUICommand x:Key="ImportSeaBedBrushFromImageFileCommand" Text="Import Sea Bed Brush From Image File"/>
-            <RoutedUICommand x:Key="GenerateSeaBedTextureCommand" Text="Generate Sea Bed Texture"/>
-            <RoutedUICommand x:Key="ApplyQuickSettingCommand" Text="Apply Quick Setting"/>
-            <RoutedUICommand x:Key="ToggleCurrentCommand" Text="Toggle Current"/>
-            <RoutedUICommand x:Key="TriggerCurrentCommand" Text="Trigger Current"/>
-            <RoutedUICommand x:Key="ChangeZoomPreviewLocatorModeCommand" Text="Change Zoom Preview Locator Mode"/>
-            <RoutedUICommand x:Key="ChangeCurrentModeCommand" Text="Change Current Mode"/>
-            <RoutedUICommand x:Key="ToggleCurrentIndicatorCommand" Text="Toggle Current Indicator"/>
-            <RoutedUICommand x:Key="GenerateNewRandomColourPlanktonCommand" Text="Generate New Random Colour Plankton"/>
-            <RoutedUICommand x:Key="GenerateNewRandomColourBackgroundCommand" Text="Generate New Random Colour Background"/>
-            <RoutedUICommand x:Key="GenerateNewRandomColourSeaBedCommand" Text="Generate New Random Colour Sea Bed"/>
-            <RoutedUICommand x:Key="BreakoutOptionsToExternalWindowCommand" Text="Break Out OptionsTo External Window"/>
+            
 
             <converters1:BooleanToVisibiltyConverter x:Key="BooleanToVisibilityConverter"/>
             <converters1:BooleanToVisibiltyCollapsedConverter x:Key="BooleanToVisibilityCollapsedConverter"/>
             <converters1:BooleanInverterConverter x:Key="BooleanInverterConverter"/>
 
-            <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}"/>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>
