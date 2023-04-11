@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="Plankton.DrawSeaBedControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    mc:Ignorable="d" 
+    d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Canvas Name="drawingCanvas" Background="{Binding Path=SeaBackground, Mode=OneWay}" Cursor="Cross" PreviewMouseMove="drawingCanvas_PreviewMouseMove" PreviewMouseLeftButtonDown="drawingCanvas_PreviewMouseLeftButtonDown">
+        <Path Data="{Binding Path=Geometry, Mode=OneWay}" Stroke="{Binding Path=SeaBedStroke, Mode=OneWay}" StrokeThickness="2" Fill="{Binding Path=SeaBedBackground, Mode=OneWay}"/>
+    </Canvas>
+</UserControl>

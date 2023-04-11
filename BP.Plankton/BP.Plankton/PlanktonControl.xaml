@@ -1,0 +1,1209 @@
+﻿<UserControl x:Class="Plankton.PlanktonControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Plankton"
+        xmlns:converters="clr-namespace:Plankton.Converters"
+        xmlns:classes="clr-namespace:Plankton.Classes"
+        xmlns:classes1="clr-namespace:BP.Plankton.Classes"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" FocusVisualStyle="{x:Null}" Focusable="True" Background="Transparent" Loaded="UserControl_Loaded" Unloaded="UserControl_Unloaded" SizeChanged="UserControl_SizeChanged">
+    <UserControl.Resources>
+        <converters:ZoomPreviewMaxHeightConverter x:Key="zoomPreviewMaxHeightConverter"/>
+        <converters:MultiBooleanOrToVisibilityConverter x:Key="multiBooleanOrToVisibilityConverter"/>
+        <converters:MultiBooleanAndToVisibilityConverter x:Key="multiBooleanAndToVisibilityConverter"/>
+        <converters:DoubleToWaterViscosityConverter x:Key="doubleWaterViscosityConverter"/>
+        <converters:MultiBooleanAndToBooleanConverter x:Key="multiBooleanAndToSingleBooleanConverter"/>
+        <converters:CurrentToOpacityConverter x:Key="currentOpacityConverter"/>
+        <converters:DoubleRounderConverter x:Key="doubleRoundingConverter"/>
+        <converters:DoubleToAnimationBeginTimeConverterConverter x:Key="animationBeginTimeConverter"/>
+        <converters:DoubleToAnimationDurationConverterConverter x:Key="animationDurationConverter"/>
+        <GridLength x:Key="titleWidth">80</GridLength>
+        <GridLength x:Key="valueWidth">40</GridLength>
+        <RadialGradientBrush x:Key="PlanktonBrush"/>
+        <LinearGradientBrush x:Key="BackgroundBrush"/>
+        <LinearGradientBrush x:Key="SeaBedBrush"/>
+        <RadialGradientBrush x:Key="PlanktonGreenBrush">
+            <GradientStop Offset="0.0" Color="#FFFFFFFF"/>
+            <GradientStop Offset="0.35" Color="#FF5EC564"/>
+            <GradientStop Offset="0.75" Color="#FF5E9F64"/>
+            <GradientStop Offset="1.0" Color="#FF002D00"/>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="PlanktonWhiteBrush">
+            <GradientStop Offset="0.0" Color="#FF000000"/>
+            <GradientStop Offset="0.75" Color="#BFFFFFFF"/>
+            <GradientStop Offset="1.0" Color="#9FFFFFFF"/>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="PlanktonRedBrush">
+            <GradientStop Offset="0.0" Color="#FFFF6F6F"/>
+            <GradientStop Offset="0.35" Color="#CAFF2F63"/>
+            <GradientStop Offset="0.75" Color="#BAAF0013"/>
+            <GradientStop Offset="1.0" Color="#AA002D00"/>
+        </RadialGradientBrush>
+        <RadialGradientBrush x:Key="PlanktonTransparentBrush">
+            <GradientStop Offset="0.0" Color="#146E82BD"/>
+            <GradientStop Offset="0.35" Color="#436E82BD"/>
+            <GradientStop Offset="0.75" Color="#8F4664E3"/>
+            <GradientStop Offset="1.0" Color="#BF004BCF"/>
+        </RadialGradientBrush>
+        <SolidColorBrush x:Key="PlanktonGunkBrush" Color="#FFE191AF"/>
+        <SolidColorBrush x:Key="PlanktonPerformanceBrush" Color="#FF416B5F"/>
+        <RadialGradientBrush x:Key="BubbleBrush" GradientOrigin="0.35,0.35" Opacity="0.45">
+            <GradientStop Offset="0.0" Color="LightSteelBlue"/>
+            <GradientStop Offset="0.25" Color="LightSteelBlue"/>
+            <GradientStop Offset="1.0" Color="SteelBlue"/>
+        </RadialGradientBrush>
+        <LinearGradientBrush x:Key="BlueBlackBackgroundBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+            <GradientStop Offset="0" Color="#FF225E94"/>
+            <GradientStop Offset="0.65" Color="#FF192F56"/>
+            <GradientStop Offset="1" Color="#FF000000"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="GreenBlueBackgroundBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+            <GradientStop Offset="0" Color="#FF346659"/>
+            <GradientStop Offset="0.35" Color="#FF346659"/>
+            <GradientStop Offset="0.65" Color="#FF466683"/>
+            <GradientStop Offset="1" Color="#FF464663"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BlackBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
+            <GradientStop Offset="0" Color="#FF303030"/>
+            <GradientStop Offset="1" Color="#FF000000"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="WhiteBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
+            <GradientStop Offset="0" Color="#FFDEDEDE"/>
+            <GradientStop Offset="1" Color="#FFBEBEBE"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="StrangeBackgroundBrush" StartPoint="0, 0" EndPoint="1, 1">
+            <GradientStop Offset="0" Color="#FFFF5F8F"/>
+            <GradientStop Offset="0.35" Color="#FF6F008C"/>
+            <GradientStop Offset="0.5" Color="#FFFF008F"/>
+            <GradientStop Offset="0.6" Color="#FFFF4D77"/>
+            <GradientStop Offset="0.7" Color="#FFFF4D37"/>
+            <GradientStop Offset="1" Color="#FFFF0037"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="BrownSeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+            <GradientStop Offset="0" Color="SandyBrown"/>
+            <GradientStop Offset="1" Color="Black"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="GraySeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+            <GradientStop Offset="0" Color="SlateGray"/>
+            <GradientStop Offset="1" Color="Black"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="StrangeSeaBedBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+            <GradientStop Offset="0" Color="#FFA06E82"/>
+            <GradientStop Offset="0.2" Color="#FFA06E5A"/>
+            <GradientStop Offset="0.4" Color="#FFA06E2C"/>
+            <GradientStop Offset="0.6" Color="#FF5A6E2C"/>
+            <GradientStop Offset="0.8" Color="#FF006E2C"/>
+            <GradientStop Offset="1" Color="#FF00462C"/>
+        </LinearGradientBrush>
+        <Storyboard x:Key="lightingEffectStoryboard" RepeatBehavior="Forever" AutoReverse="False" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:35}">
+            <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" To="0.0" Duration="0:0:0"/>
+            <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="{Binding Path=LightingEffectStrength, Mode=OneWay}" BeginTime="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationBeginTimeConverter}, ConverterParameter=0:0:10}" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:2}"/>
+            <DoubleAnimation Storyboard.TargetName="lightingEffectBorder" Storyboard.TargetProperty="Opacity" From="{Binding Path=LightingEffectStrength, Mode=OneWay}" To="0.0" BeginTime="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationBeginTimeConverter}, ConverterParameter=0:0:15}" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource animationDurationConverter}, ConverterParameter=0:0:5}"/>
+        </Storyboard>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="RegenerateCommandBinding" Command="{StaticResource RegenerateCommand}" Executed="RegenerateCommandBinding_Executed"/>
+        <CommandBinding x:Name="RandomCommandBinding" Command="{StaticResource RandomCommand}" Executed="RandomCommandBinding_Executed"/>
+        <CommandBinding x:Name="TogglePreviewCommandBinding" Command="{StaticResource TogglePreviewCommand}" Executed="TogglePreviewCommandBinding_Executed"/>
+        <CommandBinding x:Name="QuickIncreasePlanktonCommandBinding" Command="{StaticResource QuickIncreasePlanktonCommand}" Executed="QuickIncreasePlanktonCommandBinding_Executed"/>
+        <CommandBinding x:Name="QuickDecreasePlanktonCommandBinding" Command="{StaticResource QuickDecreasePlanktonCommand}" Executed="QuickDecreasePlanktonCommandBinding_Executed"/>
+        <CommandBinding x:Name="PopChildBubblesCommandBinding" Command="{StaticResource PopChildBubblesCommand}" Executed="PopChildBubblesCommandBinding_Executed"/>
+        <CommandBinding x:Name="ToggleAttractionCommandBinding" Command="{StaticResource ToggleAttractionCommand}" Executed="ToggleAttractionCommandBinding_Executed"/>
+        <CommandBinding x:Name="ToggleChildBubblesCommandBinding" Command="{StaticResource ToggleChildBubblesCommand}" Executed="ToggleChildBubblesCommandBinding_Executed"/>
+        <CommandBinding x:Name="SaveCommandBinding" Command="{StaticResource SaveCommand}" Executed="SaveCommandBinding_Executed"/>
+        <CommandBinding x:Name="LoadCommandBinding" Command="{StaticResource LoadCommand}" Executed="LoadCommandBinding_Executed"/>
+        <CommandBinding x:Name="DefaultOptionsCommandBinding" Command="{StaticResource DefaultOptionsCommand}" Executed="DefaultOptionsCommandBinding_Executed"/>
+        <CommandBinding x:Name="DefaultZoomCommandBinding" Command="{StaticResource DefaultZoomCommand}" Executed="DefaultZoomCommandBinding_Executed"/>
+        <CommandBinding x:Name="FullScreenCommandBinding" Command="{StaticResource FullScreenCommand}" Executed="FullScreenCommandBinding_Executed"/>
+        <CommandBinding x:Name="ExitFullScreenCommandBinding" Command="{StaticResource ExitFullScreenCommand}" Executed="ExitFullScreenCommandBinding_Executed"/>
+        <CommandBinding x:Name="GenerateGeometryCommandBinding" Command="{StaticResource GenerateGeometryCommand}" Executed="GenerateGeometryCommandBinding_Executed"/>
+        <CommandBinding x:Name="GenerateGeometryFromStringCommandBinding" Command="{StaticResource GenerateGeometryFromStringCommand}" Executed="GenerateGeometryFromStringCommandBinding_Executed"/>
+        <CommandBinding x:Name="GenerateGeometryRealtimeCommandBinding" Command="{StaticResource GenerateGeometryRealtimeCommand}" Executed="GenerateGeometryRealtimeCommandBinding_Executed"/>
+        <CommandBinding x:Name="ImportPlanktonBrushFromImageFileCommandBinding" Command="{StaticResource ImportPlanktonBrushFromImageFileCommand}" Executed="ImportPlanktonBrushFromImageFileCommandBinding_Executed"/>
+        <CommandBinding x:Name="ImportBackgroundBrushFromImageFileCommandBinding" Command="{StaticResource ImportBackgroundBrushFromImageFileCommand}" Executed="ImportBackgroundBrushFromImageFileCommandBinding_Executed"/>
+        <CommandBinding x:Name="ImportSeaBedBrushFromImageFileCommandBinding" Command="{StaticResource ImportSeaBedBrushFromImageFileCommand}" Executed="ImportSeaBedBrushFromImageFileCommandBinding_Executed"/>
+        <CommandBinding x:Name="GenerateSeaBedTextureCommandBinding" Command="{StaticResource GenerateSeaBedTextureCommand}" Executed="GenerateSeaBedTextureCommandBinding_Executed"/>
+        <CommandBinding x:Name="ApplyQuickSettingCommandBinding" Command="{StaticResource ApplyQuickSettingCommand}" Executed="ApplyQuickSettingCommandBinding_Executed"/>
+        <CommandBinding x:Name="ToggleCurrentCommandBinding" Command="{StaticResource ToggleCurrentCommand}" Executed="ToggleCurrentCommandBinding_Executed"/>
+        <CommandBinding x:Name="TriggerCurrentCommandBinding" Command="{StaticResource TriggerCurrentCommand}" Executed="TriggerCurrentCommandBinding_Executed"/>
+        <CommandBinding x:Name="ChangeZoomPreviewLocatorModeCommandBinding" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Executed="ChangeZoomPreviewLocatorModeCommandBinding_Executed"/>
+        <CommandBinding x:Name="ChangeCurrentModeCommandBinding" Command="{StaticResource ChangeCurrentModeCommand}" Executed="ChangeCurrentModeCommandBinding_Executed"/>
+        <CommandBinding x:Name="ToggleCurrentIndicatorCommandBinding" Command="{StaticResource ToggleCurrentIndicatorCommand}" Executed="ToggleCurrentIndicatorCommandBinding_Executed"/>
+        <CommandBinding x:Name="GenerateNewRandomColourPlanktonCommandBinding" Command="{StaticResource GenerateNewRandomColourPlanktonCommand}" Executed="GenerateNewRandomColourPlanktonCommandBinding_Executed"/>
+        <CommandBinding x:Name="GenerateNewRandomColourBackgroundCommandBinding" Command="{StaticResource GenerateNewRandomColourBackgroundCommand}" Executed="GenerateNewRandomColourBackgroundCommandBinding_Executed"/>
+        <CommandBinding x:Name="GenerateNewRandomColourSeaBedCommandBinding" Command="{StaticResource GenerateNewRandomColourSeaBedCommand}" Executed="GenerateNewRandomColourSeaBedCommandBinding_Executed"/>
+        <CommandBinding x:Name="BreakoutOptionsToExternalWindowCommandBinding" Command="{StaticResource BreakoutOptionsToExternalWindowCommand}" Executed="BreakoutOptionsToExternalWindowCommandBinding_Executed"/>
+    </UserControl.CommandBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Command="{StaticResource RegenerateCommand}" Gesture="Ctrl+R"/>
+        <KeyBinding Command="{StaticResource RandomCommand}" Gesture="Ctrl+N"/>
+        <KeyBinding Command="{StaticResource TogglePreviewCommand}" Gesture="Ctrl+P"/>
+        <KeyBinding Command="{StaticResource QuickIncreasePlanktonCommand}" Gesture="OemPlus"/>
+        <KeyBinding Command="{StaticResource QuickIncreasePlanktonCommand}" Gesture="Add"/>
+        <KeyBinding Command="{StaticResource QuickDecreasePlanktonCommand}" Gesture="OemMinus"/>
+        <KeyBinding Command="{StaticResource QuickDecreasePlanktonCommand}" Gesture="Subtract"/>
+        <KeyBinding Command="{StaticResource PopChildBubblesCommand}" Gesture="Delete"/>
+        <KeyBinding Command="{StaticResource ToggleAttractionCommand}" Gesture="Ctrl+A"/>
+        <KeyBinding Command="{StaticResource ToggleChildBubblesCommand}" Gesture="Ctrl+B"/>
+        <KeyBinding Command="{StaticResource SaveCommand}" Gesture="Ctrl+S"/>
+        <KeyBinding Command="{StaticResource LoadCommand}" Gesture="Ctrl+O"/>
+        <KeyBinding Command="{StaticResource FullScreenCommand}" Gesture="Ctrl+F"/>
+        <KeyBinding Command="{StaticResource ExitFullScreenCommand}" Gesture="Escape"/>
+        <KeyBinding Command="{StaticResource GenerateGeometryCommand}" Gesture="Ctrl+G"/>
+        <KeyBinding Command="{StaticResource ToggleCurrentCommand}" Gesture="Ctrl+T"/>
+        <KeyBinding Command="{StaticResource TriggerCurrentCommand}" Gesture="Ctrl+Y"/>
+        <KeyBinding Command="{StaticResource ToggleCurrentIndicatorCommand}" Gesture="Ctrl+I"/>
+        <KeyBinding Command="{StaticResource BreakoutOptionsToExternalWindowCommand}" Gesture="Ctrl+E"/>
+    </UserControl.InputBindings>
+    <Grid Name="layoutGrid" FocusVisualStyle="{x:Null}">
+        <Canvas Name="areaCanvas" Background="{DynamicResource BackgroundBrush}" Cursor="None" MouseMove="areaCanvas_MouseMove" MouseLeave="areaCanvas_MouseLeave" MouseEnter="areaCanvas_MouseEnter">
+            <Border Name="lightingEffectBorder" BorderThickness="0" Opacity="0.0" Width="{Binding ElementName=areaCanvas, Path=ActualWidth, Mode=OneWay}" Height="{Binding ElementName=areaCanvas, Path=ActualHeight, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding Path=UseLightingEffect, Mode=OneWay, Converter={StaticResource booleanToVisibilityConverter}}">
+                <Border.Background>
+                    <RadialGradientBrush GradientOrigin="0,0">
+                        <GradientStop Color="White" Offset="0"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </RadialGradientBrush>
+                </Border.Background>
+            </Border>
+            <Path Name="seaBedPath" Fill="{DynamicResource SeaBedBrush}" Stroke="Black" StrokeThickness="1"/>
+            <classes:MoveableElementsHost x:Name="elementHost" Width="{Binding ElementName=areaCanvas, Path=ActualWidth, Mode=OneWay}" Height="{Binding ElementName=areaCanvas, Path=ActualHeight, Mode=OneWay}"/>
+        </Canvas>
+        <Grid Name="currentIndicatorMasterGrid" Width="60" Height="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.25" IsHitTestVisible="False">
+            <Grid.Visibility>
+                <MultiBinding Converter="{StaticResource multiBooleanAndToVisibilityConverter}">
+                    <Binding Path="UseCurrent" Mode="OneWay"/>
+                    <Binding Path="ShowCurrentIndicator" Mode="OneWay"/>
+                </MultiBinding>
+            </Grid.Visibility>
+            <Grid Width="60" Height="60">
+                <Grid.LayoutTransform>
+                    <TransformGroup>
+                        <RotateTransform x:Name="currentIndicatorRotateTransform"/>
+                        <ScaleTransform ScaleX="0.5" ScaleY="0.5"/>
+                    </TransformGroup>
+                </Grid.LayoutTransform>
+                <Ellipse StrokeThickness="2" Fill="Transparent" Stroke="{Binding Path=CurrentIndicatorBackgroundBrush, Mode=OneWay}"/>
+                <Path StrokeThickness="2" Fill="{Binding Path=CurrentIndicatorForegroundBrush, Mode=OneWay}" Stroke="{Binding Path=CurrentIndicatorBackgroundBrush, Mode=OneWay}" Data="m2,30 l28,-28 l28,28 z"/>
+            </Grid>
+        </Grid>
+        <Line Name="previewToElementLine" Stroke="{Binding Path=ZoomPreviewBrush, Mode=OneWay}" StrokeThickness="1" Opacity="0.5" IsHitTestVisible="False">
+            <Line.Visibility>
+                <MultiBinding Converter="{StaticResource multiBooleanAndToVisibilityConverter}">
+                    <Binding Path="UseZoomPreview" Mode="OneWay"/>
+                    <Binding ElementName="innerPreviewBorder" Path="IsVisible" Mode="OneWay"/>
+                    <Binding Path="IsZoomPreviewLocatorVisible" Mode="OneWay"/>
+                </MultiBinding>
+            </Line.Visibility>
+        </Line>
+        <Border Name="previewBorder" Margin="6" Height="{Binding Path=ZoomPreviewSize, Mode=OneWay}" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"  HorizontalAlignment="Right" VerticalAlignment="Top" IsHitTestVisible="False">
+            <Border.Visibility>
+                <MultiBinding Converter="{StaticResource multiBooleanOrToVisibilityConverter}">
+                    <Binding ElementName="areaCanvas" Path="IsMouseOver" Mode="OneWay"/>
+                    <Binding Path="IfMainBubbleNotAvailablePreviewMostInterestingElement" Mode="OneWay"/>
+                </MultiBinding>
+            </Border.Visibility>
+            <Border Name="innerPreviewBorder" BorderBrush="{Binding Path=ZoomPreviewBrush, Mode=OneWay}" Background="Gray" CornerRadius="0" BorderThickness="1" Visibility="{Binding Path=UseZoomPreview, Mode=OneWay, Converter={StaticResource booleanToVisibilityConverter}, ConverterParameter=True}">
+                <Rectangle Name="previewAreaPresenter">
+                    <Rectangle.Effect>
+                        <BlurEffect x:Name="zoomPreviewBlurEffect" KernelType="Box" Radius="0" RenderingBias="Performance"/>
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <VisualBrush x:Name="zoomBrush" Visual="{Binding ElementName=areaCanvas, Mode=OneWay}" Viewbox="0,0,25,25" ViewboxUnits="Absolute"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Border>
+        </Border>
+        <Expander Name="optionsExpander" Header="Options" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="80" Visibility="{Binding Path=ShowOptions, Mode=OneWay, Converter={StaticResource booleanToVisibilityConverter}}" FocusVisualStyle="{x:Null}">
+            <Expander.Style>
+                <Style TargetType="Expander">
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="Opacity" Value="1.0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Expander.Style>
+            <Expander.Triggers>
+                <EventTrigger RoutedEvent="Expander.Expanded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="optionsExpander" Storyboard.TargetProperty="Width" From="{Binding ElementName=optionsExpander, Path=ActualWidth, Mode=OneWay}" To="{Binding ElementName=areaCanvas, Path=ActualWidth, Mode=OneWay}" Duration="{Binding Path=OptionsExpanderAnimationDuration, Mode=OneWay}"/>
+                            <DoubleAnimation Storyboard.TargetName="optionsTabControl" Storyboard.TargetProperty="Opacity" From="{Binding ElementName=optionsTabControl, Path=Opacity, Mode=OneWay}" To="1.0" BeginTime="{Binding Path=OptionsExpanderAnimationDuration.TimeSpan, Mode=OneWay}" Duration="{Binding Path=OptionsExpanderAnimationDuration, Mode=OneWay}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Expander.Collapsed">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="optionsTabControl" Storyboard.TargetProperty="Opacity" From="{Binding ElementName=optionsTabControl, Path=Opacity, Mode=OneWay}" To="0.0"  Duration="{Binding Path=OptionsExpanderAnimationDuration, Mode=OneWay}"/>
+                            <DoubleAnimation Storyboard.TargetName="optionsExpander" Storyboard.TargetProperty="Width" From="{Binding ElementName=optionsExpander, Path=ActualWidth, Mode=OneWay}" To="80" BeginTime="{Binding Path=OptionsExpanderAnimationDuration.TimeSpan, Mode=OneWay}" Duration="{Binding Path=OptionsExpanderAnimationDuration, Mode=OneWay}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Expander.Triggers>
+            <Grid Width="{Binding ElementName=areaCanvas, Path=ActualWidth, Mode=OneWay}">
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="Slider" BasedOn="{StaticResource sliderBaseStyle}">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="IsSnapToTickEnabled" Value="True"/>
+                        <Setter Property="TickFrequency" Value="1"/>
+                        <Setter Property="LargeChange" Value="{Binding RelativeSource={RelativeSource Self}, Path=SmallChange, Mode=OneWay}"/>
+                        <Setter Property="TickPlacement" Value="BottomRight"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="CheckBox" BasedOn="{StaticResource checkBoxBaseStyle}">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Margin" Value="6"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource radioButtonBaseStyle}">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Margin" Value="6"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Margin" Value="3"/>
+                    </Style>
+                    <Style TargetType="TabItem" BasedOn="{StaticResource tabItemBaseStyle}"/>
+                </Grid.Resources>
+                <TabControl Name="optionsTabControl" Opacity="0.0" Margin="6" TabStripPlacement="Top" Background="Black" BorderBrush="White" BorderThickness="1" Focusable="False">
+                    <TabItem Header="Quick" Visibility="{Binding Path=ShowQuickSettingsTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <UniformGrid>
+                            <UniformGrid.Resources>
+                                <Style TargetType="Button" BasedOn="{StaticResource buttonBaseStyle}">
+                                    <Setter Property="Height" Value="40"/>
+                                    <Setter Property="Width" Value="88"/>
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{TemplateBinding Content}">
+                                                        <ContentPresenter.Triggers>
+                                                            <EventTrigger RoutedEvent="ContentPresenter.MouseEnter">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.1"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                            <EventTrigger RoutedEvent="ContentPresenter.MouseLeave">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                        </ContentPresenter.Triggers>
+                                                    </ContentPresenter>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="LightSteelBlue"/>
+                                            <Setter Property="BorderBrush" Value="LightSteelBlue"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="LightGray"/>
+                                            <Setter Property="Foreground" Value="Gray"/>
+                                            <Setter Property="BorderBrush" Value="Gray"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </UniformGrid.Resources>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Startup.png" Stretch="UniformToFill"/>
+                                        <Label Content="Default" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>LuminousRandomStartup</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Default.png" Stretch="UniformToFill"/>
+                                        <Label Content="Original" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>Default</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}" Visibility="Collapsed">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Original.png" Stretch="UniformToFill"/>
+                                        <Label Content="Original" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>Original</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Quick.png" Stretch="UniformToFill"/>
+                                        <Label Content="Performance" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>Performance</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Spikey.png" Stretch="UniformToFill"/>
+                                        <Label Content="Spikey" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>Spikey</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Attraction.png" Stretch="UniformToFill"/>
+                                        <Label Content="Attraction" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>Attraction</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Gunk.png" Stretch="UniformToFill"/>
+                                        <Label Content="Gunk" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>Gunk</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Dense.png" Stretch="UniformToFill"/>
+                                        <Label Content="Dense" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>Dense</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource ApplyQuickSettingCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/AntiGravity.png" Stretch="UniformToFill"/>
+                                        <Label Content="Anti-gravity" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                                    </Grid>
+                                </Button.Content>
+                                <Button.CommandParameter>
+                                    <classes:QuickSetting>AntiGravity</classes:QuickSetting>
+                                </Button.CommandParameter>
+                            </Button>
+                            <Button Command="{StaticResource RandomCommand}">
+                                <Button.Content>
+                                    <Grid>
+                                        <Image Source="pack://application:,,/Images/Buttons/Random.png" Stretch="UniformToFill"/>
+                                        <Label Content="Random (Ctrl+N)" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                        </UniformGrid>
+                    </TabItem>
+                    <TabItem Header="Plankton" Visibility="{Binding Path=ShowPlanktonTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Amount:" Grid.Row="0" Grid.Column="0"/>
+                            <Slider Name="amountSlider" Value="{Binding Path=Elements, Mode=TwoWay}" Minimum="1" Maximum="7500" SmallChange="1" Ticks="1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,75,100,150,200,250,300,350,400,450,500,600,750,1000,1250,1500,1750,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500" Grid.Row="0" Grid.Column="1"/>
+                            <Label Content="{Binding Path=Elements, Mode=OneWay}" Grid.Row="0" Grid.Column="2"/>
+                            <Label Content="Size:" Grid.Row="1" Grid.Column="0"/>
+                            <Slider Name="elementsSizeSlider" Value="{Binding Path=ElementsSize, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="200" Ticks="1,2,3,4,5,6,7,8,9,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,110,125,150,175,200" Grid.Row="1" Grid.Column="1"/>
+                            <Label Content="{Binding Path=ElementsSize, Mode=OneWay}" Grid.Row="1" Grid.Column="2"/>
+                            <Label Content="Variation:" Grid.Row="2" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=ElementsSizeVariation, Mode=TwoWay}" SmallChange="1" Minimum="0" Maximum="100" Grid.Row="2" Grid.Column="1"/>
+                            <Label Content="{Binding Path=ElementsSizeVariation, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
+                            <Label Content="Movement:" Grid.Row="3" Grid.Column="0"/>
+                            <Slider Name="travelSlider" Value="{Binding Path=Travel, Mode=TwoWay}" SmallChange="1" Minimum="0" Ticks="0, 0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17.5, 20, 22.5, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100" Maximum="100" Grid.Row="3" Grid.Column="1"/>
+                            <Label Content="{Binding Path=Travel, Mode=OneWay}" Grid.Row="3" Grid.Column="2"/>
+                            <Label Content="Life:" Grid.Row="4" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=Life, Mode=TwoWay}" SmallChange="1" Minimum="0" Maximum="100" Grid.Row="4" Grid.Column="1"/>
+                            <Label Content="{Binding Path=Life, Mode=OneWay}" Grid.Row="4" Grid.Column="2"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
+                                <CheckBox Content="Attract to mouse? (toggle with Ctrl+A)" IsChecked="{Binding Path=UsePlanktonAttraction, Mode=TwoWay}"/>
+                                <CheckBox Content="Invert attraction (repel)?" IsChecked="{Binding Path=InvertPlanktonAttraction, Mode=TwoWay}" IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}"/>
+                            </StackPanel>
+                            <CheckBox Content="Attract to child bubbles?" IsChecked="{Binding Path=PlanktonAttractToChildBubbles, Mode=TwoWay}" IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Strength:" IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Grid.Row="8" Grid.Column="0"/>
+                            <Slider IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Value="{Binding Path=PlanktonAttractionStrength, Mode=TwoWay}" Minimum="{Binding Path=Travel, Mode=OneWay}" SmallChange="1" Maximum="110" Grid.Row="8" Grid.Column="1"/>
+                            <Label IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Content="{Binding Path=PlanktonAttractionStrength, Mode=OneWay}" Grid.Row="8" Grid.Column="2"/>
+                            <Label Content="Reach:" IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Grid.Row="9" Grid.Column="0"/>
+                            <Slider IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Value="{Binding Path=PlanktonAttractionReach, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="25" Grid.Row="9" Grid.Column="1"/>
+                            <Label IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Content="{Binding Path=PlanktonAttractionReach, Mode=OneWay}" Grid.Row="9" Grid.Column="2"/>
+                            <Label Content="Colour:" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="10" Grid.Column="0"/>
+                            <StackPanel IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Orientation="Horizontal" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2">
+                                <RadioButton Name="greenPlanktonRadioButton" Content="Green" CommandParameter="{StaticResource PlanktonGreenBrush}" IsChecked="True" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="whitePlanktonRadioButton" Content="White" CommandParameter="{StaticResource PlanktonWhiteBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="redPlanktonRadioButton" Content="Red" CommandParameter="{StaticResource PlanktonRedBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="transparentPlanktonRadioButton" Content="Amoeba" CommandParameter="{StaticResource PlanktonTransparentBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="gunkPlanktonRadioButton" Content="Gunk" CommandParameter="{StaticResource PlanktonGunkBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="performancePlanktonRadioButton" Content="Quick" CommandParameter="{StaticResource PlanktonPerformanceBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                            </StackPanel>
+                            <Grid IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Content="Random" IsChecked="{Binding Path=UseRandomElementFill, Mode=TwoWay}" Grid.Column="0"/>
+                                <CheckBox Name="originalColoursCheckBox" Content="Original" IsChecked="{Binding Path=GenerateRandomElementFill, Mode=TwoWay}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay}" Grid.Column="1"/>
+                                <CheckBox Name="originalMultipleColoursCheckBox" Content="Multiple" IsChecked="{Binding Path=GenerateMultipleRandomElementFill, Mode=TwoWay}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay}" Grid.Column="2"/>
+                                <CheckBox Content="Luminous" IsChecked="{Binding Path=GenerateRandomLuminousElementFill, Mode=TwoWay}" Grid.Column="3">
+                                    <CheckBox.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                            <Binding Path="GenerateRandomElementFill"  Mode="OneWay"/>
+                                            <Binding Path="UseRandomElementFill" Mode="OneWay"/>
+                                        </MultiBinding>
+                                    </CheckBox.IsEnabled>
+                                </CheckBox>
+                                <Button Content="Generate" Margin="3" Command="{StaticResource GenerateNewRandomColourPlanktonCommand}" Grid.Column="4">
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                            <Binding Path="GenerateRandomElementFill" Mode="OneWay"/>
+                                            <Binding Path="UseRandomElementFill" Mode="OneWay"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                </Button>
+                            </Grid>
+                            <Grid Grid.Row="12" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Content="Custom" IsChecked="{Binding Path=OverridePlanktonBrushWithCustom, Mode=TwoWay}" Grid.Column="0"/>
+                                <Border BorderThickness="1.5" CornerRadius="2" BorderBrush="White" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}" IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay}" Margin="3" Background="{StaticResource BackgroundBrush}" Grid.Column="1">
+                                    <Ellipse HorizontalAlignment="Stretch" VerticalAlignment="Stretch" StrokeThickness="0" Fill="{Binding Path=CustomPlanktonBrush, Mode=OneWay}" />
+                                </Border>
+                                <Button Content="Import from image file..." Margin="3" Command="{StaticResource ImportPlanktonBrushFromImageFileCommand}" IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay}" Grid.Column="2"/>
+                            </Grid>
+                            <Button Content="Regenerate (Ctrl+R)" Margin="3" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3" Command="{StaticResource RegenerateCommand}"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Bubbles" Visibility="{Binding Path=ShowBubblesTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Mouse size:" Grid.Row="0" Grid.Column="0"/>
+                            <Slider Name="bubbleSizeSlider" Value="{Binding Path=BubbleSize, Mode=TwoWay}" SmallChange="1" Minimum="3" Maximum="50" Grid.Row="0" Grid.Column="1"/>
+                            <Label Content="{Binding Path=BubbleSize, Mode=OneWay}" Grid.Row="0" Grid.Column="2"/>
+                            <Label Content="Buoyancy:" Grid.Row="1" Grid.Column="0"/>
+                            <Slider Name="childBubbleBuoyancySlider" Value="{Binding Path=ChildBubbleBuoyancy, Mode=TwoWay}" SmallChange="0.25" Ticks="-3.5, -3.25, -3, -2.75, -2.5, -2.25, -2, -1.75, -1.5, -1.25, -1, -0.75 -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5" Minimum="-3.5" Maximum="3.5" Grid.Row="1" Grid.Column="1"/>
+                            <Label Content="{Binding Path=ChildBubbleBuoyancy, Mode=OneWay}" Grid.Row="1" Grid.Column="2"/>
+                            <Label Content="Variation:" Grid.Row="2" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=ChildBubbleSizeVariation, Mode=TwoWay}" SmallChange="1" Minimum="0" Maximum="100" Grid.Row="2" Grid.Column="1"/>
+                            <Label Content="{Binding Path=ChildBubbleSizeVariation, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
+                            <CheckBox Content="Use child bubbles? (toggle with Ctrl+B, left mouse button generates manually)" IsChecked="{Binding Path=UseChildBubbles, Mode=TwoWay}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Rate:" IsEnabled="{Binding Path=UseChildBubbles, Mode=OneWay}" Grid.Row="4" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=ChildBubbleRate, Mode=TwoWay}" IsEnabled="{Binding Path=UseChildBubbles, Mode=OneWay}" SmallChange="1" Minimum="0" Maximum="100" Grid.Row="4" Grid.Column="1"/>
+                            <Label Content="{Binding Path=ChildBubbleRate, Mode=OneWay}" IsEnabled="{Binding Path=UseChildBubbles, Mode=OneWay}" Grid.Row="4" Grid.Column="2"/>
+                            <Button Content="Pop bubbles (Delete)" Margin="3" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Command="{StaticResource PopChildBubblesCommand}"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Water" Visibility="{Binding Path=ShowWaterTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Viscosity:" Grid.Row="0" Grid.Column="0"/>
+                            <Slider Name="viscositySlider" Value="{Binding Path=WaterViscosity, Mode=TwoWay}" SmallChange="0.01" Minimum="0.6" Maximum="1" Ticks="0.6, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.7, 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79, 0.8, 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99, 1" IsDirectionReversed="True" Grid.Row="0" Grid.Column="1"/>
+                            <Label Content="{Binding Path=WaterViscosity, Mode=OneWay, Converter={StaticResource doubleWaterViscosityConverter}}" Grid.Row="0" Grid.Column="2"/>
+                            <Label Content="Type:" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+                            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="IsForcedIntoTransparentMode" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                        <Binding Path="OverrideBackgroundBrushWithCustom" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                    </MultiBinding>
+                                    </Grid.IsEnabled>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Name="seaBackgroundRadioButton" Content="Sea" CommandParameter="{StaticResource BlueBlackBackgroundBrush}" IsChecked="True" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="0" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="pondBackgroundRadioButton" Content="Pond" CommandParameter="{StaticResource GreenBlueBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="1" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="darkBackgroundRadioButton" Content="Dark" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="2" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="lightBackgroundRadioButton" Content="Light" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="3" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="strangeBackgroundRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="4" Checked="backgroundBrushRadioButton_Checked"/>
+                                <CheckBox Content="Random" IsChecked="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=TwoWay}" Grid.Column="5"/>
+                                <Button Content="Generate" Margin="3" Command="{StaticResource GenerateNewRandomColourBackgroundCommand}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay}" Grid.Column="6"/>
+                            </Grid>
+                            <Grid IsEnabled="{Binding Path=IsForcedIntoTransparentMode, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Content="Custom" IsChecked="{Binding Path=OverrideBackgroundBrushWithCustom, Mode=TwoWay}" Grid.Column="0"/>
+                                <Border BorderThickness="1.5" CornerRadius="2" BorderBrush="White" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}" IsEnabled="{Binding Path=OverrideBackgroundBrushWithCustom, Mode=OneWay}" Margin="3" Background="{Binding Path=CustomBackgroundBrush, Mode=OneWay}" Grid.Column="1"/>
+                                <Button Content="Import from image file..." Margin="3" Command="{StaticResource ImportBackgroundBrushFromImageFileCommand}" IsEnabled="{Binding Path=OverrideBackgroundBrushWithCustom, Mode=OneWay}" Grid.Column="2"/>
+                            </Grid>
+                            <CheckBox Content="Use lighting effect?" IsChecked="{Binding Path=UseLightingEffect, Mode=TwoWay}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Strength:" IsEnabled="{Binding Path=UseLightingEffect, Mode=OneWay}" Grid.Row="4" Grid.Column="0"/>
+                            <Slider Name="lightingEffectStrengthSlider" Value="{Binding Path=LightingEffectStrength, Mode=TwoWay}" IsEnabled="{Binding Path=UseLightingEffect, Mode=OneWay}" SmallChange="0.05" Minimum="0.05" Maximum="1" TickFrequency="0.05" Ticks="0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1" Grid.Row="4" Grid.Column="1"/>
+                            <Label Content="{Binding Path=LightingEffectStrength, Mode=OneWay, Converter={StaticResource doubleRoundingConverter}, ConverterParameter=2}" IsEnabled="{Binding Path=UseLightingEffect, Mode=OneWay}" Grid.Row="4" Grid.Column="2"/>
+                            <Label Content="Speed:" IsEnabled="{Binding Path=UseLightingEffect, Mode=OneWay}" Grid.Row="5" Grid.Column="0"/>
+                            <Slider Name="lightingEffectSpeedRatioSlider" Value="{Binding Path=LightingEffectSpeedRatio, Mode=TwoWay}" IsEnabled="{Binding Path=UseLightingEffect, Mode=OneWay}" SmallChange="0.1" Minimum="0.01" Maximum="20" TickFrequency="0.1" Ticks="0.1, 0.2, 0.3, 0.4, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7,7.5, 8, 8.5, 9, 9.5, 10, 11, 12, 13, 14 15, 16, 17, 18, 19, 20" Grid.Row="5" Grid.Column="1"/>
+                            <Label Content="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource doubleRoundingConverter}, ConverterParameter=2}" IsEnabled="{Binding Path=UseLightingEffect, Mode=OneWay}" Grid.Row="5" Grid.Column="2"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Current" Visibility="{Binding Path=ShowCurrentTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Content="Use current? (Toggle with Ctrl+T)" IsChecked="{Binding Path=UseCurrent, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Show indicator? (Toggle with Ctrl+I)" IsChecked="{Binding Path=ShowCurrentIndicator, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Strength:" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="2" Grid.Column="0"/>
+                            <Slider Name="currentStrengthSlider" Value="{Binding Path=CurrentStrength, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" SmallChange="1" Minimum="1" Maximum="100" TickFrequency="1" Grid.Row="2" Grid.Column="1"/>
+                            <Label Content="{Binding Path=CurrentStrength, Mode=OneWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
+                            <Label Content="Variation:" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="3" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=CurrentVariation, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" SmallChange="1" Minimum="0" Maximum="100" Grid.Row="3" Grid.Column="1"/>
+                            <Label Content="{Binding Path=CurrentVariation, Mode=OneWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="3" Grid.Column="2"/>
+                            <Label Content="Rate:" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="4" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=CurrentRate, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" SmallChange="1" Minimum="0" Maximum="100" Grid.Row="4" Grid.Column="1"/>
+                            <Label Content="{Binding Path=CurrentRate, Mode=OneWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="4" Grid.Column="2"/>
+                            <Label Content="Type:" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}"  VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="0"/>
+                            <Grid IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Name="preMainUpCurrentModeRadioButton" Content="Multi-swell" Command="{StaticResource ChangeCurrentModeCommand}" IsChecked="True" Grid.Column="0">
+                                    <RadioButton.CommandParameter>
+                                        <classes1:ECurrentSwellStage>PreMainUp</classes1:ECurrentSwellStage>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton Name="mainUpCurrentModeRadioButton" Content="Single-swell" Command="{StaticResource ChangeCurrentModeCommand}" Grid.Column="1">
+                                    <RadioButton.CommandParameter>
+                                        <classes1:ECurrentSwellStage>MainUp</classes1:ECurrentSwellStage>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                            </Grid>
+                            <CheckBox Content="Use random direction?" IsChecked="{Binding Path=UseRandomCurrentDirection, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Direction:" Grid.Row="7" Grid.Column="0">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Slider Value="{Binding Path=CurrentDirection, Mode=TwoWay}" SmallChange="1" Minimum="0" Maximum="359" TickPlacement="None" Grid.Row="7" Grid.Column="1">
+                                <Slider.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                    </MultiBinding>
+                                </Slider.IsEnabled>
+                            </Slider>
+                            <Grid Width="30" Height="30" Grid.Row="7" Grid.Column="2">
+                                <Grid Width="30" Height="30">
+                                    <Grid.LayoutTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="{Binding Path=CurrentDirection, Mode=OneWay}"/>
+                                            <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+                                        </TransformGroup>
+                                    </Grid.LayoutTransform>
+                                    <Grid.Resources>
+                                        <Style TargetType="Path">
+                                            <Setter Property="StrokeThickness" Value="2"/>
+                                            <Setter Property="Fill" Value="White"/>
+                                            <Setter Property="Stroke" Value="White"/>
+                                            <Setter Property="IsEnabled">
+                                                <Setter.Value>
+                                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Fill" Value="Gray"/>
+                                                    <Setter Property="Stroke" Value="Gray"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Resources>
+                                    <Ellipse Name="currentDirectionEllipse" StrokeThickness="2">
+                                        <Ellipse.IsEnabled>
+                                            <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                                <Binding Path="UseCurrent" Mode="OneWay"/>
+                                                <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                            </MultiBinding>
+                                        </Ellipse.IsEnabled>
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Fill" Value="Black"/>
+                                                <Setter Property="Stroke" Value="White"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Stroke" Value="Gray"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <Path Data="m2,15 l13,-13 l13,13 z"/>
+                                </Grid>
+                            </Grid>
+                            <CheckBox Content="Ignore water viscosity?" IsChecked="{Binding Path=IgnoreWaterViscosityWhenGeneratingCurrent, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Acceleration:" Grid.Row="9" Grid.Column="0">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="IgnoreWaterViscosityWhenGeneratingCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Slider Name="currentAccelerationSlider" Value="{Binding Path=CurrentAcceleration, Mode=TwoWay}" SmallChange="0.01" Minimum="0.6" Maximum="1" Ticks="0.6, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.7, 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79, 0.8, 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99, 1" IsDirectionReversed="True" Grid.Row="9" Grid.Column="1">
+                                <Slider.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="IgnoreWaterViscosityWhenGeneratingCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Slider.IsEnabled>
+                            </Slider>
+                            <Label Content="{Binding Path=CurrentAcceleration, Mode=OneWay, Converter={StaticResource doubleWaterViscosityConverter}}" Grid.Row="9" Grid.Column="2">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="IgnoreWaterViscosityWhenGeneratingCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Label Content="Deceleration:" Grid.Row="10" Grid.Column="0">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="IgnoreWaterViscosityWhenGeneratingCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Slider Name="currentDecelerationSlider" Value="{Binding Path=CurrentDeceleration, Mode=TwoWay}" SmallChange="0.01" Minimum="0.6" Maximum="1" Ticks="0.6, 0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.7, 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79, 0.8, 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99, 1" IsDirectionReversed="True" Grid.Row="10" Grid.Column="1">
+                                <Slider.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="IgnoreWaterViscosityWhenGeneratingCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Slider.IsEnabled>
+                            </Slider>
+                            <Label Content="{Binding Path=CurrentDeceleration, Mode=OneWay, Converter={StaticResource doubleWaterViscosityConverter}}" Grid.Row="10" Grid.Column="2">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="IgnoreWaterViscosityWhenGeneratingCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <CheckBox Content="Use 3D current?" IsChecked="{Binding Path=UseZOnCurrent, Mode=TwoWay}" IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Strength:" Grid.Row="12" Grid.Column="0">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseZOnCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Slider Name="currentZStrengthSlider" Value="{Binding Path=CurrentZStep, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="100" TickFrequency="1" Grid.Row="12" Grid.Column="1">
+                                <Slider.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseZOnCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Slider.IsEnabled>
+                            </Slider>
+                            <Label Content="{Binding Path=CurrentZStep, Mode=OneWay}" Grid.Row="12" Grid.Column="2">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseZOnCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Label Content="Variation:" Grid.Row="13" Grid.Column="0">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseZOnCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Slider Value="{Binding Path=CurrentZStepVariation, Mode=TwoWay}" SmallChange="1" Minimum="0" Maximum="100" TickFrequency="1" Grid.Row="13" Grid.Column="1">
+                                <Slider.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseZOnCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Slider.IsEnabled>
+                            </Slider>
+                            <Label Content="{Binding Path=CurrentZStepVariation, Mode=OneWay}" Grid.Row="13" Grid.Column="2">
+                                <Label.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseCurrent" Mode="OneWay"/>
+                                        <Binding Path="UseZOnCurrent" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Label.IsEnabled>
+                            </Label>
+                            <Button IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Command="{StaticResource TriggerCurrentCommand}" Content="Trigger (Ctrl+Y)" Margin="3" Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Mass" Visibility="{Binding Path=ShowMassTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Density:" Grid.Row="0" Grid.Column="0"/>
+                            <Slider Name="densitySlider" Value="{Binding Path=Density, Mode=TwoWay}" SmallChange="0.1" Minimum="0.01" Maximum="10" Ticks="0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.5, 4, 4.5, 5, 5.5, 61, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10" IsSnapToTickEnabled="True" Grid.Row="0" Grid.Column="1"/>
+                            <Label Content="{Binding Path=Density, Mode=OneWay, Converter={StaticResource doubleRoundingConverter}, ConverterParameter=2}" Grid.Row="0" Grid.Column="2"/>
+                            <CheckBox Content="Use gravity?" IsChecked="{Binding Path=UseGravity, Mode=TwoWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Sea Bed" Visibility="{Binding Path=ShowSeaBedTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Content="Use sea bed? (can cause slow-down)" IsChecked="{Binding Path=UseSeaBed, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Smoothness:" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="1" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=SeaBedSmoothness, Mode=TwoWay}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" SmallChange="1" Minimum="1" Maximum="100" Grid.Row="1" Grid.Column="1"/>
+                            <Label Content="{Binding Path=SeaBedSmoothness, Mode=OneWay}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="1" Grid.Column="2"/>
+                            <Label Content="Incline:" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="2" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=SeaBedMaxIncline, Mode=TwoWay}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" SmallChange="1" Minimum="1" Maximum="50" Grid.Row="2" Grid.Column="1"/>
+                            <Label Content="{Binding Path=SeaBedMaxIncline, Mode=OneWay}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
+                            <Label Content="Segments:" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="3" Grid.Column="0"/>
+                            <StackPanel Orientation="Horizontal" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+                                <CheckBox Name="lineCheckBox" Content="Line" IsChecked="{Binding Path=UseLineSegmentsInSeaBedPath, Mode=TwoWay}" Unchecked="lineCheckBox_Unchecked"/>
+                                <CheckBox Name="arcCheckBox" Content="Arc" IsChecked="{Binding Path=UseArcSegmentsInSeaBedPath, Mode=TwoWay}" Unchecked="arcCheckBox_Unchecked"/>
+                            </StackPanel>
+                            <Label Content="Type:" VerticalAlignment="Center" VerticalContentAlignment="Center" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="4" Grid.Column="0"/>
+                            <Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseSeaBed" Mode="OneWay"/>
+                                        <Binding Path="OverrideSeaBedBrushWithCustom" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton Name="rockSeaBedRadioButton" Content="Rock" CommandParameter="{StaticResource GraySeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" IsChecked="True" Grid.Column="0" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="sandSeaBedRadioButton" Content="Sand" CommandParameter="{StaticResource BrownSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="1" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="slateSeaBedRadioButton" Content="Slate" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="2" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="iceSeaBedRadioButton" Content="Ice" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="3" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="strangeSeaBedRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="4" Checked="seaBedRadioButton_Checked"/>
+                                <CheckBox Content="Random" IsChecked="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=TwoWay}" Grid.Column="5"/>
+                                <Button Content="Generate" Margin="3" Command="{StaticResource GenerateNewRandomColourSeaBedCommand}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay}" Grid.Column="6"/>
+                            </Grid>
+                            <Grid IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Content="Custom" IsChecked="{Binding Path=OverrideSeaBedBrushWithCustom, Mode=TwoWay}" Grid.Column="0"/>
+                                <Border BorderThickness="1.5" CornerRadius="2" BorderBrush="White" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}" IsEnabled="{Binding Path=OverrideSeaBedBrushWithCustom, Mode=OneWay}" Margin="3" Background="{Binding Path=CustomSeaBedBrush, Mode=OneWay}" Grid.Column="1"/>
+                                <Button Content="Import from image file..." Margin="3" Command="{StaticResource ImportSeaBedBrushFromImageFileCommand}" IsEnabled="{Binding Path=OverrideSeaBedBrushWithCustom, Mode=OneWay}" Grid.Column="2"/>
+                                <Button Content="Generate Texture..." Margin="3" Command="{StaticResource GenerateSeaBedTextureCommand}" IsEnabled="{Binding Path=OverrideSeaBedBrushWithCustom, Mode=OneWay}" Grid.Column="3"/>
+                            </Grid>
+                            <Button Command="{StaticResource GenerateGeometryCommand}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Content="Generate Geometry (Ctrl+G)" Margin="3" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Geometry:" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" VerticalContentAlignment="Center" Grid.Row="7" Grid.Column="0"/>
+                            <Grid Grid.Row="7" Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding Path=LastSeaBedGeometry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" VerticalContentAlignment="Center">
+                                    <TextBox.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Name="copySeaBedGeometryToClipBoardMenuItem" Header="Copy" Click="copySeaBedGeometryToClipBoardMenuItem_Click"/>
+                                            <Separator/>
+                                            <MenuItem Name="pasteSeaBedGeometryToClipBoardMenuItem" Header="Paste" Click="pasteSeaBedGeometryToClipBoardMenuItem_Click"/>
+                                        </ContextMenu>
+                                    </TextBox.ContextMenu>
+                                </TextBox>
+                                <Button IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Command="{StaticResource GenerateGeometryFromStringCommand}" Content="OK" Margin="3" Grid.Column="1"/>
+                            </Grid>
+                            <Button IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Command="{StaticResource GenerateGeometryRealtimeCommand}" Margin="3" Grid.Row="7" Grid.Column="2">
+                                <Button.Content>
+                                    <Image Source="/Images/Buttons/PenWhiteTrans.png" Margin="-2"/>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Preview" Visibility="{Binding Path=ShowPreviewTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Content="Use zoom preview? (toggle with Ctrl+P)" IsChecked="{Binding Path=UseZoomPreview, Mode=TwoWay}" Grid.Row="0" Grid.ColumnSpan="3"/>
+                            <Label Content="Size:" IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" Grid.Row="1" Grid.Column="0"/>
+                            <Slider Value="{Binding Path=ZoomPreviewSize, Mode=TwoWay}" IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" SmallChange="10" Minimum="50" Maximum="{Binding ElementName=areaCanvas, Path=ActualHeight, Mode=OneWay, Converter={StaticResource zoomPreviewMaxHeightConverter}}" TickFrequency="10" Grid.Row="1" Grid.Column="1"/>
+                            <Label Content="{Binding Path=ZoomPreviewSize, Mode=OneWay}" IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" Grid.Row="1" Grid.Column="2"/>
+                            <Grid IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Show locator:" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="0"/>
+                                <RadioButton Name="locatorNeverRadioButton" Content="Never" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="0" Grid.Column="1">
+                                    <RadioButton.CommandParameter>
+                                        <classes:ZoomPreviewLocatorMode>Never</classes:ZoomPreviewLocatorMode>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton Name="locatorAlwaysRadioButton" Content="Always" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="0" Grid.Column="2">
+                                    <RadioButton.CommandParameter>
+                                        <classes:ZoomPreviewLocatorMode>Always</classes:ZoomPreviewLocatorMode>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton Name="locatorMainBubbleRadioButton" Content="Mouse bubble" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="0" Grid.Column="3">
+                                    <RadioButton.CommandParameter>
+                                        <classes:ZoomPreviewLocatorMode>OnlyMainBubble</classes:ZoomPreviewLocatorMode>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton Name="locatorPlanktonRadioButton" Content="Plankton" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="0" Grid.Column="4">
+                                    <RadioButton.CommandParameter>
+                                        <classes:ZoomPreviewLocatorMode>OnlyPlankton</classes:ZoomPreviewLocatorMode>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton Name="locatorAnythingButPlanktonRadioButton" Content="All bubbles" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="1" Grid.Column="1">
+                                    <RadioButton.CommandParameter>
+                                        <classes:ZoomPreviewLocatorMode>AnythingButPlankton</classes:ZoomPreviewLocatorMode>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton Name="locatorBubblesRadioButton" Content="Child bubbles" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="1" Grid.Column="2">
+                                    <RadioButton.CommandParameter>
+                                        <classes:ZoomPreviewLocatorMode>OnlyChildBubbles</classes:ZoomPreviewLocatorMode>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                                <RadioButton Name="locatorPlanktonAndBubblesRadioButton" Content="Plankon &amp; child bubbles" IsChecked="True" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2">
+                                    <RadioButton.CommandParameter>
+                                        <classes:ZoomPreviewLocatorMode>AnythingButMainBubble</classes:ZoomPreviewLocatorMode>
+                                    </RadioButton.CommandParameter>
+                                </RadioButton>
+                            </Grid>
+                            <CheckBox Content="If mouse is out of bounds focus on the next interesting element?" IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" IsChecked="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=TwoWay}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Use auto pan?" IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" IsChecked="{Binding Path=UseAutoPanOnZoomPreview, Mode=TwoWay}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3">
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseZoomPreview" Mode="OneWay"/>
+                                        <Binding Path="UseAutoPanOnZoomPreview" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Grid.IsEnabled>    
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Min zoom:" Grid.Row="0" Grid.Column="0"/>
+                                <Slider Value="{Binding Path=MinimumZoom, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="5" Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="{Binding Path=MinimumZoom, Mode=OneWay}" Grid.Row="0" Grid.Column="2"/>
+                                <Label Content="Max zoom:" Grid.Row="1" Grid.Column="0"/>
+                                <Slider Value="{Binding Path=MaximumZoom, Mode=TwoWay}" Minimum="{Binding Path=MinimumZoom, Mode=OneWay}" SmallChange="1" Maximum="10" Grid.Row="1" Grid.Column="1"/>
+                                <Label Content="{Binding Path=MaximumZoom, Mode=OneWay}" Grid.Row="1" Grid.Column="2"/>
+                                <Label Content="Speed:" IsEnabled="{Binding Path=UseAutoPanOnZoomPreview, Mode=OneWay}" Grid.Row="2" Grid.Column="0"/>
+                                <Slider Value="{Binding Path=AutoPanSpeed, Mode=TwoWay}" SmallChange="0.001" Minimum="0.001" Maximum="0.02" Ticks="0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.007, 0.008, 0.009, 0.01, 0.011, 0.012, 0.013, 0.014, 0.015, 0.016, 0.017, 0.018, 0.019 0.02" Grid.Row="2" Grid.Column="1"/>
+                                <Label Content="{Binding Path=AutoPanSpeed, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
+                                <Label Content="Sensitivity:" Grid.Row="3" Grid.Column="0"/>
+                                <Slider Name="zoomSensitivitySlider" Value="{Binding Path=AutoPanSensitivity, Mode=TwoWay}" SmallChange="0.1" Minimum="0.5" Maximum="1.5" Ticks="0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5" Grid.Row="3" Grid.Column="1"/>
+                                <Label Content="{Binding Path=AutoPanSensitivity, Mode=OneWay}" Grid.Row="3" Grid.Column="2"/>
+                            </Grid>
+                            <CheckBox Content="Use motion blur?" IsEnabled="{Binding Path=UseZoomPreview, Mode=OneWay}" IsChecked="{Binding Path=UseZoomPreviewBlurEffect, Mode=TwoWay}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Grid  Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3">
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
+                                        <Binding Path="UseZoomPreview" Mode="OneWay"/>
+                                        <Binding Path="UseZoomPreviewBlurEffect" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Max blur:" Grid.Row="0" Grid.Column="0"/>
+                                <Slider Value="{Binding Path=MaximumZoomPreviewBlur, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="15" Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="{Binding Path=MaximumZoomPreviewBlur, Mode=OneWay}" Grid.Row="0" Grid.Column="2"/>
+                                <Label Content="Strength:" Grid.Row="1" Grid.Column="0"/>
+                                <Slider Value="{Binding Path=ZoomPreviewBlurStrength, Mode=TwoWay}" Minimum="1" SmallChange="1" Maximum="10" Grid.Row="1" Grid.Column="1"/>
+                                <Label Content="{Binding Path=ZoomPreviewBlurStrength, Mode=OneWay}" Grid.Row="1" Grid.Column="2"/>
+                                <Label Content="Correction:" Grid.Row="2" Grid.Column="0"/>
+                                <Slider Value="{Binding Path=ZoomPreviewBlurCorrection, Mode=TwoWay}" SmallChange="0.05" Minimum="0.05" Maximum="1" Ticks="0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1" Grid.Row="2" Grid.Column="1"/>
+                                <Label Content="{Binding Path=ZoomPreviewBlurCorrection, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
+                            </Grid>
+                            <Button Command="{StaticResource DefaultZoomCommand}" Content="Default" Margin="3" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Save/Load" Visibility="{Binding Path=ShowSaveLoadTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Button Content="Save current settings to an xml file (Ctrl+S)" Command="{StaticResource SaveCommand}" Margin="3" Grid.Row="0"/>
+                            <Button Content="Load settings from an xml file (Crtl+O)" Command="{StaticResource LoadCommand}" Margin="3" Grid.Row="1"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Other" Visibility="{Binding Path=ShowOtherTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Last refresh time (ms):" Grid.Row="0" Grid.Column="0"/>
+                            <Label Content="{Binding Path=LastRefreshTime, Mode=OneWay}" Grid.Row="0" Grid.Column="1"/>
+                            <Label Content="Child bubbles active during last refresh:" Grid.Row="1" Grid.Column="0"/>
+                            <Label Content="{Binding Path=ActiveChildBubbles, Mode=OneWay}" Grid.Row="1" Grid.Column="1"/>
+                            <Label Content="Collisions with main bubble during last refresh:" Grid.Row="2" Grid.Column="0"/>
+                            <Label Content="{Binding Path=MainBubbleCollisionsThisUpdate, Mode=OneWay}" Grid.Row="2" Grid.Column="1"/>
+                            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="{StaticResource titleWidth}"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="{StaticResource valueWidth}"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Refresh (ms):" Grid.Row="0" Grid.Column="0"/>
+                                    <Slider Name="refreshSlider" Value="{Binding Path=RefreshTime, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="100" Ticks="1, 2, 3, 4, 5, 10, 20, 30, 40, 50, 100" Grid.Row="0" Grid.Column="1"/>
+                                    <Label Content="{Binding Path=RefreshTime, Mode=OneWay}" Grid.Row="0" Grid.Column="2"/>
+                                </Grid>
+                            </Grid>
+                            <CheckBox Content="Pause" IsChecked="{Binding Path=IsPaused, Mode=TwoWay}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Use processor efficient values when randomly generating settings?" IsChecked="{Binding Path=UseEfficientValuesWhenRandomGenerating, Mode=TwoWay}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Maintain standard physics when randomly generating settings?" IsChecked="{Binding Path=MaintainStandardPhysicsWhenRandomGeneratingSettings, Mode=TwoWay}" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Use only standard brushes when randomly generating settings?" IsChecked="{Binding Path=UseOnlyStandardBrushesWhenRandomGenerating, Mode=TwoWay}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Use smoother mouse updating? (Can cause slow-down)" IsChecked="{Binding Path=UseSmoothMousePositionUpdating, Mode=TwoWay}" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Use animation? (Can cause slow-down)" IsChecked="{Binding Path=UseAnimation, Mode=TwoWay}" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <CheckBox Content="Full-screen mode? (Ctrl+F to enter, Escape to exit)" IsChecked="{Binding Path=IsInFullScreenMode, Mode=TwoWay}" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Button Content="Default" Command="{StaticResource DefaultOptionsCommand}" Margin="3" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3"/>
+                            <Button Content="Move Options To External Window (Ctrl+E)" IsEnabled="{Binding Path=IsOptionsBreakoutViable, Mode=OneWay}" Command="{StaticResource BreakoutOptionsToExternalWindowCommand}" Margin="3" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="About" Visibility="{Binding Path=ShowAboutTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30*" MaxWidth="120"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="30*" MaxWidth="120"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="/Images/Plankton.png" Margin="6" Grid.Row="0" Grid.RowSpan="6"/>
+                            <Label Content="Plankton" FontSize="18" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+                            <Label Content="{Binding Path=Version, Mode=OneWay}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+                            <TextBlock Text="Developed by Ben Pollard, October 30th 2013 - October 21st 2015" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+                            <Label Content="Released by 0xd FX" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
+                            <Label Name="websiteLabel" Cursor="Hand" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1" MouseDown="websiteLabel_MouseDown">
+                                <Label.Content>
+                                    <Underline>Check for updates/visit website</Underline>
+                                </Label.Content>
+                            </Label>
+                            <Label Name="feedbackLabel" Cursor="Hand" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1" MouseDown="feedbackLabel_MouseDown">
+                                <Label.Content>
+                                    <Underline>Send feedback</Underline>
+                                </Label.Content>
+                            </Label>
+                            <Image Source="/Images/0xdFXLogo.png" Margin="6" Grid.Row="0" Grid.Column="2" Grid.RowSpan="6"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Expander>
+    </Grid>
+</UserControl>
