@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace BP.Plankton.Model
+namespace BP.Plankton.Model.Rendering
 {
     /// <summary>
     /// Provides a class for hosting MoveableElements.

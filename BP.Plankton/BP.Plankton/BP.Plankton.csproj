@@ -84,8 +84,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\MathHelper.cs" />
-    <Compile Include="Model\VisualGeneration.cs" />
+    <Compile Include="Model\Logic\MainLoop.cs" />
+    <Compile Include="Model\Logic\MathHelper.cs" />
+    <Compile Include="Model\Logic\VisualGeneration.cs" />
     <Compile Include="Model\Currents\CurrentSwellStage.cs" />
     <Compile Include="Model\Settings\QuickSetting.cs" />
     <Compile Include="Model\ZoomPreviewLocaterMode.cs" />
@@ -152,7 +153,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Currents\Current.cs" />
-    <Compile Include="Model\MoveableElementsHost.cs" />
+    <Compile Include="Model\Rendering\MoveableElementsHost.cs" />
     <Compile Include="Model\Interop\WindowsInterop.cs" />
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\BooleanToVisibiltyConverter.cs" />
@@ -175,7 +176,7 @@
     <Compile Include="Controls\PlanktonControl.xaml.cs">
       <DependentUpon>PlanktonControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\MoveableElement.cs" />
+    <Compile Include="Model\Rendering\MoveableElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

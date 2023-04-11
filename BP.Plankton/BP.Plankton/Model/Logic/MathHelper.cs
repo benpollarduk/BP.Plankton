@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 
-namespace BP.Plankton.Model
+namespace BP.Plankton.Model.Logic
 {
     /// <summary>
     /// Provides helper functionality for math functions.

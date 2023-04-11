@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace BP.Plankton.Model
+namespace BP.Plankton.Model.Rendering
 {
     /// <summary>
     /// Represents a moveable element.

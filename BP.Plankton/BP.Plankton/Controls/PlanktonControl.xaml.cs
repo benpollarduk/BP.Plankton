@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -19,6 +17,8 @@ using BP.Plankton.Converters;
 using BP.Plankton.Model;
 using BP.Plankton.Model.Currents;
 using BP.Plankton.Model.Interop;
+using BP.Plankton.Model.Logic;
+using BP.Plankton.Model.Rendering;
 using BP.Plankton.Model.Settings;
 using BP.Plankton.Windows;
 using Microsoft.Win32;
@@ -42,26 +42,26 @@ namespace BP.Plankton.Controls
         private Point previousMousePoint = new Point(0, 0);
         private Point currentMousePoint = new Point(0, 0);
         private Vector mouseVector;
-        private double zoomPreviewFactor;
-        private Vector3D zoomPreviewVector = new Vector3D(0, 0, 0);
-        private Pen seaBedPen;
-        private PathGeometry seaBedGeometry;
+        public double ZoomPreviewFactor { get; set; }
+        public Vector3D ZoomPreviewVector { get; set; } = new Vector3D(0, 0, 0);
+        public Pen SeaBedPen { get; set; }
+        public PathGeometry SeaBedGeometry { get; private set; }
         private bool isHandlingMousePositionUpdate;
         private bool hasResizeProcessBeenRequested;
         private Size newestSizeRenderRequest;
-        private MoveableElement bubble;
-        private readonly Pen bubblePen;
+        public MoveableElement Bubble { get; set; }
+        public Pen BubblePen { get; set; }
         private MoveableElement zoomPreviewFocusedPlankton;
-        private double currentZAdjustemnt;
+        public double CurrentZAdjustemnt { get; set; }
         private Brush[] lastGeneratedPlanktonBrushes;
         private Brush lastGeneratedSeaBedBrush;
         private Brush lastGeneratedBackgroundBrush;
         private bool preventRegenerationOfPlanktonOnColourChange = true;
-        private double nextZoomPreviewBlurRadius;
+        public double NextZoomPreviewBlurRadius { get; set; }
         private Point lastZoomPreviewVisualLocation = new Point(0, 0);
-        private readonly List<MoveableElement> plankton = new List<MoveableElement>();
-        private readonly Dictionary<MoveableElement, bool> childBubbles = new Dictionary<MoveableElement, bool>();
-        private readonly Queue<int> bubbleCollisionHistory = new Queue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+        public List<MoveableElement> Plankton { get; set; } = new List<MoveableElement>();
+        public readonly Dictionary<MoveableElement, bool> ChildBubbles = new Dictionary<MoveableElement, bool>();
+        public readonly Queue<int> BubbleCollisionHistory = new Queue<int>(new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
         #endregion
 
@@ -109,7 +109,7 @@ namespace BP.Plankton.Controls
         public bool IsUpdating
         {
             get { return (bool)GetValue(IsUpdatingProperty); }
-            protected set { SetValue(IsUpdatingProperty, value); }
+            internal set { SetValue(IsUpdatingProperty, value); }
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace BP.Plankton.Controls
         public int LastRefreshTime
         {
             get { return (int)GetValue(LastRefreshTimeProperty); }
-            private set { SetValue(LastRefreshTimeProperty, value); }
+            internal set { SetValue(LastRefreshTimeProperty, value); }
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace BP.Plankton.Controls
         public int ActiveChildBubbles
         {
             get { return (int)GetValue(ActiveChildBubblesProperty); }
-            private set { SetValue(ActiveChildBubblesProperty, value); }
+            internal set { SetValue(ActiveChildBubblesProperty, value); }
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace BP.Plankton.Controls
         public int MainBubbleCollisionsThisUpdate
         {
             get { return (int)GetValue(MainBubbleCollisionsThisUpdateProperty); }
-            private set { SetValue(MainBubbleCollisionsThisUpdateProperty, value); }
+            internal set { SetValue(MainBubbleCollisionsThisUpdateProperty, value); }
         }
 
         /// <summary>
@@ -815,21 +815,21 @@ namespace BP.Plankton.Controls
         }
 
         /// <summary>
-        /// Get if there is an active current. This is a dependency property.
+        /// Get or set if there is an active current. This is a dependency property.
         /// </summary>
         public bool IsCurrentActive
         {
             get { return (bool)GetValue(IsCurrentActiveProperty); }
-            protected set { SetValue(IsCurrentActiveProperty, value); }
+            set { SetValue(IsCurrentActiveProperty, value); }
         }
 
         /// <summary>
-        /// Get the direction of the active current. This is a dependency property.
+        /// Get or set the direction of the active current. This is a dependency property.
         /// </summary>
         public double ActiveCurrentDirection
         {
             get { return (double)GetValue(ActiveCurrentDirectionProperty); }
-            protected set { SetValue(ActiveCurrentDirectionProperty, value); }
+            set { SetValue(ActiveCurrentDirectionProperty, value); }
         }
 
         /// <summary>
@@ -1526,9 +1526,9 @@ namespace BP.Plankton.Controls
             Resources["SeaBedBrush"] = FindResource("GraySeaBedBrush") as Brush;
 
             Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            zoomPreviewFactor = MaximumZoom;
+            ZoomPreviewFactor = MaximumZoom;
             var bubbleStroke = new SolidColorBrush(Color.FromArgb(165, Colors.SteelBlue.R, Colors.SteelBlue.G, Colors.SteelBlue.B));
-            bubblePen = new Pen(bubbleStroke, 0d);
+            BubblePen = new Pen(bubbleStroke, 0d);
         }
 
         #endregion
@@ -1562,7 +1562,7 @@ namespace BP.Plankton.Controls
                 if (Math.Abs(elementsVariation) > 0.0)
                     variation = RandomGenerator.Next(0, elementsVariation);
 
-                plankton.Add(MoveableElement.Create(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), elementDiameter / 2d - elementDiameter / 200d * variation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
+                Plankton.Add(MoveableElement.Create(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), elementDiameter / 2d - elementDiameter / 200d * variation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
             }
         }
 
@@ -1577,8 +1577,8 @@ namespace BP.Plankton.Controls
                 update = null;
             }
 
-            plankton.Clear();
-            childBubbles.Clear();
+            Plankton.Clear();
+            ChildBubbles.Clear();
             ElementHost.RemoveAllDrawingVisuals();
         }
 
@@ -1712,21 +1712,10 @@ namespace BP.Plankton.Controls
         }
 
         /// <summary>
-        /// Update a rectangle to border the perimeter of a FrameworkElement.
-        /// </summary>
-        /// <param name="rectangle">The rectangle to update.</param>
-        /// <param name="element">The FrameworkElement to update the rectangle property to.</param>
-        private void UpdateRectangle(ref Rect rectangle, Geometry element)
-        {
-            // set bounds
-            rectangle = element.Bounds;
-        }
-
-        /// <summary>
         /// Regenerate all elements with the current settings.
         /// </summary>
         /// <param name="maintainAnyGeneratedBrushes">Specify if any currently generated brushes ar maintained.</param>
-        private void RegenerateWithCurrentSettings(bool maintainAnyGeneratedBrushes)
+        public void RegenerateWithCurrentSettings(bool maintainAnyGeneratedBrushes)
         {
             ClearAllCurrentObjects();
 
@@ -1736,12 +1725,12 @@ namespace BP.Plankton.Controls
                 MinimumZAdjustment = -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d
             };
 
-            currentZAdjustemnt = 0.0d;
+            CurrentZAdjustemnt = 0.0d;
 
             var area = ElementHost;
 
             if (!area.IsMouseOver)
-                bubble = null;
+                Bubble = null;
 
             lastGeneratedPlanktonBrushes = GetPlanktonBrushesFromCurrentSettings(maintainAnyGeneratedBrushes);
 
@@ -1773,588 +1762,9 @@ namespace BP.Plankton.Controls
             var space = new Size(area.ActualWidth, Math.Max(0d, area.ActualHeight - seaBedBounds.Height));
             var radius = Math.Min(ElementsSize / 2d, Math.Min(space.Height, space.Width));
             Populate(Elements, ElementsSize, (int)ElementsSizeVariation, Travel / 10d, (int)radius, Math.Max((int)(area.ActualWidth - radius), (int)radius), (int)radius, Math.Max((int)(space.Height - radius), (int)radius), lastGeneratedPlanktonBrushes);
-            var planktonElements = Elements;
-            int currentBubbleElements;
-            MoveableElement planktonElement;
-            MoveableElement bubbleElement;
-            bool useSeaBed;
-            bool usePlanktonAttraction;
-            bool invertPlanktonAttraction;
-            bool planktonAttractToChildBubbles;
-            double planktonAttractionStrength;
-            double planktonAttractionReach;
-            Vector planktonVector;
-            Point mousePosition;
-            var bubbleElementRectangle = new Rect();
-            var planktonElementRectangle = new Rect();
-            double actualTravel;
-            int mainBubbleCollisions;
-            double childBubbleBuoyancy;
-            double currentZoom;
-            double linearDecelerationValue;
-            MoveableElement closestBubble;
-            double closestBubbleProximity;
-            double bubbleProximity;
-            bool usePreview;
-            bool useAutoPan;
-            double maxAutoPanZoom;
-            double minAutoPanZoom;
-            double autoPanSpeed;
-            double autoPanSensitity;
-            double planktonLife;
-            var seaBedHeight = seaBedGeometry?.Bounds.Height ?? 0d;
-            Vector originalVectorOfPlanktonElement;
-            double areaHeight;
-            double areaWidth;
-            var bubbleBrush = FindResource("BubbleBrush") as Brush;
-            DrawingVisual planktonHostVisual;
-            DrawingVisual bubbleHostVisual;
-            DrawingVisual mainBubbleHostVisual = null;
-            var centerPointOfElement = new Point(0, 0);
-            var lastRenderdPlankton = 0;
-            var lastRenderedBubbleElements = 0;
-            var lastMainBubbleState = false;
-            Point focusPointForPreview;
-            var forceBubbleRerender = false;
-            var slowestRefresh = RefreshSlider.Maximum;
-            Geometry seaBed;
-            var consecutiveUpdateFails = 0;
-            var useCurrent = false;
-            double currentRate;
-            Current current;
-            bool useCurrentChanged;
-            bool showLocaterLine;
-            bool useZOnCurrent;
-            CurrentSwellStage currentMode;
-            bool useZoomPreviewBlurEffect;
-            BlurEffect blurEffect;
-            var zoomPreviewBlurCorrectionFactor = 0.0d;
-            bool useGravity;
-            double density;
-            double massOfPlanktonElement;
-            double effectOfMassOfPlanktonElement;
-            double maxElementMass;
-            double maxBubbleSize;
-            double normalisedMassComparedToBiggest;
-            double normalisedBubbleSizeComparedToBiggest;
-            bool strokeContainsElement;
-            bool fillContainsElement;
-
+            
             // define update callback for timer
-            EventHandler updateCallback = (s, args) =>
-            {
-                // if not updating already - too many elements on a slow processor could lock up if this is called too frequently
-                if (IsUpdating)
-                    return;
-                
-                var startTime = Environment.TickCount;
-                IsUpdating = true;
-                mousePosition = Mouse.GetPosition(area);
-                actualTravel = Travel / 10d;
-                mainBubbleCollisions = 0;
-                childBubbleBuoyancy = ChildBubbleBuoyancy * WaterViscosity;
-                currentZoom = zoomPreviewFactor;
-                useSeaBed = seaBedGeometry != null && UseSeaBed;
-                usePlanktonAttraction = UsePlanktonAttraction;
-                invertPlanktonAttraction = InvertPlanktonAttraction;
-                planktonAttractToChildBubbles = PlanktonAttractToChildBubbles;
-                planktonAttractionStrength = PlanktonAttractionStrength / 10d;
-                planktonAttractionReach = PlanktonAttractionReach;
-                linearDecelerationValue = WaterViscosity;
-                usePreview = UseZoomPreview;
-                useAutoPan = UseAutoPanOnZoomPreview;
-                maxAutoPanZoom = MaximumZoom;
-                minAutoPanZoom = MinimumZoom;
-                autoPanSpeed = AutoPanSpeed;
-                autoPanSensitity = ZoomSensitivitySlider.Maximum + ZoomSensitivitySlider.Minimum - AutoPanSensitivity;
-                planktonLife = Life;
-                areaHeight = area.ActualHeight;
-                areaWidth = area.ActualWidth;
-                seaBed = seaBedGeometry;
-                useCurrentChanged = UseCurrent != useCurrent;
-                useCurrent = UseCurrent;
-                currentRate = CurrentRate;
-                current = ActiveCurrent;
-                useZOnCurrent = UseZOnCurrent;
-                currentMode = CurrentMode;
-                useZoomPreviewBlurEffect = UseZoomPreviewBlurEffect;
-
-                if (useZoomPreviewBlurEffect)
-                {
-                    blurEffect = PreviewAreaPresenter.Effect as BlurEffect;
-                    zoomPreviewBlurCorrectionFactor = ZoomPreviewBlurCorrection;
-                }
-                else
-                {
-                    blurEffect = null;
-                }
-
-                useGravity = UseGravity;
-                density = Density;
-                maxElementMass = ElementsSize * Math.PI * Density;
-                maxBubbleSize = BubbleSize * Math.PI;
-
-                if (useCurrent && !current.IsActive && RandomGenerator.Next(0, 1000) < currentRate)
-                {
-                    // set random current direction - just use between 20-160, and 200-340 to avoid annoying currents
-                    current.Direction = UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection;
-                    ActiveCurrentDirection = Math.Round(current.Direction, 0d);
-                    current.Strength = CurrentStrength - CurrentStrength / 100d * RandomGenerator.Next(0, (int)CurrentVariation);
-                    current.Deceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentDeceleration : linearDecelerationValue;
-                    current.Acceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentAcceleration : linearDecelerationValue;
-                    current.ZAdjustmentPerStep = useZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, current.MaximumZAdjustment, current.MinimumZAdjustment, currentZAdjustemnt, RandomGenerator) : 0.0d;
-                    current.Start(currentMode);
-                    IsCurrentActive = true;
-                }
-                else if (useCurrent && current.IsActive)
-                {
-                    current.IncrementToNextStep();
-
-                    if (ShowCurrentIndicator)
-                    {
-                        if (!UseAnimation)
-                        {
-                            CurrentIndicatorMasterGrid.Opacity = 1;
-                        }
-                        else
-                        {
-                            var strength = 1d / 100d * ActiveCurrent.GetCurrentStrengthOfTotalStrength();
-                            CurrentIndicatorMasterGrid.Opacity = Math.Min(1.0d, Math.Max(strength, 0.25d));
-                        }
-                    }
-
-                    currentZAdjustemnt += current.ActiveStep().Z;
-
-                    // determine degrees - add 90 as Atan2 returns north as -90, east a 0, south as 90 and west as 180
-                    ActiveCurrentDirection = Math.Round(90 + Math.Atan2(current.ActiveStep().Y, current.ActiveStep().X) * (180d / Math.PI), 0d);
-                }
-                else if (useCurrent && !current.IsActive)
-                {
-                    IsCurrentActive = false;
-                    ActiveCurrentDirection = Math.Round(current.Direction, 0d);
-                }
-                else if (useCurrentChanged && current.IsActive)
-                {
-                    current.Stop();
-                    IsCurrentActive = false;
-                    ActiveCurrentDirection = Math.Round(current.Direction, 0d);
-                }
-
-                if (bubble != null)
-                    bubble.Vector = mouseVector;
-
-                // if generating child bubble - current count less than maximum, randomly generated (using 200 to half rate to a maximum of 50%), or left mouse button is down
-                if (area.IsMouseOver && (UseChildBubbles && childBubbles.Count < MaximumChildBubbles && RandomGenerator.Next(0, 200) < ChildBubbleRate || Mouse.LeftButton == MouseButtonState.Pressed && childBubbles.Count < MaximumChildBubbles))
-                {
-                    // check not over sea bed
-                    if (useSeaBed && mousePosition.Y > areaHeight - seaBedHeight && seaBedGeometry.FillContains(mousePosition))
-                    {
-                        // don't bother creating a bubble over the sea bed
-                    }
-                    else
-                    {
-                        var relativeChildBubbleDimension = BubbleSize / 2d;
-                        relativeChildBubbleDimension -= relativeChildBubbleDimension / 100d * RandomGenerator.Next(0, (int)ChildBubbleSizeVariation);
-                        childBubbles.Add(MoveableElement.Create(new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), bubblePen, bubbleBrush), true);
-                        forceBubbleRerender = true;
-                    }
-                }
-
-                if (childBubbles.Count > 0)
-                {
-                    var bubblesToCheck = childBubbles.Keys.ToArray();
-                    foreach (var childBubbleElement in bubblesToCheck)
-                    {
-                        normalisedBubbleSizeComparedToBiggest = 1d / maxBubbleSize * ((childBubbleElement.Geometry.RadiusX + childBubbleElement.Geometry.RadiusY) / 2d * Math.PI);
-
-                        if (childBubbles[childBubbleElement])
-                        {
-                            if (useCurrent)
-                            {
-                                if (useSeaBed && childBubbleElement.Geometry.Center.Y + childBubbleElement.Geometry.RadiusY + current.ActiveStep().Z + current.ActiveStep().Y - childBubbleBuoyancy > areaHeight - seaBedHeight && seaBedGeometry.FillContains(new Point(childBubbleElement.Geometry.Center.X + current.ActiveStep().Z + current.ActiveStep().X, childBubbleElement.Geometry.Center.Y + childBubbleElement.Geometry.RadiusY + current.ActiveStep().Z + current.ActiveStep().Y - childBubbleBuoyancy)))
-                                {
-                                    PopChildBubble(childBubbleElement);
-                                    forceBubbleRerender = true;
-                                }
-                                else
-                                {
-                                    childBubbleElement.Geometry.RadiusX = Math.Max(0, Math.Min(BubbleSizeSlider.Maximum / 2d, childBubbleElement.Geometry.RadiusX + current.ActiveStep().Z * (2d - normalisedBubbleSizeComparedToBiggest)));
-                                    childBubbleElement.Geometry.RadiusY = Math.Max(0, Math.Min(BubbleSizeSlider.Maximum / 2d, childBubbleElement.Geometry.RadiusY + current.ActiveStep().Z * (2d - normalisedBubbleSizeComparedToBiggest)));
-                                    childBubbleElement.Geometry.Center = new Point(childBubbleElement.Geometry.Center.X + current.ActiveStep().X * (2d - normalisedBubbleSizeComparedToBiggest), childBubbleElement.Geometry.Center.Y - childBubbleBuoyancy + current.ActiveStep().Y * (2d - normalisedBubbleSizeComparedToBiggest));
-                                }
-                            }
-                            else
-                                childBubbleElement.Geometry.Center = new Point(childBubbleElement.Geometry.Center.X, childBubbleElement.Geometry.Center.Y - childBubbleBuoyancy);
-
-                            // if bubble is still valid after current modification
-                            if (!childBubbles[childBubbleElement])
-                                continue;
-                            
-                            UpdateRectangle(ref bubbleElementRectangle, childBubbleElement.Geometry);
-
-                            if (useSeaBed)
-                            {
-                                if (childBubbleElement.Vector.Y < 0 || current.ActiveStep().Y < 0)
-                                    if (bubbleElementRectangle.Y + bubbleElementRectangle.Height <= 0)
-                                        PopChildBubble(childBubbleElement);
-                                    else if (childBubbleElement.Vector.Y > 0 || current.ActiveStep().Y > 0)
-                                    {
-                                        if (bubbleElementRectangle.Y > areaHeight)
-                                        {
-                                            PopChildBubble(childBubbleElement);
-                                            forceBubbleRerender = true;
-                                        }
-                                        else if (bubbleElementRectangle.Y + bubbleElementRectangle.Height >= areaHeight - seaBedHeight &&
-                                                 seaBed.StrokeContainsWithDetail(seaBedPen, childBubbleElement.Geometry) != IntersectionDetail.Empty ||
-                                                 seaBed.FillContainsWithDetail(childBubbleElement.Geometry) != IntersectionDetail.Empty)
-                                        {
-                                            PopChildBubble(childBubbleElement);
-                                            forceBubbleRerender = true;
-                                        }
-                                    }
-                            }
-                            else
-                            {
-                                // if going up and off top of screen, or going down and off bottom of screen
-                                if ((childBubbleElement.Vector.Y < 0 || current.ActiveStep().Y < 0) && bubbleElementRectangle.Y + bubbleElementRectangle.Height <= 0 || (childBubbleElement.Vector.Y > 0 || current.ActiveStep().Y > 0) && bubbleElementRectangle.Y > areaHeight)
-                                    PopChildBubble(childBubbleElement);
-                            }
-                        }
-                    }
-
-                    var invalidBubbles = childBubbles.Keys.Where(x => !childBubbles[x]).ToArray();
-
-                    if (invalidBubbles.Length > 0)
-                        foreach (var eL in invalidBubbles)
-                            childBubbles.Remove(eL);
-
-                    currentBubbleElements = childBubbles.Count;
-                }
-                else
-                {
-                    currentBubbleElements = 0;
-                }
-
-                for (var planktonIndex = 0; planktonIndex < planktonElements; planktonIndex++)
-                {
-                    strokeContainsElement = false;
-                    fillContainsElement = false;
-                    planktonElement = plankton[planktonIndex];
-                    planktonVector = planktonElement.Vector;
-                    originalVectorOfPlanktonElement = planktonVector;
-                    centerPointOfElement.X = planktonElement.Geometry.Center.X;
-                    centerPointOfElement.Y = planktonElement.Geometry.Center.Y;
-                    massOfPlanktonElement = (planktonElement.Geometry.RadiusX + planktonElement.Geometry.RadiusY) / 2d * Math.PI * density;
-                    effectOfMassOfPlanktonElement = massOfPlanktonElement / 1000d * linearDecelerationValue;
-                    normalisedMassComparedToBiggest = 1d / maxElementMass * massOfPlanktonElement;
-
-                    // if using current and no sea bed, or element is above sea bed - sea bed shelters from current
-                    if (useCurrent && (!useSeaBed || planktonElement.Geometry.Center.Y + planktonElement.Geometry.RadiusY < areaHeight - seaBedHeight))
-                    {
-                        planktonElement.Geometry.RadiusX = Math.Max(0, Math.Min(ElementsSizeSlider.Maximum / 2d, planktonElement.Geometry.RadiusX + current.ActiveStep().Z * (2d - normalisedMassComparedToBiggest)));
-                        planktonElement.Geometry.RadiusY = Math.Max(0, Math.Min(ElementsSizeSlider.Maximum / 2d, planktonElement.Geometry.RadiusY + current.ActiveStep().Z * (2d - normalisedMassComparedToBiggest)));
-                        centerPointOfElement.X = Math.Max(0 + planktonElement.Geometry.RadiusX, Math.Min(area.ActualWidth - planktonElement.Geometry.RadiusX, planktonElement.Geometry.Center.X + current.ActiveStep().X * (2d - normalisedMassComparedToBiggest)));
-                        centerPointOfElement.Y = Math.Max(0 + planktonElement.Geometry.RadiusY, Math.Min(area.ActualHeight - planktonElement.Geometry.RadiusY, planktonElement.Geometry.Center.Y + current.ActiveStep().Y * (2d - normalisedMassComparedToBiggest)));
-                        planktonElement.Geometry.Center = centerPointOfElement;
-                    }
-
-                    UpdateRectangle(ref planktonElementRectangle, planktonElement.Geometry);
-
-                    if (Math.Abs(planktonVector.X) + Math.Abs(planktonVector.Y) > actualTravel)
-                    {
-                        // reduce by unit - linear deceleration
-                        planktonVector.X *= linearDecelerationValue;
-                        planktonVector.Y *= linearDecelerationValue;
-                    }
-
-                    closestBubble = null;
-                    closestBubbleProximity = int.MaxValue;
-
-                    for (var bubbleIndex = bubble != null ? -1 : 0; bubbleIndex < currentBubbleElements; bubbleIndex++)
-                    {
-                        bubbleElement = bubbleIndex == -1 ? bubble : childBubbles.Keys.ElementAt(bubbleIndex);
-                        UpdateRectangle(ref bubbleElementRectangle, bubbleElement.Geometry);
-
-                        // if plankton is fully inside the bubble
-                        if (MathHelper.DoRegularCirclesOverlap(bubbleElementRectangle.Left, bubbleElementRectangle.Top, bubbleElementRectangle.Width / 2d, planktonElementRectangle.Left, planktonElementRectangle.Top, planktonElementRectangle.Width / 2d))
-                        {
-                            // get angle from center of bubble to center of area
-                            var angle = Math.Round(90 + Math.Atan(areaWidth / 2d - (planktonElementRectangle.X + planktonElementRectangle.Width / 2d)) / (areaHeight / 2d - (planktonElementRectangle.Y + planktonElementRectangle.Height / 2d)) * (180d / Math.PI), 0d);
-
-                            // specify ejection vector
-                            planktonVector.X = actualTravel * 5d * Math.Sin(angle);
-                            planktonVector.Y = actualTravel * 5d * Math.Cos(angle);
-                        }
-                        else if (MathHelper.DoRegularCirclesIntersect(bubbleElementRectangle.Left, bubbleElementRectangle.Top, bubbleElementRectangle.Width, bubbleElementRectangle.Height, planktonElementRectangle.Left, planktonElementRectangle.Top, planktonElementRectangle.Width, planktonElementRectangle.Height))
-                        {
-                            // if in left side of bubble and moving left or right side of bubble and moving right
-                            if (planktonElementRectangle.Left + planktonElementRectangle.Width / 2d <= bubbleElementRectangle.Left + bubbleElementRectangle.Width / 2d && planktonVector.X > 0 || planktonElementRectangle.Left + planktonElementRectangle.Width / 2d > bubbleElementRectangle.Left + bubbleElementRectangle.Width / 2d && planktonVector.X < 0)
-                                planktonVector.X = -planktonVector.X;
-                            else if (Math.Abs(bubbleElement.Vector.X) > 0.0)
-                                planktonVector.X = bubbleElement.Vector.X;
-
-                            // if in top side of bubble and moving down or bottom side of bubble and moving up
-                            if (planktonElementRectangle.Top + planktonElementRectangle.Height / 2d <= bubbleElementRectangle.Top + bubbleElementRectangle.Height / 2d && planktonVector.Y > 0 || planktonElementRectangle.Top + planktonElementRectangle.Height / 2d > bubbleElementRectangle.Top + bubbleElementRectangle.Height / 2d && planktonVector.Y < 0)
-                                planktonVector.Y = -planktonVector.Y;
-                            else if (Math.Abs(bubbleElement.Vector.Y) > 0.0)
-                                planktonVector.Y = bubbleElement.Vector.Y;
-
-                            // if first, therefore main bubble increment collisions
-                            if (bubbleElement == bubble)
-                                mainBubbleCollisions++;
-
-                            break;
-                        }
-                        else if (usePlanktonAttraction && (bubbleElement == bubble || planktonAttractToChildBubbles && bubbleElement != bubble))
-                        {
-                            bubbleProximity = MathHelper.DetermineDistanceBetweenTwoPoints(bubbleElementRectangle.Left + bubbleElementRectangle.Width / 2d, bubbleElementRectangle.Top + bubbleElementRectangle.Height / 2d, planktonElementRectangle.Left + planktonElementRectangle.Width / 2d, planktonElementRectangle.Top + planktonElementRectangle.Height / 2d);
-
-                            // else if within radius of attraction
-                            if (bubbleProximity <= bubbleElementRectangle.Width / 2d * planktonAttractionReach)
-                            {
-                                // if closer than previous closest bubble, or no previous close bubble
-                                if (closestBubble == null || closestBubbleProximity > bubbleProximity)
-                                {
-                                    closestBubble = bubbleElement;
-                                    closestBubbleProximity = bubbleProximity;
-                                }
-                            }
-                        }
-
-                        // if a closest bubble found
-                        if (closestBubble == null)
-                            continue;
-
-                        UpdateRectangle(ref bubbleElementRectangle, closestBubble.Geometry);
-                        planktonVector.X = Math.Min(Math.Max(Math.Abs(bubbleElementRectangle.Left + bubbleElementRectangle.Width / 2d - (planktonElementRectangle.Left + planktonElementRectangle.Width / 2d)) - (planktonElementRectangle.Width / 2d + bubbleElementRectangle.Width / 2d), 0), Math.Max(actualTravel, planktonAttractionStrength)) * (bubbleElementRectangle.Left + bubbleElementRectangle.Width / 2d < planktonElementRectangle.Left + planktonElementRectangle.Width / 2d ? -1 : 1) * (invertPlanktonAttraction ? -1 : 1);
-                        planktonVector.Y = Math.Min(Math.Max(Math.Abs(bubbleElementRectangle.Top + bubbleElementRectangle.Height / 2d - (planktonElementRectangle.Top + planktonElementRectangle.Height / 2d)) - (planktonElementRectangle.Height / 2d + bubbleElementRectangle.Height / 2d), 0), Math.Max(actualTravel, planktonAttractionStrength)) * (bubbleElementRectangle.Top + bubbleElementRectangle.Height / 2d < planktonElementRectangle.Top + planktonElementRectangle.Height / 2d ? -1 : 1) * (invertPlanktonAttraction ? -1 : 1);
-                    }
-
-                    while (bubbleCollisionHistory.Count == 10)
-                        bubbleCollisionHistory.Dequeue();
-
-                    bubbleCollisionHistory.Enqueue(mainBubbleCollisions);
-
-                    // if using life, vector hasn't changed, and random generator decides that vector should be changed, and not moving at an accelerated speed
-                    if (planktonLife > 0 && Math.Abs(originalVectorOfPlanktonElement.X - planktonVector.X) < 0.0 && Math.Abs(originalVectorOfPlanktonElement.Y - planktonVector.Y) < 0.0 && RandomGenerator.Next(1, 100) <= planktonLife && planktonVector.Length <= actualTravel)
-                        planktonVector = Current.GetRandomVector(actualTravel, RandomGenerator);
-
-                    if (useGravity)
-                        planktonVector.Y += effectOfMassOfPlanktonElement;
-
-                    // if off left of screen - for example a resize or error ocured
-                    if (planktonElementRectangle.Left + planktonElementRectangle.Width < 0)
-                    {
-                        // set center point so elements just off of screen
-                        centerPointOfElement.X = -(planktonElementRectangle.Width / 2d);
-
-                        // set vector to make element come back on to screen
-                        planktonVector.X = Math.Max(5d, actualTravel);
-                        planktonElement.Geometry.Center = centerPointOfElement;
-                    }
-                    else if (planktonElementRectangle.Left > area.ActualWidth)
-                    {
-                        // set center point so elements just off of screen
-                        centerPointOfElement.X = area.ActualWidth + planktonElementRectangle.Width / 2d;
-
-                        // set vector to make element come back on to screen
-                        planktonVector.X = -Math.Max(5d, actualTravel);
-                        planktonElement.Geometry.Center = centerPointOfElement;
-                    }
-                    else if (planktonElementRectangle.X + planktonElementRectangle.Width + planktonVector.X > areaWidth && (planktonVector.X > 0 || current.ActiveStep().X > 0) || planktonElementRectangle.X + planktonVector.X < 0 && (planktonVector.X < 0 || current.ActiveStep().X < 0))
-                    {
-                        // colliding with left or right of area
-
-                        // invert vector x
-                        planktonVector.X = -planktonVector.X;
-                    }
-
-                    // if off top of screen - for example a resize or error ocured
-                    if (planktonElementRectangle.Top + planktonElementRectangle.Height < 0)
-                    {
-                        // set center point so elements just off of screen
-                        centerPointOfElement.Y = -(planktonElementRectangle.Height / 2d);
-
-                        // set vector to make element come back on to screen
-                        planktonVector.Y = Math.Max(5d, actualTravel);
-                        planktonElement.Geometry.Center = centerPointOfElement;
-                    }
-                    else if (planktonElementRectangle.Top > area.ActualHeight)
-                    {
-                        // set center point so elements just off of screen
-                        centerPointOfElement.Y = area.ActualHeight + planktonElementRectangle.Height / 2d;
-
-                        // set vector to make element come back on to screen
-                        planktonVector.Y = -Math.Max(5d, actualTravel);
-                        planktonElement.Geometry.Center = centerPointOfElement;
-                    }
-                    else if (planktonElementRectangle.Y + planktonElementRectangle.Height + planktonVector.Y > areaHeight && (planktonVector.Y > 0 || current.ActiveStep().Y > 0) || planktonElementRectangle.Y + planktonVector.Y < 0 && (planktonVector.Y < 0 || current.ActiveStep().Y < 0))
-                    {
-                        // colliding with top or bottom of area
-
-                        if (useGravity)
-                            planktonVector.Y = planktonElementRectangle.Y + planktonElementRectangle.Height / 2d >= areaHeight / 2d ? 0d : effectOfMassOfPlanktonElement;
-                        else
-                            planktonVector.Y = -planktonVector.Y;
-                    }
-
-                    // if using sea bed and in a collision range
-                    if (useSeaBed && planktonElementRectangle.Top + planktonElementRectangle.Height >= areaHeight - seaBedHeight)
-                    {
-                        fillContainsElement = seaBed.FillContainsWithDetail(planktonElement.Geometry) != IntersectionDetail.Empty;
-                        strokeContainsElement = seaBed.StrokeContainsWithDetail(seaBedPen, planktonElement.Geometry) != IntersectionDetail.Empty;
-
-                        // if fill contains element - i.e somewhere there is a glitch and the element has become embedded in the sea bed
-                        if (fillContainsElement && !strokeContainsElement)
-                        {
-                            // encapsulated within the sea bed, uh oh, eject!
-
-                            centerPointOfElement.X = planktonElement.Geometry.Center.X + planktonVector.X;
-                            centerPointOfElement.Y = areaHeight - seaBedHeight - planktonElementRectangle.Height / 2d;
-                            planktonElement.Geometry.Center = centerPointOfElement;
-                            planktonVector.X = 0d;
-                            planktonVector.Y = -Math.Max(Math.Abs(planktonVector.Y), actualTravel);
-                        }
-                        else if (strokeContainsElement)
-                        {
-                            // if collided with the sea bed
-
-                            planktonVector.X = -planktonVector.X;
-
-                            if (useGravity)
-                                planktonVector.Y = planktonVector.Y < 0d ? planktonVector.Y : Math.Abs(planktonVector.Y) > 0.0 ? -Math.Abs(planktonVector.Y * (1.1d - normalisedMassComparedToBiggest)) : 0d;
-                            else
-                                planktonVector.Y = -Math.Abs(planktonVector.Y);
-                        }
-                    }
-
-                    planktonElement.Vector = planktonVector;
-                    centerPointOfElement.X = planktonElement.Geometry.Center.X + planktonVector.X;
-                    centerPointOfElement.Y = planktonElement.Geometry.Center.Y + planktonVector.Y;
-                    planktonElement.Geometry.Center = centerPointOfElement;
-                }
-
-                if (usePreview)
-                {
-                    if (useZoomPreviewBlurEffect)
-                    {
-                        if (blurEffect != null)
-                        {
-                            lock (blurEffect)
-                            {
-                                if (Math.Abs(blurEffect.Radius - nextZoomPreviewBlurRadius) > 0.0)
-                                    blurEffect.Radius = nextZoomPreviewBlurRadius;
-
-                                if (nextZoomPreviewBlurRadius > 0.0d)
-                                    nextZoomPreviewBlurRadius = Math.Max(0, nextZoomPreviewBlurRadius - zoomPreviewBlurCorrectionFactor);
-                            }
-                        }
-                    }
-
-                    if (useAutoPan)
-                    {
-                        var averageCollision = bubbleCollisionHistory.Average(i => i);
-
-                        if (averageCollision > 7d * autoPanSensitity)
-                            zoomPreviewVector.Z = currentZoom < minAutoPanZoom ? autoPanSpeed : 0.0d;
-                        else if (averageCollision > 5d * autoPanSensitity)
-                            zoomPreviewVector.Z = currentZoom < 4d ? autoPanSpeed : 0.0d;
-                        else if (averageCollision > 3d * autoPanSensitity)
-                            zoomPreviewVector.Z = currentZoom < 3d ? autoPanSpeed : 0.0d;
-                        else
-                            zoomPreviewVector.Z = currentZoom > minAutoPanZoom ? -autoPanSpeed : 0.0d;
-                    }
-                    else
-                        zoomPreviewVector.Z = currentZoom > maxAutoPanZoom ? -autoPanSpeed : 0.0d;
-
-                    if (Math.Abs(zoomPreviewVector.Z) > 0.0 && bubble != null)
-                    {
-                        zoomPreviewFactor += zoomPreviewVector.Z;
-                        UpdateZoomPreview(mousePosition, GetPreviewFocusElement(ZoomPreviewLocaterMode, out showLocaterLine), area, zoomPreviewFactor, showLocaterLine);
-                    }
-                    else if (IfMainBubbleNotAvailablePreviewMostInterestingElement)
-                    {
-                        // using alternate focus and main bubble has become hidden
-
-                        zoomPreviewFactor = MinimumZoom;
-                        var focusElement = GetPreviewFocusElement(ZoomPreviewLocaterMode, out showLocaterLine);
-                        focusPointForPreview = focusElement?.Geometry.Center ?? new Point(areaWidth / 2d, areaHeight / 2d);
-                        UpdateZoomPreview(focusPointForPreview, focusElement, area, zoomPreviewFactor, showLocaterLine);
-                    }
-                }
-
-                if (planktonElements != lastRenderdPlankton)
-                {
-                    lastRenderdPlankton = plankton.Count;
-                    planktonHostVisual = new DrawingVisual();
-                    ElementHost.SpecifyPlanktonDrawingVisual(planktonHostVisual);
-                    ElementHost.AddPlanktonElements(plankton.ToArray());
-                }
-
-                // if forcing bubble re-render, new bubbles added, or got down to no rendered bubbles but there were before - we don't want to re render everything when a bubble goes off screen
-                if (forceBubbleRerender || currentBubbleElements == 0 && lastRenderedBubbleElements > 0)
-                {
-                    lastRenderedBubbleElements = currentBubbleElements;
-                    bubbleHostVisual = new DrawingVisual();
-                    ElementHost.SpecifyBubbleDrawingVisual(bubbleHostVisual);
-                    ElementHost.AddBubbleElements(childBubbles.Keys.ToArray());
-                    forceBubbleRerender = false;
-                }
-
-                if (bubble != null)
-                {
-                    lock (bubble)
-                    {
-                        if (mainBubbleHostVisual == null || bubble != null && !lastMainBubbleState)
-                        {
-                            mainBubbleHostVisual = new DrawingVisual();
-                            ElementHost.SpecifyMainBubbleDrawingVisual(mainBubbleHostVisual);
-                            ElementHost.AddMainBubbleElement(bubble);
-                        }
-                    }
-                }
-                else if (lastMainBubbleState)
-                {
-                    // need to remove the main bubble visual to not leave a hanging element
-                    mainBubbleHostVisual = new DrawingVisual();
-                    ElementHost.SpecifyMainBubbleDrawingVisual(mainBubbleHostVisual);
-                }
-
-                lastMainBubbleState = bubble != null;
-                LastRefreshTime = Environment.TickCount - startTime;
-
-                if (LastRefreshTime > slowestRefresh)
-                    consecutiveUpdateFails++;
-                else
-                    consecutiveUpdateFails = 0;
-
-                if (consecutiveUpdateFails == 10)
-                {
-                    IsPaused = true;
-                    var r = MessageBox.Show("The amount of elements being rendered is set too high for the processor to handle smoothly. Please try reducing the amount of plankton elements, turning child bubbles off and using the 'Dark' background and 'Quick' plankton colour, with no sea bed. Do you want to default to these options now?", "Process Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-                    if (r == MessageBoxResult.Yes)
-                    {
-                        Elements = 100;
-                        UseChildBubbles = false;
-                        PerformancePlanktonRadioButton.IsChecked = true;
-                        UseRandomElementFill = false;
-                        UseSeaBed = false;
-                        DarkBackgroundRadioButton.IsChecked = true;
-                        OverrideBackgroundBrushWithCustom = false;
-                        OverridePlanktonBrushWithCustom = false;
-                        OverrideSeaBedBrushWithCustom = false;
-
-                        RegenerateWithCurrentSettings(maintainAnyGeneratedBrushes);
-                    }
-
-                    IsPaused = false;
-                }
-
-                ActiveChildBubbles = currentBubbleElements;
-                MainBubbleCollisionsThisUpdate = mainBubbleCollisions;
-                IsUpdating = false;
-            };
+            EventHandler updateCallback = (s, args) => MainLoop.Update(this, area, RandomGenerator, mouseVector, maintainAnyGeneratedBrushes);
 
             update = new DispatcherTimer(TimeSpan.FromMilliseconds(RefreshTime), DispatcherPriority.Send, updateCallback, Dispatcher) { IsEnabled = !IsPaused };
 
@@ -2383,9 +1793,9 @@ namespace BP.Plankton.Controls
         /// <param name="locaterMode">Specify the locater mode to use for the zoom preview.</param>
         /// <param name="showLocater">Returns if the locater should be shown.</param>
         /// <returns>The logical element for the focus to remain on.</returns>
-        private MoveableElement GetPreviewFocusElement(ZoomPreviewLocaterMode locaterMode, out bool showLocater)
+        public MoveableElement GetPreviewFocusElement(ZoomPreviewLocaterMode locaterMode, out bool showLocater)
         {
-            if (bubble != null)
+            if (Bubble != null)
             {
                 zoomPreviewFocusedPlankton = null;
 
@@ -2401,16 +1811,16 @@ namespace BP.Plankton.Controls
                         break;
                 }
 
-                return bubble;
+                return Bubble;
             }
 
-            if (childBubbles.Count > 0)
+            if (ChildBubbles.Count > 0)
             {
-                lock (childBubbles)
+                lock (ChildBubbles)
                 {
-                    for (var index = 0; index < childBubbles.Keys.Count; index++)
+                    for (var index = 0; index < ChildBubbles.Keys.Count; index++)
                     {
-                        if (!(childBubbles.Keys.ElementAt(index).Geometry.Bounds.Width >= 3))
+                        if (!(ChildBubbles.Keys.ElementAt(index).Geometry.Bounds.Width >= 3))
                             continue;
 
                         zoomPreviewFocusedPlankton = null;
@@ -2428,19 +1838,19 @@ namespace BP.Plankton.Controls
                                 break;
                         }
 
-                        return childBubbles.Keys.ElementAt(index);
+                        return ChildBubbles.Keys.ElementAt(index);
                     }
                 }
             }
 
             // try plankton elements - try and used the focused plankton, if it's stationary or valid any more find the next fastest
-            if ((zoomPreviewFocusedPlankton == null || !plankton.Contains(zoomPreviewFocusedPlankton) || Math.Abs(zoomPreviewFocusedPlankton.Vector.Length) < 0.0) && plankton.Count > 0)
+            if ((zoomPreviewFocusedPlankton == null || !Plankton.Contains(zoomPreviewFocusedPlankton) || Math.Abs(zoomPreviewFocusedPlankton.Vector.Length) < 0.0) && Plankton.Count > 0)
             {
                 MoveableElement fastestPlankton = null;
 
-                lock (plankton)
+                lock (Plankton)
                 {
-                    foreach (var eL in plankton)
+                    foreach (var eL in Plankton)
                     {
                         // if no previous plankton or faster found - exclude ones smaller than 1 as these mess the preview up
                         if (eL.Geometry.Bounds.Width >= 1 && (fastestPlankton == null || eL.Vector.Length > fastestPlankton.Vector.Length))
@@ -2496,7 +1906,7 @@ namespace BP.Plankton.Controls
         /// <param name="visualSource">The visual source the zoom preview relates to.</param>
         /// <param name="zoomFactor">The zoom factor to apply where 1.0d specifies that the bubble should fill the preview.</param>
         /// <param name="showLocaterLine">Specify if the locater line should be shown.</param>
-        private void UpdateZoomPreview(Point targetPoint, MoveableElement target, FrameworkElement visualSource, double zoomFactor, bool showLocaterLine)
+        public void UpdateZoomPreview(Point targetPoint, MoveableElement target, FrameworkElement visualSource, double zoomFactor, bool showLocaterLine)
         {
             var bounds = target?.Geometry.Bounds ?? new Rect(0, 0, 100, 100);
             var targetWidth = target != null ? bounds.Width : 100;
@@ -2531,7 +1941,7 @@ namespace BP.Plankton.Controls
                 }
 
                 if (UseZoomPreviewBlurEffect)
-                    nextZoomPreviewBlurRadius = Math.Max(nextZoomPreviewBlurRadius, Math.Min(MaximumZoomPreviewBlur, MathHelper.DetermineDistanceBetweenTwoPoints(lastZoomPreviewVisualLocation, targetPoint) / (15d - ZoomPreviewBlurStrength)));
+                    NextZoomPreviewBlurRadius = Math.Max(NextZoomPreviewBlurRadius, Math.Min(MaximumZoomPreviewBlur, MathHelper.DetermineDistanceBetweenTwoPoints(lastZoomPreviewVisualLocation, targetPoint) / (15d - ZoomPreviewBlurStrength)));
             }
             else
                 IsZoomPreviewLocaterVisible = false;
@@ -2937,9 +2347,9 @@ namespace BP.Plankton.Controls
             segments.Add(new LineSegment(new Point(0, area.ActualHeight), true));
             pG.Figures.Add(new PathFigure(initialPoint, segments, true));
             SeaBedPath.Data = pG;
-            seaBedGeometry = pG;
-            LastSeaBedGeometry = seaBedGeometry.ToString();
-            seaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
+            SeaBedGeometry = pG;
+            LastSeaBedGeometry = SeaBedGeometry.ToString();
+            SeaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
         }
 
         /// <summary>
@@ -2954,13 +2364,13 @@ namespace BP.Plankton.Controls
             {
                 var streamGeomerty = Geometry.Parse(data) as StreamGeometry;
                 SeaBedPath.Data = streamGeomerty;
-                if (streamGeomerty != null) seaBedGeometry = streamGeomerty.GetFlattenedPathGeometry();
+                if (streamGeomerty != null) SeaBedGeometry = streamGeomerty.GetFlattenedPathGeometry();
 
-                if (seaBedGeometry == null)
+                if (SeaBedGeometry == null)
                     throw new NullReferenceException();
 
                 LastSeaBedGeometry = data;
-                seaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
+                SeaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
                 return true;
             }
             catch (ArgumentException)
@@ -3062,9 +2472,9 @@ namespace BP.Plankton.Controls
                     }
 
                     SeaBedPath.Data = pG;
-                    seaBedGeometry = pG;
-                    LastSeaBedGeometry = seaBedGeometry.ToString();
-                    seaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
+                    SeaBedGeometry = pG;
+                    LastSeaBedGeometry = SeaBedGeometry.ToString();
+                    SeaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
                 }
                 else
                     RenderSeaBed(UseLineSegmentsInSeaBedPath, UseArcSegmentsInSeaBedPath);
@@ -3217,7 +2627,7 @@ namespace BP.Plankton.Controls
             if (b != null)
                 b.Opacity = 0.65d;
 
-            return MoveableElement.Create(center, BubbleSize / 2d, vector, bubblePen, b);
+            return MoveableElement.Create(center, BubbleSize / 2d, vector, BubblePen, b);
         }
 
         /// <summary>
@@ -3233,16 +2643,16 @@ namespace BP.Plankton.Controls
             mouseVector.X = currentMousePoint.X - previousMousePoint.X;
             mouseVector.Y = currentMousePoint.Y - previousMousePoint.Y;
 
-            if (bubble == null)
-                bubble = GenerateMainBubble(currentMousePoint, mouseVector);
+            if (Bubble == null)
+                Bubble = GenerateMainBubble(currentMousePoint, mouseVector);
             else
-                bubble.Geometry.Center = currentMousePoint;
+                Bubble.Geometry.Center = currentMousePoint;
 
             previousMousePoint = currentMousePoint;
 
             if (UseZoomPreview)
             {
-                zoomPreviewFactor += zoomPreviewVector.Z;
+                ZoomPreviewFactor += ZoomPreviewVector.Z;
                 bool showLocater;
 
                 switch (ZoomPreviewLocaterMode)
@@ -3257,7 +2667,7 @@ namespace BP.Plankton.Controls
                         break;
                 }
 
-                UpdateZoomPreview(currentMousePoint, bubble, AreaCanvas, zoomPreviewFactor, showLocater);
+                UpdateZoomPreview(currentMousePoint, Bubble, AreaCanvas, ZoomPreviewFactor, showLocater);
             }
 
             isHandlingMousePositionUpdate = false;
@@ -3267,18 +2677,18 @@ namespace BP.Plankton.Controls
         /// Pop a child bubble.
         /// </summary>
         /// <param name="child">The bubble to pop.</param>
-        private void PopChildBubble(MoveableElement child)
+        public void PopChildBubble(MoveableElement child)
         {
-            childBubbles[child] = false;
+            ChildBubbles[child] = false;
         }
 
         /// <summary>
         /// Pop all child bubbles.
         /// </summary>
-        private void PopChildBubbles()
+        public void PopChildBubbles()
         {
-            for (var i = 0; i < childBubbles.Count; i++)
-                PopChildBubble(childBubbles.Keys.ElementAt(i));
+            for (var i = 0; i < ChildBubbles.Count; i++)
+                PopChildBubble(ChildBubbles.Keys.ElementAt(i));
         }
 
         /// <summary>
@@ -3543,11 +2953,11 @@ namespace BP.Plankton.Controls
             ElementHost.RemovePlanktonDrawingVisual();
             lastGeneratedPlanktonBrushes = GetPlanktonBrushesFromCurrentSettings(false);
 
-            foreach (var element in plankton)
+            foreach (var element in Plankton)
                 element.Fill = lastGeneratedPlanktonBrushes[RandomGenerator.Next(0, lastGeneratedPlanktonBrushes.Length)];
 
             ElementHost.SpecifyPlanktonDrawingVisual(new DrawingVisual());
-            ElementHost.AddPlanktonElements(plankton.ToArray());
+            ElementHost.AddPlanktonElements(Plankton.ToArray());
 
             if (update != null && !IsPaused)
                 update.Start();
@@ -3878,7 +3288,7 @@ namespace BP.Plankton.Controls
                 {
                     KernelType = KernelType.Box,
                     RenderingBias = RenderingBias.Performance,
-                    Radius = control.nextZoomPreviewBlurRadius
+                    Radius = control.NextZoomPreviewBlurRadius
                 };
             }
             else
@@ -3886,7 +3296,7 @@ namespace BP.Plankton.Controls
                 if (control.Effect != null)
                     control.Effect = null;
 
-                control.nextZoomPreviewBlurRadius = 0.0d;
+                control.NextZoomPreviewBlurRadius = 0.0d;
             }
         }
 
@@ -4055,7 +3465,7 @@ namespace BP.Plankton.Controls
 
         private void TriggerCurrentCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, ElementsSizeSlider.Maximum / ElementsSize, -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d, currentZAdjustemnt, RandomGenerator) : 0.0d, CurrentMode)
+            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, ElementsSizeSlider.Maximum / ElementsSize, -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d, CurrentZAdjustemnt, RandomGenerator) : 0.0d, CurrentMode)
             {
                 Deceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentDeceleration : WaterViscosity,
                 Acceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentAcceleration : WaterViscosity
@@ -4123,13 +3533,13 @@ namespace BP.Plankton.Controls
 
         private void AreaCanvas_MouseLeave(object sender, MouseEventArgs e)
         {
-            bubble = null;
+            Bubble = null;
         }
 
         private void AreaCanvas_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (bubble == null)
-                bubble = GenerateMainBubble(e.GetPosition(AreaCanvas), mouseVector);
+            if (Bubble == null)
+                Bubble = GenerateMainBubble(e.GetPosition(AreaCanvas), mouseVector);
         }
 
         private void PlanktonBrushRadioButton_Checked(object sender, RoutedEventArgs e)
