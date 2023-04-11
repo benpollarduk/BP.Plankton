@@ -25,6 +25,9 @@
             <converters:DoubleRounderConverter x:Key="DoubleRounderConverter"/>
             <converters:DoubleToAnimationBeginTimeConverterConverter x:Key="DoubleToAnimationBeginTimeConverterConverter"/>
             <converters:DoubleToAnimationDurationConverterConverter x:Key="DoubleToAnimationDurationConverterConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityCollapsedConverter x:Key="BooleanToVisibilityCollapsedConverter"/>
+            <converters:BooleanInverterConverter x:Key="BooleanInverterConverter"/>
             <GridLength x:Key="TitleWidth">80</GridLength>
             <GridLength x:Key="ValueWidth">40</GridLength>
             <Storyboard x:Key="LightingEffectStoryboard" RepeatBehavior="Forever" AutoReverse="False" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource DoubleToAnimationDurationConverterConverter}, ConverterParameter=0:0:35}">
@@ -276,7 +279,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Startup.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Startup.png" Stretch="UniformToFill"/>
                                         <Label Content="Default" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -287,7 +290,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Default.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Default.png" Stretch="UniformToFill"/>
                                         <Label Content="Original" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -298,7 +301,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}" Visibility="Collapsed">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Images/Buttons/Original.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Original.png" Stretch="UniformToFill"/>
                                         <Label Content="Original" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -309,7 +312,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Quick.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Quick.png" Stretch="UniformToFill"/>
                                         <Label Content="Performance" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -320,7 +323,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Spikey.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Spikey.png" Stretch="UniformToFill"/>
                                         <Label Content="Spikey" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -331,7 +334,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Attraction.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Attraction.png" Stretch="UniformToFill"/>
                                         <Label Content="Attraction" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -342,7 +345,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Gunk.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Gunk.png" Stretch="UniformToFill"/>
                                         <Label Content="Gunk" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -353,7 +356,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Dense.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Dense.png" Stretch="UniformToFill"/>
                                         <Label Content="Dense" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -364,7 +367,7 @@
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/AntiGravity.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/AntiGravity.png" Stretch="UniformToFill"/>
                                         <Label Content="Anti-gravity" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                                     </Grid>
                                 </Button.Content>
@@ -375,7 +378,7 @@
                             <Button Command="{StaticResource RandomCommand}">
                                 <Button.Content>
                                     <Grid>
-                                        <Image Source="pack://application:,,/Resources/Images/Buttons/Random.png" Stretch="UniformToFill"/>
+                                        <Image Source="/Resources/Images/Buttons/Random.png" Stretch="UniformToFill"/>
                                         <Label Content="Random (Ctrl+N)" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Button.Content>
@@ -902,7 +905,7 @@
                             </Grid>
                             <Button IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Command="{StaticResource GenerateGeometryRealtimeCommand}" Margin="3" Grid.Row="7" Grid.Column="2">
                                 <Button.Content>
-                                    <Image Source="/Images/Buttons/PenWhiteTrans.png" Margin="-2"/>
+                                    <Image Source="/Resources/Images/Buttons/PenWhiteTrans.png" Margin="-2"/>
                                 </Button.Content>
                             </Button>
                         </Grid>
@@ -1119,7 +1122,7 @@
                             <Image Source="/Resources/Images/Assets/Plankton.png" Margin="6" Grid.Row="0" Grid.RowSpan="4"/>
                             <Label Content="Plankton" FontSize="18" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
                             <Label Content="{Binding Path=Version, Mode=OneWay}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
-                            <TextBlock Text="Developed by Ben Pollard, October 30th 2013 - October 21st 2015" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+                            <TextBlock Text="Developed by Ben Pollard, 2013 - 2023" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="2" Grid.Column="1"/>
                             <Label Content="Released by 0xd FX" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
                             <Image Source="/Resources/Images/Assets/0xdFXLogo.png" Margin="6" Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"/>
                         </Grid>

@@ -6,7 +6,7 @@ using System.Windows.Data;
 namespace BP.Plankton.Converters
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    internal class BooleanToVisibiltyCollapsedConverter : IValueConverter
+    internal class BooleanToVisibilityCollapsedConverter : IValueConverter
     {
         #region IValueConverter Members
 

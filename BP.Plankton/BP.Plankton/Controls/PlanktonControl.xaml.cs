@@ -1678,7 +1678,7 @@ namespace BP.Plankton.Controls
         /// </summary>
         private void StopLightingEffect()
         {
-            var sb = FindResource("lightingEffectStoryboard") as Storyboard;
+            var sb = FindResource("LightingEffectStoryboard") as Storyboard;
             if (sb != null && sb.GetCurrentState() == ClockState.Active)
                 sb.Stop();
         }
@@ -1688,7 +1688,7 @@ namespace BP.Plankton.Controls
         /// </summary>
         private void StartLightingEffect()
         {
-            var sb = FindResource("lightingEffectStoryboard") as Storyboard;
+            var sb = FindResource("LightingEffectStoryboard") as Storyboard;
             sb?.Begin();
         }
 

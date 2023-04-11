@@ -6,7 +6,7 @@ using System.Windows.Data;
 namespace BP.Plankton.Converters
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    internal class BooleanToVisibiltyConverter : IValueConverter
+    internal class BooleanToVisibilityConverter : IValueConverter
     {
         #region IValueConverter Members
 
@@ -26,7 +26,7 @@ namespace BP.Plankton.Converters
             if (parameter == null)
                 return b ? Visibility.Visible : Visibility.Hidden;
 
-            if (!bool.TryParse(parameter.ToString(), out var p))
+            if (bool.TryParse(parameter.ToString(), out var p))
                 return b == p ? Visibility.Visible : Visibility.Hidden;
 
             throw new ArgumentException();
