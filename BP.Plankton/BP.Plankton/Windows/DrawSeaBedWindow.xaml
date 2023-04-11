@@ -1,7 +1,6 @@
 ﻿<Window x:Class="BP.Plankton.Windows.DrawSeaBedWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:plankton="clr-namespace:BP.Plankton"
     xmlns:controls="clr-namespace:BP.Plankton.Controls"
     Title="Draw Sea Bed" Height="300" Width="300" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" Background="Black">
     <Window.Resources>
@@ -25,8 +24,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <controls:DrawSeaBedControl x:Name="SeaBedControl" Margin="6, 6, 6, 0" BorderBrush="Black" BorderThickness="0" Grid.Row="0" Grid.ColumnSpan="3"/>
-        <Button Name="clearButton" Command="{StaticResource ClearCommand}" Content="Clear" Margin="6" Grid.Row="1" Grid.Column="0"/>
-        <Button Name="cancelButton" Command="{StaticResource CancelCommand}" Content="Cancel" Margin="6" Grid.Row="1" Grid.Column="1"/>
-        <Button Name="okButton" Command="{StaticResource OKCommand}" Content="OK" Margin="6" Grid.Row="1" Grid.Column="2"/>
+        <Button Name="ClearButton" Command="{StaticResource ClearCommand}" Content="Clear" Margin="6" Grid.Row="1" Grid.Column="0"/>
+        <Button Name="CancelButton" Command="{StaticResource CancelCommand}" Content="Cancel" Margin="6" Grid.Row="1" Grid.Column="1"/>
+        <Button Name="OkButton" Command="{StaticResource OKCommand}" Content="OK" Margin="6" Grid.Row="1" Grid.Column="2"/>
     </Grid>
 </Window>

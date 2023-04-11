@@ -7,7 +7,7 @@ namespace BP.Plankton.Windows
     /// </summary>
     public partial class ExternalOptionsWindow : Window
     {
-        #region Methods
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the ExternalOptionsWindow class.

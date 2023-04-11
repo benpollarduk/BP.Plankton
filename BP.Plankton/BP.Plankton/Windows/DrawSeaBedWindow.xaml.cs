@@ -36,19 +36,20 @@ namespace BP.Plankton.Windows
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
         /// <summary>
-        /// Initialzes a new instance of the DrawSeaBedWindow class.
+        /// Initializes a new instance of the DrawSeaBedWindow class.
         /// </summary>
         public DrawSeaBedWindow()
         {
             InitializeComponent();
+
             DrawingControl = SeaBedControl;
         }
 
         /// <summary>
-        /// Initialzes a new instance of the DrawSeaBedWindow class.
+        /// Initializes a new instance of the DrawSeaBedWindow class.
         /// </summary>
         /// <param name="drawingAreaSize">Specif the size of the drawing area.</param>
         public DrawSeaBedWindow(Size drawingAreaSize)

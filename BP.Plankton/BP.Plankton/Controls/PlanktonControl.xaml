@@ -156,7 +156,7 @@
     </UserControl.InputBindings>
     <Grid Name="layoutGrid" FocusVisualStyle="{x:Null}">
         <Canvas Name="areaCanvas" Background="{DynamicResource BackgroundBrush}" Cursor="None" MouseMove="areaCanvas_MouseMove" MouseLeave="areaCanvas_MouseLeave" MouseEnter="areaCanvas_MouseEnter">
-            <Border Name="lightingEffectBorder" BorderThickness="0" Opacity="0.0" Width="{Binding ElementName=areaCanvas, Path=ActualWidth, Mode=OneWay}" Height="{Binding ElementName=areaCanvas, Path=ActualHeight, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding Path=UseLightingEffect, Mode=OneWay, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Border Name="lightingEffectBorder" BorderThickness="0" Opacity="0.0" Width="{Binding ElementName=areaCanvas, Path=ActualWidth, Mode=OneWay}" Height="{Binding ElementName=areaCanvas, Path=ActualHeight, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding Path=UseLightingEffect, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Border.Background>
                     <RadialGradientBrush GradientOrigin="0,0">
                         <GradientStop Color="White" Offset="0"/>
@@ -201,7 +201,7 @@
                     <Binding Path="IfMainBubbleNotAvailablePreviewMostInterestingElement" Mode="OneWay"/>
                 </MultiBinding>
             </Border.Visibility>
-            <Border Name="innerPreviewBorder" BorderBrush="{Binding Path=ZoomPreviewBrush, Mode=OneWay}" Background="Gray" CornerRadius="0" BorderThickness="1" Visibility="{Binding Path=UseZoomPreview, Mode=OneWay, Converter={StaticResource booleanToVisibilityConverter}, ConverterParameter=True}">
+            <Border Name="innerPreviewBorder" BorderBrush="{Binding Path=ZoomPreviewBrush, Mode=OneWay}" Background="Gray" CornerRadius="0" BorderThickness="1" Visibility="{Binding Path=UseZoomPreview, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}">
                 <Rectangle Name="previewAreaPresenter">
                     <Rectangle.Effect>
                         <BlurEffect x:Name="zoomPreviewBlurEffect" KernelType="Box" Radius="0" RenderingBias="Performance"/>
@@ -212,7 +212,7 @@
                 </Rectangle>
             </Border>
         </Border>
-        <Expander Name="optionsExpander" Header="Options" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="80" Visibility="{Binding Path=ShowOptions, Mode=OneWay, Converter={StaticResource booleanToVisibilityConverter}}" FocusVisualStyle="{x:Null}">
+        <Expander Name="optionsExpander" Header="Options" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="80" Visibility="{Binding Path=ShowOptions, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" FocusVisualStyle="{x:Null}">
             <Expander.Style>
                 <Style TargetType="Expander">
                     <Setter Property="BorderBrush" Value="White"/>
@@ -254,7 +254,7 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                    <Style TargetType="Slider" BasedOn="{StaticResource sliderBaseStyle}">
+                    <Style TargetType="Slider" BasedOn="{StaticResource SliderBaseStyle}">
                         <Setter Property="Foreground" Value="White"/>
                         <Setter Property="IsSnapToTickEnabled" Value="True"/>
                         <Setter Property="TickFrequency" Value="1"/>
@@ -266,7 +266,7 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                    <Style TargetType="CheckBox" BasedOn="{StaticResource checkBoxBaseStyle}">
+                    <Style TargetType="CheckBox" BasedOn="{StaticResource CheckBoxBaseStyle}">
                         <Setter Property="Foreground" Value="White"/>
                         <Setter Property="Margin" Value="6"/>
                         <Style.Triggers>
@@ -275,7 +275,7 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
-                    <Style TargetType="RadioButton" BasedOn="{StaticResource radioButtonBaseStyle}">
+                    <Style TargetType="RadioButton" BasedOn="{StaticResource RadioButtonBaseStyle}">
                         <Setter Property="Foreground" Value="White"/>
                         <Setter Property="Margin" Value="6"/>
                         <Style.Triggers>
@@ -290,13 +290,13 @@
                         <Setter Property="BorderThickness" Value="1"/>
                         <Setter Property="Margin" Value="3"/>
                     </Style>
-                    <Style TargetType="TabItem" BasedOn="{StaticResource tabItemBaseStyle}"/>
+                    <Style TargetType="TabItem" BasedOn="{StaticResource TabItemBaseStyle}"/>
                 </Grid.Resources>
                 <TabControl Name="optionsTabControl" Opacity="0.0" Margin="6" TabStripPlacement="Top" Background="Black" BorderBrush="White" BorderThickness="1" Focusable="False">
-                    <TabItem Header="Quick" Visibility="{Binding Path=ShowQuickSettingsTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Quick" Visibility="{Binding Path=ShowQuickSettingsTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <UniformGrid>
                             <UniformGrid.Resources>
-                                <Style TargetType="Button" BasedOn="{StaticResource buttonBaseStyle}">
+                                <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
                                     <Setter Property="Height" Value="40"/>
                                     <Setter Property="Width" Value="88"/>
                                     <Setter Property="FontSize" Value="14"/>
@@ -448,7 +448,7 @@
                             </Button>
                         </UniformGrid>
                     </TabItem>
-                    <TabItem Header="Plankton" Visibility="{Binding Path=ShowPlanktonTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Plankton" Visibility="{Binding Path=ShowPlanktonTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -498,15 +498,15 @@
                             <Slider IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Value="{Binding Path=PlanktonAttractionReach, Mode=TwoWay}" SmallChange="1" Minimum="1" Maximum="25" Grid.Row="9" Grid.Column="1"/>
                             <Label IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Content="{Binding Path=PlanktonAttractionReach, Mode=OneWay}" Grid.Row="9" Grid.Column="2"/>
                             <Label Content="Colour:" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="10" Grid.Column="0"/>
-                            <StackPanel IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Orientation="Horizontal" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2">
-                                <RadioButton Name="greenPlanktonRadioButton" Content="Green" CommandParameter="{StaticResource PlanktonGreenBrush}" IsChecked="True" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="whitePlanktonRadioButton" Content="White" CommandParameter="{StaticResource PlanktonWhiteBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="redPlanktonRadioButton" Content="Red" CommandParameter="{StaticResource PlanktonRedBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="transparentPlanktonRadioButton" Content="Amoeba" CommandParameter="{StaticResource PlanktonTransparentBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="gunkPlanktonRadioButton" Content="Gunk" CommandParameter="{StaticResource PlanktonGunkBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="performancePlanktonRadioButton" Content="Quick" CommandParameter="{StaticResource PlanktonPerformanceBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                            <StackPanel IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Orientation="Horizontal" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2">
+                                <RadioButton Name="greenPlanktonRadioButton" Content="Green" CommandParameter="{StaticResource PlanktonGreenBrush}" IsChecked="True" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="whitePlanktonRadioButton" Content="White" CommandParameter="{StaticResource PlanktonWhiteBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="redPlanktonRadioButton" Content="Red" CommandParameter="{StaticResource PlanktonRedBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="transparentPlanktonRadioButton" Content="Amoeba" CommandParameter="{StaticResource PlanktonTransparentBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="gunkPlanktonRadioButton" Content="Gunk" CommandParameter="{StaticResource PlanktonGunkBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="performancePlanktonRadioButton" Content="Quick" CommandParameter="{StaticResource PlanktonPerformanceBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
                             </StackPanel>
-                            <Grid IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2">
+                            <Grid IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -549,7 +549,7 @@
                             <Button Content="Regenerate (Ctrl+R)" Margin="3" Grid.Row="13" Grid.Column="0" Grid.ColumnSpan="3" Command="{StaticResource RegenerateCommand}"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Bubbles" Visibility="{Binding Path=ShowBubblesTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Bubbles" Visibility="{Binding Path=ShowBubblesTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -580,7 +580,7 @@
                             <Button Content="Pop bubbles (Delete)" Margin="3" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Command="{StaticResource PopChildBubblesCommand}"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Water" Visibility="{Binding Path=ShowWaterTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Water" Visibility="{Binding Path=ShowWaterTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -603,8 +603,8 @@
                             <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
                                 <Grid.IsEnabled>
                                     <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
-                                        <Binding Path="IsForcedIntoTransparentMode" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
-                                        <Binding Path="OverrideBackgroundBrushWithCustom" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                        <Binding Path="IsForcedIntoTransparentMode" Mode="OneWay" Converter="{StaticResource BooleanInverterConverter}"/>
+                                        <Binding Path="OverrideBackgroundBrushWithCustom" Mode="OneWay" Converter="{StaticResource BooleanInverterConverter}"/>
                                     </MultiBinding>
                                     </Grid.IsEnabled>
                                 <Grid.ColumnDefinitions>
@@ -616,15 +616,15 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <RadioButton Name="seaBackgroundRadioButton" Content="Sea" CommandParameter="{StaticResource BlueBlackBackgroundBrush}" IsChecked="True" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="0" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="pondBackgroundRadioButton" Content="Pond" CommandParameter="{StaticResource GreenBlueBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="1" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="darkBackgroundRadioButton" Content="Dark" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="2" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="lightBackgroundRadioButton" Content="Light" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="3" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="strangeBackgroundRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="4" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="seaBackgroundRadioButton" Content="Sea" CommandParameter="{StaticResource BlueBlackBackgroundBrush}" IsChecked="True" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="0" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="pondBackgroundRadioButton" Content="Pond" CommandParameter="{StaticResource GreenBlueBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="1" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="darkBackgroundRadioButton" Content="Dark" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="2" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="lightBackgroundRadioButton" Content="Light" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="3" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="strangeBackgroundRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="4" Checked="backgroundBrushRadioButton_Checked"/>
                                 <CheckBox Content="Random" IsChecked="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=TwoWay}" Grid.Column="5"/>
                                 <Button Content="Generate" Margin="3" Command="{StaticResource GenerateNewRandomColourBackgroundCommand}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay}" Grid.Column="6"/>
                             </Grid>
-                            <Grid IsEnabled="{Binding Path=IsForcedIntoTransparentMode, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+                            <Grid IsEnabled="{Binding Path=IsForcedIntoTransparentMode, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -643,7 +643,7 @@
                             <Label Content="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource doubleRoundingConverter}, ConverterParameter=2}" IsEnabled="{Binding Path=UseLightingEffect, Mode=OneWay}" Grid.Row="5" Grid.Column="2"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Current" Visibility="{Binding Path=ShowCurrentTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Current" Visibility="{Binding Path=ShowCurrentTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -701,7 +701,7 @@
                                 <Label.IsEnabled>
                                     <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
                                         <Binding Path="UseCurrent" Mode="OneWay"/>
-                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource BooleanInverterConverter}"/>
                                     </MultiBinding>
                                 </Label.IsEnabled>
                             </Label>
@@ -709,7 +709,7 @@
                                 <Slider.IsEnabled>
                                     <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
                                         <Binding Path="UseCurrent" Mode="OneWay"/>
-                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource BooleanInverterConverter}"/>
                                     </MultiBinding>
                                 </Slider.IsEnabled>
                             </Slider>
@@ -730,7 +730,7 @@
                                                 <Setter.Value>
                                                     <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
                                                         <Binding Path="UseCurrent" Mode="OneWay"/>
-                                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                                        <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource BooleanInverterConverter}"/>
                                                     </MultiBinding>
                                                 </Setter.Value>
                                             </Setter>
@@ -746,7 +746,7 @@
                                         <Ellipse.IsEnabled>
                                             <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
                                                 <Binding Path="UseCurrent" Mode="OneWay"/>
-                                                <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                                <Binding Path="UseRandomCurrentDirection" Mode="OneWay" Converter="{StaticResource BooleanInverterConverter}"/>
                                             </MultiBinding>
                                         </Ellipse.IsEnabled>
                                         <Ellipse.Style>
@@ -865,7 +865,7 @@
                             <Button IsEnabled="{Binding Path=UseCurrent, Mode=OneWay}" Command="{StaticResource TriggerCurrentCommand}" Content="Trigger (Ctrl+Y)" Margin="3" Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="3"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Mass" Visibility="{Binding Path=ShowMassTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Mass" Visibility="{Binding Path=ShowMassTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -882,7 +882,7 @@
                             <CheckBox Content="Use gravity?" IsChecked="{Binding Path=UseGravity, Mode=TwoWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Sea Bed" Visibility="{Binding Path=ShowSeaBedTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Sea Bed" Visibility="{Binding Path=ShowSeaBedTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -916,7 +916,7 @@
                                 <Grid.IsEnabled>
                                     <MultiBinding Converter="{StaticResource multiBooleanAndToSingleBooleanConverter}">
                                         <Binding Path="UseSeaBed" Mode="OneWay"/>
-                                        <Binding Path="OverrideSeaBedBrushWithCustom" Mode="OneWay" Converter="{StaticResource booleanInverterConverter}"/>
+                                        <Binding Path="OverrideSeaBedBrushWithCustom" Mode="OneWay" Converter="{StaticResource BooleanInverterConverter}"/>
                                     </MultiBinding>
                                 </Grid.IsEnabled>
                                 <Grid.ColumnDefinitions>
@@ -928,11 +928,11 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <RadioButton Name="rockSeaBedRadioButton" Content="Rock" CommandParameter="{StaticResource GraySeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" IsChecked="True" Grid.Column="0" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="sandSeaBedRadioButton" Content="Sand" CommandParameter="{StaticResource BrownSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="1" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="slateSeaBedRadioButton" Content="Slate" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="2" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="iceSeaBedRadioButton" Content="Ice" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="3" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="strangeSeaBedRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource booleanInverterConverter}}" Grid.Column="4" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="rockSeaBedRadioButton" Content="Rock" CommandParameter="{StaticResource GraySeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" IsChecked="True" Grid.Column="0" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="sandSeaBedRadioButton" Content="Sand" CommandParameter="{StaticResource BrownSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="1" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="slateSeaBedRadioButton" Content="Slate" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="2" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="iceSeaBedRadioButton" Content="Ice" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="3" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="strangeSeaBedRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="4" Checked="seaBedRadioButton_Checked"/>
                                 <CheckBox Content="Random" IsChecked="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=TwoWay}" Grid.Column="5"/>
                                 <Button Content="Generate" Margin="3" Command="{StaticResource GenerateNewRandomColourSeaBedCommand}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay}" Grid.Column="6"/>
                             </Grid>
@@ -973,7 +973,7 @@
                             </Button>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Preview" Visibility="{Binding Path=ShowPreviewTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Preview" Visibility="{Binding Path=ShowPreviewTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -1108,7 +1108,7 @@
                             <Button Command="{StaticResource DefaultZoomCommand}" Content="Default" Margin="3" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Save/Load" Visibility="{Binding Path=ShowSaveLoadTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Save/Load" Visibility="{Binding Path=ShowSaveLoadTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -1118,7 +1118,7 @@
                             <Button Content="Load settings from an xml file (Crtl+O)" Command="{StaticResource LoadCommand}" Margin="3" Grid.Row="1"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Other" Visibility="{Binding Path=ShowOtherTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="Other" Visibility="{Binding Path=ShowOtherTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -1169,7 +1169,7 @@
                             <Button Content="Move Options To External Window (Ctrl+E)" IsEnabled="{Binding Path=IsOptionsBreakoutViable, Mode=OneWay}" Command="{StaticResource BreakoutOptionsToExternalWindowCommand}" Margin="3" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="About" Visibility="{Binding Path=ShowAboutTab, Mode=OneWay, Converter={StaticResource booleanToVisibilityCollapsedConverter}}">
+                    <TabItem Header="About" Visibility="{Binding Path=ShowAboutTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
