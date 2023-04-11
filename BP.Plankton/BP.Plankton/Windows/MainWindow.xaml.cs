@@ -2,12 +2,12 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using BP.Plankton.Classes;
+using BP.Plankton.Model;
+using BP.Plankton.Model.Currents;
+using BP.Plankton.Model.Settings;
 using BP.Plankton.Properties;
-using Plankton.Classes;
-using Plankton.IO;
 
-namespace Plankton
+namespace BP.Plankton.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -93,7 +93,7 @@ namespace Plankton
                 planktonControl.UseZoomPreviewBlurEffect = settings.UseZoomPreviewBlurEffect;
                 planktonControl.ZoomPreviewBlurCorrection = settings.ZoomPreviewBlurCorrection;
                 planktonControl.ZoomPreviewBlurStrength = settings.ZoomPreviewBlurStrength;
-                planktonControl.ZoomPreviewLocatorMode = (ZoomPreviewLocatorMode)Enum.Parse(typeof (ZoomPreviewLocatorMode), settings.ZoomPreviewLocatorMode);
+                planktonControl.ZoomPreviewLocatorMode = (ZoomPreviewLocaterMode)Enum.Parse(typeof (ZoomPreviewLocaterMode), settings.ZoomPreviewLocatorMode);
                 planktonControl.ZoomPreviewSize = settings.ZoomPreviewSize;
             }
             catch (Exception e)
@@ -208,7 +208,7 @@ namespace Plankton
                     // determine degrees - add 90 as Atan2 returns north as -90, east a 0, south as 90 and west as 180
                     var degrees = 90 + Math.Atan2(vector.Y, vector.X) * (180d / Math.PI);
 
-                    var c = new Current(strength, degrees, ECurrentSwellStage.MainUp)
+                    var c = new Current(strength, degrees, CurrentSwellStage.MainUp)
                     {
                         Deceleration = planktonControl.IgnoreWaterViscosityWhenGeneratingCurrent ? planktonControl.CurrentDeceleration : planktonControl.WaterViscosity,
                         Acceleration = planktonControl.IgnoreWaterViscosityWhenGeneratingCurrent ? planktonControl.CurrentAcceleration : planktonControl.WaterViscosity

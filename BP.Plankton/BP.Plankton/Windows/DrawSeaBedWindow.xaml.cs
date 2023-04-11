@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using BP.Plankton.Controls;
 
-namespace Plankton
+namespace BP.Plankton.Windows
 {
     /// <summary>
     /// Interaction logic for DrawSeaBedWindow.xaml

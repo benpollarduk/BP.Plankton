@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Plankton
+namespace BP.Plankton.Controls
 {
     /// <summary>
     /// Interaction logic for DrawSeaBedControl.xaml

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Converts multiple boolean values to one Visibility. If all the booleans are true then Visibility.Visible is returned, else Visibility.Collapsed is returned.

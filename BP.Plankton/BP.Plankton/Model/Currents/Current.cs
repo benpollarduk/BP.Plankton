@@ -2,29 +2,32 @@
 using System.Windows;
 using System.Windows.Media.Media3D;
 
-namespace BP.Plankton.Classes
+namespace BP.Plankton.Model.Currents
 {
     /// <summary>
     /// Represents an underwater current.
     /// </summary>
     public class Current
     {
+        #region Constants
+
+        private const double StrengthRealignment = 0.1d;
+
+        #endregion
+
         #region StaticProperties
 
-        /// <summary>
-        /// Get a stationary vector.
-        /// </summary>
-        private static readonly Vector stationary = new Vector(0, 0);
+        private static readonly Vector Stationary = new Vector(0, 0);
+        private static readonly Vector3D Stationary3D = new Vector3D(0, 0, 0);
+        
+        #endregion
 
-        /// <summary>
-        /// Get a stationary vector.
-        /// </summary>
-        private static readonly Vector3D stationary3D = new Vector3D(0, 0, 0);
+        #region Fields
 
-        /// <summary>
-        /// Get a value for realigning strength.
-        /// </summary>
-        private static readonly double strengthRealignment = 0.1d;
+        private Vector relativeDirection = Stationary;
+        private Vector preCurrentRelativeDirection = Stationary;
+        private Vector3D vector = Stationary3D;
+        private double totalZAdjustement;
 
         #endregion
 
@@ -48,7 +51,7 @@ namespace BP.Plankton.Classes
         /// <summary>
         /// Get the swell stage.
         /// </summary>
-        public ECurrentSwellStage SwellStage { get; private set; } = ECurrentSwellStage.PreMainUp;
+        public CurrentSwellStage SwellStage { get; private set; } = CurrentSwellStage.PreMainUp;
 
         /// <summary>
         /// Get or set the acceleration ratio within a range of 0.0 and 1.0 where 1.0 is infinite.
@@ -71,7 +74,7 @@ namespace BP.Plankton.Classes
         public double PreCurrentDecelerationFactor { get; set; } = 1d;
 
         /// <summary>
-        /// Get or set a factor that is used when calculatingstrength for the precurrent. This is used to divide the Strength to obtain a lesser appearance of current.
+        /// Get or set a factor that is used when calculating strength for the pre-current. This is used to divide the Strength to obtain a lesser appearance of current.
         /// </summary>
         public double PreCurrentStrengthFactor { get; set; } = 8d;
 
@@ -95,29 +98,9 @@ namespace BP.Plankton.Classes
         /// </summary>
         public double MinimumXYMovementBeforeZeroing { get; set; } = 0.25d;
 
-        /// <summary>
-        /// Get or set the relative direction of the movement.
-        /// </summary>
-        private Vector relativeDirection = stationary;
-
-        /// <summary>
-        /// Get or set the pre-current relative direction of the movement.
-        /// </summary>
-        private Vector preCurrentRelativeDirection = stationary;
-
-        /// <summary>
-        /// Get or set the actual working vector of the movement.
-        /// </summary>
-        private Vector3D vector = stationary3D;
-
-        /// <summary>
-        /// Get or set total z adjustment.
-        /// </summary>
-        private double totalZAdjustement;
-
         #endregion
 
-        #region Methods
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the Current class.
@@ -157,7 +140,7 @@ namespace BP.Plankton.Classes
         /// <param name="strength">Specify the strength.</param>
         /// <param name="direction">Specify the direction in degrees.</param>
         /// <param name="entryPoint">Specify the entry point of the current.</param>
-        public Current(double strength, double direction, ECurrentSwellStage entryPoint)
+        public Current(double strength, double direction, CurrentSwellStage entryPoint)
         {
             Strength = strength;
             Direction = direction;
@@ -172,7 +155,7 @@ namespace BP.Plankton.Classes
         /// <param name="direction">Specify the direction in degrees.</param>
         /// <param name="zAdjustment">Specify an adjustment on Z that is applied for each step of the current.</param>
         /// <param name="entryPoint">Specify the entry point of the current.</param>
-        public Current(double strength, double direction, double zAdjustment, ECurrentSwellStage entryPoint)
+        public Current(double strength, double direction, double zAdjustment, CurrentSwellStage entryPoint)
         {
             Strength = strength;
             Direction = direction;
@@ -180,12 +163,16 @@ namespace BP.Plankton.Classes
             SwellStage = entryPoint;
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Stop any active movement this Current.
         /// </summary>
         public virtual void Stop()
         {
-            vector = stationary3D;
+            vector = Stationary3D;
             IsActive = false;
         }
 
@@ -202,61 +189,59 @@ namespace BP.Plankton.Classes
         /// Start active movement for this Current.
         /// </summary>
         /// <param name="entryPoint">Specify the entry point of the current.</param>
-        public virtual void Start(ECurrentSwellStage entryPoint)
+        public virtual void Start(CurrentSwellStage entryPoint)
         {
             IsActive = true;
             SwellStage = entryPoint;
 
             switch (SwellStage)
             {
-                case (ECurrentSwellStage.MainDown):
+                case (CurrentSwellStage.MainDown):
 
                         // set vector
                         relativeDirection.X = Math.Sin(Direction / (180 / Math.PI));
                         relativeDirection.Y = -Math.Cos(Direction / (180 / Math.PI));
 
                         // ensure fully ramped up to start
-                        while (relativeDirection.Length < (Strength * strengthRealignment))
+                        while (relativeDirection.Length < (Strength * StrengthRealignment))
                         {
-                            // update vector
                             relativeDirection.X /= Acceleration;
                             relativeDirection.Y /= Acceleration;
                         }
 
                         break;
-                case (ECurrentSwellStage.MainUp):
+                case (CurrentSwellStage.MainUp):
 
                         // set vector
                         relativeDirection.X = Math.Sin(Direction / (180 / Math.PI));
                         relativeDirection.Y = -Math.Cos(Direction / (180 / Math.PI));
 
                         break;
-                case (ECurrentSwellStage.PreMainDown):
+                case (CurrentSwellStage.PreMainDown):
 
                         // set vector
                         relativeDirection.X = Math.Sin(Direction / (180 / Math.PI));
                         relativeDirection.Y = -Math.Cos(Direction / (180 / Math.PI));
 
-                        // set precurrent vector
+                        // set pre-current vector
                         preCurrentRelativeDirection.X = -relativeDirection.X;
                         preCurrentRelativeDirection.Y = -relativeDirection.Y;
 
                         // ensure fully ramped up first
-                        while (preCurrentRelativeDirection.Length < (Strength * strengthRealignment) / PreCurrentStrengthFactor)
+                        while (preCurrentRelativeDirection.Length < (Strength * StrengthRealignment) / PreCurrentStrengthFactor)
                         {
-                            // update vector
                             preCurrentRelativeDirection.X /= (Acceleration - ((1 - Acceleration) / PreCurrentAccelerationFactor));
                             preCurrentRelativeDirection.Y /= (Acceleration - ((1 - Acceleration) / PreCurrentAccelerationFactor));
                         }
 
                         break;
-                case (ECurrentSwellStage.PreMainUp):
+                case (CurrentSwellStage.PreMainUp):
 
                         // set vector
                         relativeDirection.X = Math.Sin(Direction / (180 / Math.PI));
                         relativeDirection.Y = -Math.Cos(Direction / (180 / Math.PI));
 
-                        // set precurrent vector
+                        // set pre-current vector
                         preCurrentRelativeDirection.X = -relativeDirection.X;
                         preCurrentRelativeDirection.Y = -relativeDirection.Y;
 
@@ -273,7 +258,7 @@ namespace BP.Plankton.Classes
         /// <returns>The current strength as a percentage of the total strength.</returns>
         public double GetCurrentStrengthOfTotalStrength()
         {
-            return (100d / (Strength * strengthRealignment)) * Get2DVectorLength(vector);
+            return (100d / (Strength * StrengthRealignment)) * Get2DVectorLength(vector);
         }
 
         /// <summary>
@@ -294,7 +279,7 @@ namespace BP.Plankton.Classes
 
             switch (SwellStage)
             {
-                case (ECurrentSwellStage.MainDown):
+                case CurrentSwellStage.MainDown:
 
                         // apply adjustment per step
                         vector.Z = ZAdjustmentPerStep * Deceleration;
@@ -324,7 +309,7 @@ namespace BP.Plankton.Classes
                             Stop();
 
                         break;
-                case (ECurrentSwellStage.MainUp):
+                case CurrentSwellStage.MainUp:
 
                         // apply adjustment per step
                         vector.Z = ZAdjustmentPerStep / Acceleration;
@@ -334,11 +319,11 @@ namespace BP.Plankton.Classes
                         vector.Y = relativeDirection.Y /= Acceleration;
 
                         // if hit full strength
-                        if (Get2DVectorLength(vector) >= (Strength * strengthRealignment))
-                            SwellStage = ECurrentSwellStage.MainDown;
+                        if (Get2DVectorLength(vector) >= (Strength * StrengthRealignment))
+                            SwellStage = CurrentSwellStage.MainDown;
 
                         break;
-                case (ECurrentSwellStage.PreMainDown):
+                case CurrentSwellStage.PreMainDown:
 
                         // apply adjustment per step
                         vector.Z = ZAdjustmentPerStep * (Deceleration - ((1 - Deceleration) / PreCurrentDecelerationFactor));
@@ -364,10 +349,10 @@ namespace BP.Plankton.Classes
                         }
 
                         if (Math.Abs(Get2DVectorLength(vector)) < tollerance)
-                            SwellStage = ECurrentSwellStage.MainUp;
+                            SwellStage = CurrentSwellStage.MainUp;
 
                         break;
-                case (ECurrentSwellStage.PreMainUp):
+                case CurrentSwellStage.PreMainUp:
 
                         // apply adjustment per step
                         vector.Z = ZAdjustmentPerStep / (Acceleration - ((1 - Acceleration) / PreCurrentAccelerationFactor));
@@ -377,8 +362,8 @@ namespace BP.Plankton.Classes
                         vector.Y = preCurrentRelativeDirection.Y /= (Acceleration - ((1 - Acceleration) / PreCurrentAccelerationFactor));
 
                         // if hit pre strength for retraction
-                        if (Get2DVectorLength(vector) >= (Strength * strengthRealignment) / PreCurrentStrengthFactor)
-                            SwellStage = ECurrentSwellStage.PreMainDown;
+                        if (Get2DVectorLength(vector) >= (Strength * StrengthRealignment) / PreCurrentStrengthFactor)
+                            SwellStage = CurrentSwellStage.PreMainDown;
 
                         break;
                 default: throw new NotImplementedException();
@@ -404,33 +389,9 @@ namespace BP.Plankton.Classes
         /// <returns>The length of the 3D vector as if it were a 2D vector.</returns>
         public static double Get2DVectorLength(Vector3D vector3D)
         {
-            // determine hypotenuse
             return Math.Abs(Math.Sqrt((vector3D.X * vector3D.X) + (vector3D.Y * vector3D.Y)));
         }
 
         #endregion
-    }
-
-    /// <summary>
-    /// Enumeration of swell stages for currents.
-    /// </summary>
-    public enum ECurrentSwellStage
-    {
-        /// <summary>
-        /// Ramping up for main.
-        /// </summary>
-        MainUp = 0,
-        /// <summary>
-        /// Ramping down from main.
-        /// </summary>
-        MainDown,
-        /// <summary>
-        /// Ramping up for pre main.
-        /// </summary>
-        PreMainUp,
-        /// <summary>
-        /// Ramping down for pre main.
-        /// </summary>
-        PreMainDown
     }
 }

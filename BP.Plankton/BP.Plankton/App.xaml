@@ -1,7 +1,7 @@
-﻿<Application x:Class="Plankton.App"
+﻿<Application x:Class="BP.Plankton.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:Plankton.Converters"
+             xmlns:converters1="clr-namespace:BP.Plankton.Converters"
              Startup="Application_Startup" ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <RoutedUICommand x:Key="RegenerateCommand" Text="Regenerate"/>
@@ -35,9 +35,9 @@
         <RoutedUICommand x:Key="GenerateNewRandomColourBackgroundCommand" Text="Generate New Random Colour Background"/>
         <RoutedUICommand x:Key="GenerateNewRandomColourSeaBedCommand" Text="Generate New Random Colour Sea Bed"/>
         <RoutedUICommand x:Key="BreakoutOptionsToExternalWindowCommand" Text="Break Out OptionsTo External Window"/>
-        <converters:BooleanToVisibiltyConverter x:Key="booleanToVisibilityConverter"/>
-        <converters:BooleanToVisibiltyCollapsedConverter x:Key="booleanToVisibilityCollapsedConverter"/>
-        <converters:BooleanInverterConverter x:Key="booleanInverterConverter"/>
+        <converters1:BooleanToVisibiltyConverter x:Key="booleanToVisibilityConverter"/>
+        <converters1:BooleanToVisibiltyCollapsedConverter x:Key="booleanToVisibilityCollapsedConverter"/>
+        <converters1:BooleanInverterConverter x:Key="booleanInverterConverter"/>
         <SolidColorBrush x:Key="controlEnabledForegroundBrush" Color="White"/>
         <SolidColorBrush x:Key="controlDisabledForegroundBrush" Color="Gray"/>
         <Style x:Key="buttonBaseStyle" TargetType="Button">

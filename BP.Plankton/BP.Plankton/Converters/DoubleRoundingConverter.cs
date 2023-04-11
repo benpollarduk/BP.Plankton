@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Convert between a Double representing value and a rounded form returned as a Double. Specify a double as the parameter to control the precision.

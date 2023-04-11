@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Windows;
-using Plankton.IO;
+using BP.Plankton.Model.Settings;
+using BP.Plankton.Windows;
 
-namespace Plankton
+namespace BP.Plankton
 {
     /// <summary>
     /// Interaction logic for App.xaml

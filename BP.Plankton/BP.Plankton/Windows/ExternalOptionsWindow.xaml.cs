@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Plankton
+namespace BP.Plankton.Windows
 {
     /// <summary>
     /// Interaction logic for ExternalOptionsWindow.xaml

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Converts multiple boolean values to one boolean. If all the booleans are true then true is returned, else false is returned.

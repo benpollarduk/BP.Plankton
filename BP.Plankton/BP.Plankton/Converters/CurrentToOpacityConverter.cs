@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using BP.Plankton.Classes;
-using Plankton.Classes;
+using BP.Plankton.Model.Currents;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Converts a Current to a Double representing an opacity. The Current.GetCurrentStrengthOfTotalStrength() method is used to obtain an opacity value between 0.25 and 1.0 where stronger values are more opaque.

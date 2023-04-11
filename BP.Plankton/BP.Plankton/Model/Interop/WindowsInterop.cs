@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Plankton.Classes
+namespace BP.Plankton.Model.Interop
 {
     /// <summary>
     /// Represents a class for invoking Windows Interop methods
@@ -9,21 +9,13 @@ namespace Plankton.Classes
     {
         #region DLLImports
 
-        /// <summary>
-        /// Get a key state.
-        /// </summary>
-        /// <param name="vKey">The key code of the key to get the state for.</param>
-        /// <returns>The state of the key.</returns>
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
 
         #endregion
 
-        #region StaticProperties
+        #region Constants
 
-        /// <summary>
-        /// Get the code for the left mouse button.
-        /// </summary>
         private const int VK_LBUTTON = 0x01;
 
         #endregion
@@ -42,7 +34,7 @@ namespace Plankton.Classes
         /// <summary>
         /// Get if a button is down.
         /// </summary>
-        /// <param name="key">The keycode of the button to check.</param>
+        /// <param name="key">The key code of the button to check.</param>
         /// <returns>True if the button is down, else false.</returns>
         public static bool IsButtonDown(int key)
         {

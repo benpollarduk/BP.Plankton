@@ -1,4 +1,4 @@
-﻿<Window x:Class="Plankton.ExternalOptionsWindow"
+﻿<Window x:Class="BP.Plankton.Windows.ExternalOptionsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Plankton Options" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStyle="ToolWindow" Background="Black">

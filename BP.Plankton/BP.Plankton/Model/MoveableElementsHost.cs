@@ -4,39 +4,24 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Plankton.Classes
+namespace BP.Plankton.Model
 {
     /// <summary>
     /// Provides a class for hosting MoveableElements.
     /// </summary>
     public class MoveableElementsHost : FrameworkElement
     {
-        #region Properties
+        #region Fields
 
-        /// <summary>
-        /// Get or set the plankton drawing visual.
-        /// </summary>
         private DrawingVisual planktonDrawingVisual;
-
-        /// <summary>
-        /// Get or set the bubble drawing visual.
-        /// </summary>
         private DrawingVisual bubbleDrawingVisual;
-
-        /// <summary>
-        /// Get or set the main bubble drawing visual.
-        /// </summary>
         private DrawingVisual mainBubbleDrawingVisual;
-
-        /// <summary>
-        /// Get or set a list containing the extended drawing visuals.
-        /// </summary>
         private readonly List<DrawingVisual> extendedDrawingVisuals = new List<DrawingVisual>();
-
-        /// <summary>
-        /// Get or ste this hosts children.
-        /// </summary>
         private readonly VisualCollection children;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the number of visual child elements within this element.
@@ -45,7 +30,7 @@ namespace Plankton.Classes
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the MoveableElementsHost class.
@@ -54,6 +39,10 @@ namespace Plankton.Classes
         {
             children = new VisualCollection(this);
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Remove all drawing visuals from this control.
@@ -153,13 +142,11 @@ namespace Plankton.Classes
         /// <param name="visual">The visual to remove.</param>
         public virtual void RemoveExtendedVisual(DrawingVisual visual)
         {
-            if (extendedDrawingVisuals.Contains(visual))
-            {
-                extendedDrawingVisuals.Remove(visual);
-                Remove(visual);
-            }
-            else
+            if (!extendedDrawingVisuals.Contains(visual))
                 throw new InvalidOperationException("The specified visual is not included in this hosts visual children.");
+
+            extendedDrawingVisuals.Remove(visual);
+            Remove(visual);
         }
 
         /// <summary>
@@ -172,7 +159,7 @@ namespace Plankton.Classes
         }
 
         /// <summary>
-        /// Get an extended DraingVisual layer at a specifed index.
+        /// Get an extended DraingVisual layer at a specified index.
         /// </summary>
         /// <param name="index">The index of the visual.</param>
         /// <returns>A DrawingVisual layer at the specified index.</returns>
@@ -185,7 +172,7 @@ namespace Plankton.Classes
         }
 
         /// <summary>
-        /// Deterime if this contains a visual.
+        /// Determine if this contains a visual.
         /// </summary>
         /// <param name="visual">The visual to locate.</param>
         /// <returns>True if the visual could be located, else false.</returns>

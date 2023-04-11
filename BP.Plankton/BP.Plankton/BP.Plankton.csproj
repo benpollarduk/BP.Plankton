@@ -83,37 +83,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\FullScreenModeChangedEventHandler.cs" />
-    <Compile Include="Classes\QuickSetting.cs" />
-    <Compile Include="Classes\ZoomPreviewLocatorMode.cs" />
+    <Compile Include="Model\Currents\CurrentSwellStage.cs" />
+    <Compile Include="Model\Settings\QuickSetting.cs" />
+    <Compile Include="Model\ZoomPreviewLocaterMode.cs" />
     <Compile Include="Converters\BooleanToVisibilityCollapsedConverter.cs" />
     <Compile Include="Converters\CurrentToOpacityConverter.cs" />
     <Compile Include="Converters\DoubleRoundingConverter.cs" />
     <Compile Include="Converters\DoubleToAnimationBeginTimeConverter.cs" />
     <Compile Include="Converters\DoubleToAnimationDurationConverter.cs" />
-    <Compile Include="DrawSeaBedControl.xaml.cs">
+    <Compile Include="Controls\DrawSeaBedControl.xaml.cs">
       <DependentUpon>DrawSeaBedControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DrawSeaBedWindow.xaml.cs">
+    <Compile Include="Windows\DrawSeaBedWindow.xaml.cs">
       <DependentUpon>DrawSeaBedWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExternalOptionsWindow.xaml.cs">
+    <Compile Include="Windows\ExternalOptionsWindow.xaml.cs">
       <DependentUpon>ExternalOptionsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
-    <Page Include="DrawSeaBedControl.xaml">
+    <Page Include="Controls\DrawSeaBedControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DrawSeaBedWindow.xaml">
+    <Page Include="Windows\DrawSeaBedWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExternalOptionsWindow.xaml">
+    <Page Include="Windows\ExternalOptionsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -121,31 +121,31 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\Current.cs" />
-    <Compile Include="Classes\MoveableElementsHost.cs" />
-    <Compile Include="Classes\WindowsInterop.cs" />
+    <Compile Include="Model\Currents\Current.cs" />
+    <Compile Include="Model\MoveableElementsHost.cs" />
+    <Compile Include="Model\Interop\WindowsInterop.cs" />
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\BooleanToVisibiltyConverter.cs" />
     <Compile Include="Converters\DoubleToWaterViscosityConverter.cs" />
     <Compile Include="Converters\MultiBooleanAndToBooleanConverter.cs" />
     <Compile Include="Converters\MultiBooleanOrToVisibilityConverter.cs" />
     <Compile Include="Converters\ZoomPreviewMaxHeightConverter.cs" />
-    <Compile Include="IO\PlanktonSettingsFile.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Model\Settings\PlanktonSettingsFile.cs" />
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PlanktonControl.xaml">
+    <Page Include="Controls\PlanktonControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\MultiBooleanAndToVisibilityConverter.cs" />
-    <Compile Include="PlanktonControl.xaml.cs">
+    <Compile Include="Controls\PlanktonControl.xaml.cs">
       <DependentUpon>PlanktonControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\MoveableElement.cs" />
+    <Compile Include="Model\MoveableElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -176,35 +176,35 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\0xdFXLogo.png" />
+    <Resource Include="Resources\Images\Assets\0xdFXLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Plankton.png" />
+    <Resource Include="Resources\Images\Assets\Plankton.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon.ico" />
+    <Resource Include="Resources\Images\Assets\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Buttons\Default.png" />
+    <Resource Include="Resources\Images\Buttons\Default.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Buttons\Attraction.png" />
-    <Resource Include="Images\Buttons\Dense.png" />
-    <Resource Include="Images\Buttons\Gunk.png" />
-    <Resource Include="Images\Buttons\Original.png" />
+    <Resource Include="Resources\Images\Buttons\Attraction.png" />
+    <Resource Include="Resources\Images\Buttons\Dense.png" />
+    <Resource Include="Resources\Images\Buttons\Gunk.png" />
+    <Resource Include="Resources\Images\Buttons\Original.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Buttons\AntiGravity.png" />
-    <Resource Include="Images\Buttons\Spikey.png" />
+    <Resource Include="Resources\Images\Buttons\AntiGravity.png" />
+    <Resource Include="Resources\Images\Buttons\Spikey.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Buttons\Quick.png" />
+    <Resource Include="Resources\Images\Buttons\Quick.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Buttons\Random.png" />
+    <Resource Include="Resources\Images\Buttons\Random.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Buttons\Startup.png" />
+    <Resource Include="Resources\Images\Buttons\Startup.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -219,7 +219,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Buttons\PenWhiteTrans.png" />
+    <Resource Include="Resources\Images\Buttons\PenWhiteTrans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

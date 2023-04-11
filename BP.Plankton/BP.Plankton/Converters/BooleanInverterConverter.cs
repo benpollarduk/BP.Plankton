@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Converter for inverting a boolean value.

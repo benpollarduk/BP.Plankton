@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Converts between a Double and a String representing a water viscosity value. If a value other than 1 is provided it is returned as it is, if it is equal to 1 then infine (∞) is returned. 

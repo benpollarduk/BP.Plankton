@@ -1,48 +1,48 @@
-﻿namespace Plankton.Classes
+﻿namespace BP.Plankton.Model.Settings
 {
     /// <summary>
-    /// Enumeration of quick setting modes
+    /// Enumeration of quick setting modes.
     /// </summary>
     internal enum QuickSetting
     {
         /// <summary>
-        /// Default settings
+        /// Default settings.
         /// </summary>
         Default = 0,
         /// <summary>
-        /// Random settings
+        /// Random settings.
         /// </summary>
         Random,
         /// <summary>
-        /// Gunk settings
+        /// Gunk settings.
         /// </summary>
         Gunk,
-        /// <summary>
-        /// Attraction settings
+        /// <summary>.
+        /// Attraction settings.
         /// </summary>
         Attraction,
         /// <summary>
-        /// Performance settings
+        /// Performance settings.
         /// </summary>
         Performance,
         /// <summary>
-        /// Dense settings
+        /// Dense settings.
         /// </summary>
         Dense,
         /// <summary>
-        /// Original settings
+        /// Original settings.
         /// </summary>
         Original,
         /// <summary>
-        /// Spikey settings
+        /// Spikey settings.
         /// </summary>
         Spikey,
         /// <summary>
-        /// Anti-gravity settings
+        /// Anti-gravity settings.
         /// </summary>
         AntiGravity,
         /// <summary>
-        /// Luminous random startup settings
+        /// Luminous random startup settings.
         /// </summary>
         LuminousRandomStartup
     }

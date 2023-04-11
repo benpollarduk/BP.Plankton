@@ -15,13 +15,15 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Threading;
-using BP.Plankton.Classes;
+using BP.Plankton.Converters;
+using BP.Plankton.Model;
+using BP.Plankton.Model.Currents;
+using BP.Plankton.Model.Interop;
+using BP.Plankton.Model.Settings;
+using BP.Plankton.Windows;
 using Microsoft.Win32;
-using Plankton.Classes;
-using Plankton.Converters;
-using Plankton.IO;
 
-namespace Plankton
+namespace BP.Plankton.Controls
 {
     /// <summary>
     /// Interaction logic for PlanktonControl.xaml
@@ -738,9 +740,9 @@ namespace Plankton
         /// <summary>
         /// Get or set the mode to use with the zoom preview locator. This is a dependency property.
         /// </summary>
-        public ZoomPreviewLocatorMode ZoomPreviewLocatorMode
+        public ZoomPreviewLocaterMode ZoomPreviewLocatorMode
         {
-            get { return (ZoomPreviewLocatorMode)GetValue(ZoomPreviewLocatorModeProperty); }
+            get { return (ZoomPreviewLocaterMode)GetValue(ZoomPreviewLocatorModeProperty); }
             set { SetValue(ZoomPreviewLocatorModeProperty, value); }
         }
 
@@ -783,9 +785,9 @@ namespace Plankton
         /// <summary>
         /// Get or set the current mode. This is a dependency property.
         /// </summary>
-        public ECurrentSwellStage CurrentMode
+        public CurrentSwellStage CurrentMode
         {
-            get { return (ECurrentSwellStage)GetValue(CurrentModeProperty); }
+            get { return (CurrentSwellStage)GetValue(CurrentModeProperty); }
             set { SetValue(CurrentModeProperty, value); }
         }
 
@@ -1413,7 +1415,7 @@ namespace Plankton
         /// <summary>
         /// Identifies the PlanktonControl.ZoomPreviewLocatorMode property.
         /// </summary>
-        public static readonly DependencyProperty ZoomPreviewLocatorModeProperty = DependencyProperty.Register("ZoomPreviewLocatorMode", typeof (ZoomPreviewLocatorMode), typeof (PlanktonControl), new PropertyMetadata(ZoomPreviewLocatorMode.AnythingButMainBubble, OnZoomPreviewLocatorModePropertyChanged));
+        public static readonly DependencyProperty ZoomPreviewLocatorModeProperty = DependencyProperty.Register("ZoomPreviewLocatorMode", typeof (ZoomPreviewLocaterMode), typeof (PlanktonControl), new PropertyMetadata(ZoomPreviewLocaterMode.AnythingButMainBubble, OnZoomPreviewLocatorModePropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsZoomPreviewLocatorVisible property.
@@ -1438,7 +1440,7 @@ namespace Plankton
         /// <summary>
         /// Identifies the PlanktonControl.CurrentMode property.
         /// </summary>
-        public static readonly DependencyProperty CurrentModeProperty = DependencyProperty.Register("CurrentMode", typeof (ECurrentSwellStage), typeof (PlanktonControl), new PropertyMetadata(ECurrentSwellStage.PreMainUp, OnCurrentModePropertyChanged));
+        public static readonly DependencyProperty CurrentModeProperty = DependencyProperty.Register("CurrentMode", typeof (CurrentSwellStage), typeof (PlanktonControl), new PropertyMetadata(CurrentSwellStage.PreMainUp, OnCurrentModePropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowAboutTab property.
@@ -2021,7 +2023,7 @@ namespace Plankton
             bool useCurrentChanged;
             bool showLocatorLine;
             bool useZOnCurrent;
-            ECurrentSwellStage currentMode;
+            CurrentSwellStage currentMode;
             IValueConverter currentIndicatorOpacityConverter = new CurrentToOpacityConverter();
             var culture = CultureInfo.CurrentCulture;
             bool useZoomPreviewBlurEffect;
@@ -2578,7 +2580,7 @@ namespace Plankton
         /// <param name="locatorMode">Specify the locator mode to use for the zoom preview.</param>
         /// <param name="showLocator">Returns if the locator should be shown.</param>
         /// <returns>The logical element for the focus to remain on.</returns>
-        protected virtual MoveableElement GetPreviewFocusElement(ZoomPreviewLocatorMode locatorMode, out bool showLocator)
+        protected virtual MoveableElement GetPreviewFocusElement(ZoomPreviewLocaterMode locatorMode, out bool showLocator)
         {
             if (bubble != null)
             {
@@ -2586,9 +2588,9 @@ namespace Plankton
 
                 switch (locatorMode)
                 {
-                    case (ZoomPreviewLocatorMode.Always):
-                    case (ZoomPreviewLocatorMode.AnythingButPlankton):
-                    case (ZoomPreviewLocatorMode.OnlyMainBubble):
+                    case (ZoomPreviewLocaterMode.Always):
+                    case (ZoomPreviewLocaterMode.AnythingButPlankton):
+                    case (ZoomPreviewLocaterMode.OnlyMainBubble):
                         showLocator = true;
                         break;
                     default:
@@ -2612,10 +2614,10 @@ namespace Plankton
 
                         switch (locatorMode)
                         {
-                            case (ZoomPreviewLocatorMode.Always):
-                            case (ZoomPreviewLocatorMode.AnythingButMainBubble):
-                            case (ZoomPreviewLocatorMode.AnythingButPlankton):
-                            case (ZoomPreviewLocatorMode.OnlyChildBubbles):
+                            case (ZoomPreviewLocaterMode.Always):
+                            case (ZoomPreviewLocaterMode.AnythingButMainBubble):
+                            case (ZoomPreviewLocaterMode.AnythingButPlankton):
+                            case (ZoomPreviewLocaterMode.OnlyChildBubbles):
                                 showLocator = true;
                                 break;
                             default:
@@ -2647,9 +2649,9 @@ namespace Plankton
 
                 switch (locatorMode)
                 {
-                    case (ZoomPreviewLocatorMode.Always):
-                    case (ZoomPreviewLocatorMode.AnythingButMainBubble):
-                    case (ZoomPreviewLocatorMode.OnlyPlankton):
+                    case (ZoomPreviewLocaterMode.Always):
+                    case (ZoomPreviewLocaterMode.AnythingButMainBubble):
+                    case (ZoomPreviewLocaterMode.OnlyPlankton):
                         showLocator = true;
                         break;
                     default:
@@ -2665,9 +2667,9 @@ namespace Plankton
             {
                 switch (locatorMode)
                 {
-                    case (ZoomPreviewLocatorMode.Always):
-                    case (ZoomPreviewLocatorMode.AnythingButMainBubble):
-                    case (ZoomPreviewLocatorMode.OnlyPlankton):
+                    case (ZoomPreviewLocaterMode.Always):
+                    case (ZoomPreviewLocaterMode.AnythingButMainBubble):
+                    case (ZoomPreviewLocaterMode.OnlyPlankton):
                         showLocator = true;
                         break;
                     default:
@@ -3423,7 +3425,7 @@ namespace Plankton
                     file.UseZOnCurrent = randomGenerator.Next(0, 100) % 2 == 0;
                     file.CurrentZStep = randomGenerator.Next(1, 100);
                     file.CurrentZStepVariation = randomGenerator.Next(0, 100);
-                    file.CurrentMode = randomGenerator.Next(0, 2) == 0 ? ECurrentSwellStage.PreMainUp : ECurrentSwellStage.MainUp;
+                    file.CurrentMode = randomGenerator.Next(0, 2) == 0 ? CurrentSwellStage.PreMainUp : CurrentSwellStage.MainUp;
                     file.IgnoreWaterViscosityWhenGeneratingCurrent = !MaintainStandardPhysicsWhenRandomGeneratingSettings && randomGenerator.Next(0, 100) % 2 == 0;
                     file.CurrentAcceleration = MaintainStandardPhysicsWhenRandomGeneratingSettings ? 0.95d : currentAccelerationSlider.Ticks[randomGenerator.Next(0, currentAccelerationSlider.Ticks.Count)];
                     file.CurrentDeceleration = MaintainStandardPhysicsWhenRandomGeneratingSettings ? 0.97d : currentDecelerationSlider.Ticks[randomGenerator.Next(0, currentDecelerationSlider.Ticks.Count)];
@@ -3481,9 +3483,9 @@ namespace Plankton
 
                 switch (ZoomPreviewLocatorMode)
                 {
-                    case (ZoomPreviewLocatorMode.Always):
-                    case (ZoomPreviewLocatorMode.AnythingButPlankton):
-                    case (ZoomPreviewLocatorMode.OnlyMainBubble):
+                    case (ZoomPreviewLocaterMode.Always):
+                    case (ZoomPreviewLocaterMode.AnythingButPlankton):
+                    case (ZoomPreviewLocaterMode.OnlyMainBubble):
                         showLocator = true;
                         break;
                     default:
@@ -3746,7 +3748,7 @@ namespace Plankton
             AutoPanSpeed = 0.01d;
             AutoPanSensitivity = 1d;
             IfMainBubbleNotAvailablePreviewMostInterestingElement = false;
-            ZoomPreviewLocatorMode = ZoomPreviewLocatorMode.AnythingButMainBubble;
+            ZoomPreviewLocatorMode = ZoomPreviewLocaterMode.AnythingButMainBubble;
             UseZoomPreviewBlurEffect = true;
             MaximumZoomPreviewBlur = 7d;
             ZoomPreviewBlurStrength = 5d;
@@ -4101,14 +4103,14 @@ namespace Plankton
             if (control == null)
                 return;
 
-            var direction = (ECurrentSwellStage)args.NewValue;
+            var direction = (CurrentSwellStage)args.NewValue;
 
             switch (direction)
             {
-                case (ECurrentSwellStage.PreMainUp):
+                case (CurrentSwellStage.PreMainUp):
                     control.preMainUpCurrentModeRadioButton.IsChecked = true;
                     break;
-                case (ECurrentSwellStage.MainUp):
+                case (CurrentSwellStage.MainUp):
                     control.mainUpCurrentModeRadioButton.IsChecked = true;
                     break;
                 default: throw new NotImplementedException();
@@ -4127,29 +4129,29 @@ namespace Plankton
             if (control == null)
                 return;
 
-            var mode = (ZoomPreviewLocatorMode)args.NewValue;
+            var mode = (ZoomPreviewLocaterMode)args.NewValue;
 
             switch (mode)
             {
-                case (ZoomPreviewLocatorMode.Always):
+                case (ZoomPreviewLocaterMode.Always):
                     control.locatorAlwaysRadioButton.IsChecked = true;
                     break;
-                case (ZoomPreviewLocatorMode.AnythingButMainBubble):
+                case (ZoomPreviewLocaterMode.AnythingButMainBubble):
                     control.locatorPlanktonAndBubblesRadioButton.IsChecked = true;
                     break;
-                case (ZoomPreviewLocatorMode.AnythingButPlankton):
+                case (ZoomPreviewLocaterMode.AnythingButPlankton):
                     control.locatorAnythingButPlanktonRadioButton.IsChecked = true;
                     break;
-                case (ZoomPreviewLocatorMode.Never):
+                case (ZoomPreviewLocaterMode.Never):
                     control.locatorNeverRadioButton.IsChecked = true;
                     break;
-                case (ZoomPreviewLocatorMode.OnlyChildBubbles):
+                case (ZoomPreviewLocaterMode.OnlyChildBubbles):
                     control.locatorBubblesRadioButton.IsChecked = true;
                     break;
-                case (ZoomPreviewLocatorMode.OnlyMainBubble):
+                case (ZoomPreviewLocaterMode.OnlyMainBubble):
                     control.locatorMainBubbleRadioButton.IsChecked = true;
                     break;
-                case (ZoomPreviewLocatorMode.OnlyPlankton):
+                case (ZoomPreviewLocaterMode.OnlyPlankton):
                     control.locatorPlanktonRadioButton.IsChecked = true;
                     break;
                 default: throw new NotImplementedException();
@@ -4695,12 +4697,12 @@ namespace Plankton
 
         private void ChangeZoomPreviewLocatorModeCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ZoomPreviewLocatorMode = (ZoomPreviewLocatorMode)e.Parameter;
+            ZoomPreviewLocatorMode = (ZoomPreviewLocaterMode)e.Parameter;
         }
 
         private void ChangeCurrentModeCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            CurrentMode = (ECurrentSwellStage)e.Parameter;
+            CurrentMode = (CurrentSwellStage)e.Parameter;
         }
 
         private void ToggleCurrentIndicatorCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

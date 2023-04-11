@@ -1,10 +1,11 @@
-﻿<Window x:Class="Plankton.MainWindow"
+﻿<Window x:Class="BP.Plankton.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:Plankton"
+        xmlns:plankton="clr-namespace:BP.Plankton"
+        xmlns:controls="clr-namespace:BP.Plankton.Controls"
         Title="Plankton" MinHeight="280" MinWidth="420" Height="570" Width="600" WindowStyle="ThreeDBorderWindow" GotKeyboardFocus="MainWindow_GotKeyboardFocus" LocationChanged="Window_LocationChanged" Loaded="Window_Loaded" Closing="Window_Closing">
     <Grid Name="layoutGrid">
-        <local:PlanktonControl x:Name="planktonControl" IsPaused="True" Background="Black" EnterFullScreenMode="planktonControl_EnterFullScreenMode" ExitFullScreenMode="planktonControl_ExitFullScreenMode"/>
+        <controls:PlanktonControl x:Name="planktonControl" IsPaused="True" Background="Black" EnterFullScreenMode="planktonControl_EnterFullScreenMode" ExitFullScreenMode="planktonControl_ExitFullScreenMode"/>
         <Border Name="splashBorder" Background="Black" PreviewMouseLeftButtonDown="splashBorder_PreviewMouseLeftButtonDown">
             <Border.Triggers>
                 <EventTrigger RoutedEvent="Border.Loaded">

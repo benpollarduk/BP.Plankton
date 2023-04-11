@@ -1,36 +1,36 @@
-﻿namespace Plankton.Classes
+﻿namespace BP.Plankton.Model
 {
     /// <summary>
-    /// Enumertaion of zoom preview locator modes
+    /// Enumeration of zoom preview locater modes
     /// </summary>
-    public enum ZoomPreviewLocatorMode
+    public enum ZoomPreviewLocaterMode
     {
         /// <summary>
-        /// Never show the locator
+        /// Never show the locater.
         /// </summary>
         Never = 0,
         /// <summary>
-        /// Always show the locator
+        /// Always show the locater.
         /// </summary>
         Always,
         /// <summary>
-        /// Only show locator with plankton
+        /// Only show locater with plankton.
         /// </summary>
         OnlyPlankton,
         /// <summary>
-        /// Only show with child bubbles
+        /// Only show with child bubbles.
         /// </summary>
         OnlyChildBubbles,
         /// <summary>
-        /// Only the main bubble
+        /// Only the main bubble.
         /// </summary>
         OnlyMainBubble,
         /// <summary>
-        /// Always show except with plankton
+        /// Always show except with plankton.
         /// </summary>
         AnythingButPlankton,
         /// <summary>
-        /// Always show except with main bubble
+        /// Always show except with main bubble.
         /// </summary>
         AnythingButMainBubble
     }

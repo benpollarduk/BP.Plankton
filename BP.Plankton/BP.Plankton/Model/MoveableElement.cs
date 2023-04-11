@@ -1,11 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using PostSharp.Patterns.Contracts;
 
-namespace Plankton.Classes
+namespace BP.Plankton.Model
 {
     /// <summary>
-    /// Represnets an element of moveable element.
+    /// Represents a moveable element.
     /// </summary>
     public class MoveableElement
     {
@@ -19,7 +18,6 @@ namespace Plankton.Classes
         /// <summary>
         /// Get or set this elements geometry.
         /// </summary>
-        [Required]
         public EllipseGeometry Geometry { get; set; }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Plankton.Classes
 
         #endregion
 
-        #region Methods
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the MoveableElement class.
@@ -58,7 +56,6 @@ namespace Plankton.Classes
         /// <returns>The created MoveableElement.</returns>
         public static MoveableElement Create(Point center, double radius, Vector vector, Pen stroke, Brush fill)
         {
-            // create new element
             return new MoveableElement
             {
                 Geometry = new EllipseGeometry(center, radius, radius),

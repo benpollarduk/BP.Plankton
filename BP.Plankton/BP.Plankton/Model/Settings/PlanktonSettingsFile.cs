@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Xml;
-using BP.Plankton.Classes;
-using Plankton.Classes;
+using BP.Plankton.Model.Currents;
 
-namespace Plankton.IO
+namespace BP.Plankton.Model.Settings
 {
     /// <summary>
     /// Represents a settings file for saving and loading Plankton settings.
@@ -47,7 +45,7 @@ namespace Plankton.IO
             CurrentStrength = 20,
             CurrentZStepVariation = 25,
             UseRandomCurrentDirection = false,
-            CurrentMode = ECurrentSwellStage.MainUp,
+            CurrentMode = CurrentSwellStage.MainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 1.0d,
             CurrentDeceleration = 1.0d,
@@ -98,7 +96,7 @@ namespace Plankton.IO
             CurrentZStep = 50,
             CurrentZStepVariation = 50,
             UseRandomCurrentDirection = true,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -149,7 +147,7 @@ namespace Plankton.IO
             CurrentZStep = 25,
             CurrentZStepVariation = 100,
             UseRandomCurrentDirection = false,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -200,7 +198,7 @@ namespace Plankton.IO
             CurrentZStep = 50,
             CurrentZStepVariation = 50,
             UseRandomCurrentDirection = false,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -244,7 +242,7 @@ namespace Plankton.IO
             CurrentZStep = 50,
             CurrentZStepVariation = 50,
             UseRandomCurrentDirection = false,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -297,7 +295,7 @@ namespace Plankton.IO
             CurrentZStep = 10,
             CurrentZStepVariation = 75,
             UseRandomCurrentDirection = true,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -342,7 +340,7 @@ namespace Plankton.IO
             CurrentZStep = 50,
             CurrentZStepVariation = 50,
             UseRandomCurrentDirection = false,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -387,7 +385,7 @@ namespace Plankton.IO
             CurrentZStep = 50,
             CurrentZStepVariation = 50,
             UseRandomCurrentDirection = false,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -436,7 +434,7 @@ namespace Plankton.IO
             CurrentZStep = 50,
             CurrentZStepVariation = 50,
             UseRandomCurrentDirection = false,
-            CurrentMode = ECurrentSwellStage.PreMainUp,
+            CurrentMode = CurrentSwellStage.PreMainUp,
             IgnoreWaterViscosityWhenGeneratingCurrent = false,
             CurrentAcceleration = 0.95d,
             CurrentDeceleration = 0.97d,
@@ -654,7 +652,7 @@ namespace Plankton.IO
         /// <summary>
         /// Get or set the current mode.
         /// </summary>
-        public ECurrentSwellStage CurrentMode { get; set; } = ECurrentSwellStage.PreMainUp;
+        public CurrentSwellStage CurrentMode { get; set; } = CurrentSwellStage.PreMainUp;
 
         /// <summary>
         /// Get or set if the water viscosity is ignore when generating a current.
@@ -1043,7 +1041,7 @@ namespace Plankton.IO
                 file.CurrentZStepVariation = double.Parse(GetAttribute(doc, "Current", "CurrentZStepVariation").Value);
 
             if (AttributeExists(doc, "Current", "CurrentMode"))
-                file.CurrentMode = (ECurrentSwellStage)Enum.Parse(typeof (ECurrentSwellStage), GetAttribute(doc, "Current", "CurrentMode").Value);
+                file.CurrentMode = (CurrentSwellStage)Enum.Parse(typeof (CurrentSwellStage), GetAttribute(doc, "Current", "CurrentMode").Value);
 
             if (AttributeExists(doc, "Current", "IgnoreWaterViscosityWhenGeneratingCurrent"))
                 file.IgnoreWaterViscosityWhenGeneratingCurrent = bool.Parse(GetAttribute(doc, "Current", "IgnoreWaterViscosityWhenGeneratingCurrent").Value);
@@ -1096,45 +1094,13 @@ namespace Plankton.IO
         }
 
         /// <summary>
-        /// Open an existing PlanktonSettingsFile.
-        /// </summary>
-        /// <param name="path">The path of the file.</param>
-        /// <returns>The created PlanktonSettingsFile.</returns>
-        public PlanktonSettingsFile CreateNew(string path)
-        {
-            return new PlanktonSettingsFile { FullPath = path };
-        }
-
-        /// <summary>
-        /// Get if a node exists.
-        /// </summary>
-        /// <param name="doc">The document to search.</param>
-        /// <param name="tagName">The tag to search for.</param>
-        /// <returns>True if it exists, else false.</returns>
-        public static bool NodeExists(XmlDocument doc, string tagName)
-        {
-            return doc.Cast<XmlNode>().Any(node => node.Name == tagName);
-        }
-
-        /// <summary>
-        /// Get if a attribue exists.
-        /// </summary>
-        /// <param name="node">The node to search for.</param>
-        /// <param name="attributeName">The attribute to search for.</param>
-        /// <returns>True if it exists, else false.</returns>
-        public static bool AttributeExists(XmlNode node, string attributeName)
-        {
-            return node.Attributes != null && node.Attributes.Cast<XmlAttribute>().Any(attribute => attribute.Name == attributeName);
-        }
-
-        /// <summary>
-        /// Get if a attribue exists.
+        /// Get if a attribute exists.
         /// </summary>
         /// <param name="doc">The document to search.</param>
         /// <param name="tagName">The tag to search for.</param>
         /// <param name="attributeName">The attribute to search for.</param>
         /// <returns>True if it exists, else false.</returns>
-        public static bool AttributeExists(XmlDocument doc, string tagName, string attributeName)
+        private static bool AttributeExists(XmlDocument doc, string tagName, string attributeName)
         {
             foreach (XmlNode node in doc.GetElementsByTagName(tagName))
             {
@@ -1142,8 +1108,10 @@ namespace Plankton.IO
                     continue;
 
                 foreach (XmlAttribute attribute in node.Attributes)
+                {
                     if (attribute.Name == attributeName)
                         return true;
+                }
             }
 
             return false;
@@ -1156,7 +1124,7 @@ namespace Plankton.IO
         /// <param name="tagName">The tag to search for.</param>
         /// <param name="attributeName">The attribute to search for.</param>
         /// <returns>The located attribute.</returns>
-        public static XmlAttribute GetAttribute(XmlDocument doc, string tagName, string attributeName)
+        private static XmlAttribute GetAttribute(XmlDocument doc, string tagName, string attributeName)
         {
             foreach (XmlNode node in doc.GetElementsByTagName(tagName))
             {
@@ -1164,64 +1132,13 @@ namespace Plankton.IO
                     continue;
 
                 foreach (XmlAttribute attribute in node.Attributes)
+                {
                     if (attribute.Name == attributeName)
                         return attribute;
+                }
             }
 
             return null;
-        }
-
-        /// <summary>
-        /// Get a inner node from a node at a specified index.
-        /// </summary>
-        /// <param name="node">The parent node to search.</param>
-        /// <param name="attributeName">The attribute that is being searched for.</param>
-        /// <returns>The located attribute.</returns>
-        public static XmlAttribute GetAttribute(XmlNode node, string attributeName)
-        {
-            if (node?.Attributes == null)
-                return null;
-
-            foreach (XmlAttribute attribute in node.Attributes)
-            {
-                if (attribute.Name == attributeName)
-                    return attribute;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Get a inner node from a node at a specified index.
-        /// </summary>
-        /// <param name="node">The parent node to search.</param>
-        /// <param name="index">The index of the node.</param>
-        /// <returns>The located node.</returns>
-        public static XmlNode GetNode(XmlNode node, short index)
-        {
-            return index < node?.Attributes?.Count ? node.ChildNodes[index] : null;
-        }
-
-        /// <summary>
-        /// Get a node.
-        /// </summary>
-        /// <param name="doc">The document to search.</param>
-        /// <param name="tagName">The tag name to search for.</param>
-        /// <returns>The located node.</returns>
-        public static XmlNode GetNode(XmlDocument doc, string tagName)
-        {
-            return doc.Cast<XmlNode>().FirstOrDefault(node => node.Name == tagName);
-        }
-
-        /// <summary>
-        /// Get a node.
-        /// </summary>
-        /// <param name="parentNode">The parent node to search.</param>
-        /// <param name="tagName">The tag name to search for.</param>
-        /// <returns>The located node.</returns>
-        public static XmlNode GetNode(XmlNode parentNode, string tagName)
-        {
-            return parentNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == tagName);
         }
 
         #endregion

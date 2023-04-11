@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Represents a class for converting between Boolean and Visibility values. A boolean value can be specified as the paramater - this will deifne the state that Visibility.Visible is returned, if the boolean provided as the value parameter doesn't match this value then Visibilty.Collapsed is returned.

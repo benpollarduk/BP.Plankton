@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Converts between a Double representing a ratio and a Duration. The Duration to base the output on should be provided as the parameter in the form of a string hh:mm:ss.

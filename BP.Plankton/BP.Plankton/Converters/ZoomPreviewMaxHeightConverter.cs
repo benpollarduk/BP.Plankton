@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Plankton.Converters
+namespace BP.Plankton.Converters
 {
     /// <summary>
     /// Converts between a Double representing a panels height and a Double representing the maximum height of a zoom preview, which is half the value provided as the value parameter rounded down to the nearest 10. If an element other than a Double is provided as the value parameter Double.NaN is returned.
