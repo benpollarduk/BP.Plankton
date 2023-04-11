@@ -16,9 +16,9 @@ namespace BP.Plankton.Windows
     {
         #region Fields
 
-        private Point PreFullScreenTopLeft;
-        private WindowState PreFullScreenWindowState;
-        private Point LastLocation = new Point(0, 0);
+        private Point preFullScreenTopLeft;
+        private WindowState preFullScreenWindowState;
+        private Point lastLocation = new Point(0, 0);
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace BP.Plankton.Windows
                 PlanktonControl.UseZoomPreviewBlurEffect = settings.UseZoomPreviewBlurEffect;
                 PlanktonControl.ZoomPreviewBlurCorrection = settings.ZoomPreviewBlurCorrection;
                 PlanktonControl.ZoomPreviewBlurStrength = settings.ZoomPreviewBlurStrength;
-                PlanktonControl.ZoomPreviewLocatorMode = (ZoomPreviewLocaterMode)Enum.Parse(typeof (ZoomPreviewLocaterMode), settings.ZoomPreviewLocatorMode);
+                PlanktonControl.ZoomPreviewLocaterMode = (ZoomPreviewLocaterMode)Enum.Parse(typeof (ZoomPreviewLocaterMode), settings.ZoomPreviewLocaterMode);
                 PlanktonControl.ZoomPreviewSize = settings.ZoomPreviewSize;
             }
             catch (Exception e)
@@ -111,7 +111,7 @@ namespace BP.Plankton.Windows
             settings.ZoomPreviewBlurCorrection = PlanktonControl.ZoomPreviewBlurCorrection;
             settings.ZoomPreviewBlurStrength = PlanktonControl.ZoomPreviewBlurStrength;
             settings.UseZoomPreviewBlurEffect = PlanktonControl.UseZoomPreviewBlurEffect;
-            settings.ZoomPreviewLocatorMode = PlanktonControl.ZoomPreviewLocatorMode.ToString();
+            settings.ZoomPreviewLocaterMode = PlanktonControl.ZoomPreviewLocaterMode.ToString();
             settings.ZoomPreviewSize = PlanktonControl.ZoomPreviewSize;
         }
 
@@ -151,13 +151,13 @@ namespace BP.Plankton.Windows
         private void PlanktonControl_ExitFullScreenMode(object sender, EventArgs e)
         {
             WindowStyle = WindowStyle.ThreeDBorderWindow;
-            WindowState = PreFullScreenWindowState;
+            WindowState = preFullScreenWindowState;
 
-            if (PreFullScreenWindowState != WindowState.Normal)
+            if (preFullScreenWindowState != WindowState.Normal)
                 return;
 
-            Top = PreFullScreenTopLeft.Y;
-            Left = PreFullScreenTopLeft.X;
+            Top = preFullScreenTopLeft.Y;
+            Left = preFullScreenTopLeft.X;
         }
 
         private void PlanktonControl_EnterFullScreenMode(object sender, EventArgs e)
@@ -165,9 +165,9 @@ namespace BP.Plankton.Windows
             WindowStyle = WindowStyle.None;
 
             if (Math.Abs(Left) > 0.0 || Math.Abs(Top) > 0.0)
-                PreFullScreenTopLeft = new Point(Left, Top);
+                preFullScreenTopLeft = new Point(Left, Top);
 
-            PreFullScreenWindowState = WindowState;
+            preFullScreenWindowState = WindowState;
             Top = 0;
             Left = 0;
             WindowState = WindowState.Maximized;
@@ -179,7 +179,7 @@ namespace BP.Plankton.Windows
 
             if (!PlanktonControl.IsPaused)
             {
-                var vector = new Vector(LastLocation.X - newLocation.X, LastLocation.Y - newLocation.Y);
+                var vector = new Vector(lastLocation.X - newLocation.X, lastLocation.Y - newLocation.Y);
                 var strength = Math.Abs(vector.Length);
 
                 // if no current, or the new vector has yielded a stronger current
@@ -198,12 +198,12 @@ namespace BP.Plankton.Windows
                 }
             }
 
-            LastLocation = newLocation;
+            lastLocation = newLocation;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LastLocation = new Point(Left, Top);
+            lastLocation = new Point(Left, Top);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)

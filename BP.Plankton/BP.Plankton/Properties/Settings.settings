@@ -38,7 +38,7 @@
     <Setting Name="UseOnlyStandardBrushesWhenRandomGenerating" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="ZoomPreviewLocatorMode" Type="System.String" Scope="User">
+    <Setting Name="ZoomPreviewLocaterMode" Type="System.String" Scope="User">
       <Value Profile="(Default)">AnythingButMainBubble</Value>
     </Setting>
     <Setting Name="ShowCurrentIndicator" Type="System.Boolean" Scope="User">

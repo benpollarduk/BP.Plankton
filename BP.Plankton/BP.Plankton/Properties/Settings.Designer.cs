@@ -170,12 +170,12 @@ namespace BP.Plankton.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("AnythingButMainBubble")]
-        public string ZoomPreviewLocatorMode {
+        public string ZoomPreviewLocaterMode {
             get {
-                return ((string)(this["ZoomPreviewLocatorMode"]));
+                return ((string)(this["ZoomPreviewLocaterMode"]));
             }
             set {
-                this["ZoomPreviewLocatorMode"] = value;
+                this["ZoomPreviewLocaterMode"] = value;
             }
         }
         

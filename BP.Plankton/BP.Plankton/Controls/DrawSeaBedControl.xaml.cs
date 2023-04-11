@@ -13,9 +13,9 @@ namespace BP.Plankton.Controls
     {
         #region Fields
 
-        private readonly List<LineSegment> Segments = new List<LineSegment>();
-        private Point StartPoint;
-        private ushort FrameSkipCount;
+        private readonly List<LineSegment> segments = new List<LineSegment>();
+        private Point startPoint;
+        private ushort frameSkipCount;
 
         #endregion
 
@@ -116,9 +116,9 @@ namespace BP.Plankton.Controls
         /// </summary>
         public void Clear()
         {
-            Segments.Clear();
-            StartPoint = new Point(0, 0);
-            FrameSkipCount = 0;
+            segments.Clear();
+            startPoint = new Point(0, 0);
+            frameSkipCount = 0;
             Geometry = null;
         }
 
@@ -131,10 +131,10 @@ namespace BP.Plankton.Controls
         {
             var geometry = new PathGeometry();
             var scalledSegments = new List<PathSegment>();
-            var start = new Point(0d, Segments[0].Point.Y / scale);
+            var start = new Point(0d, segments[0].Point.Y / scale);
 
-            for (var index = 1; index < Segments.Count; index++)
-                scalledSegments.Add(new LineSegment(new Point(Segments[index].Point.X / scale, Segments[index].Point.Y / scale), false));
+            for (var index = 1; index < segments.Count; index++)
+                scalledSegments.Add(new LineSegment(new Point(segments[index].Point.X / scale, segments[index].Point.Y / scale), false));
 
             geometry.Figures.Add(new PathFigure(start, scalledSegments, true));
             geometry.FillRule = FillRule.Nonzero;
@@ -150,41 +150,41 @@ namespace BP.Plankton.Controls
         {
             if (observeCaptureSkip)
             {
-                if (FrameSkipCount == CaptureSkip)
-                    FrameSkipCount = 0;
+                if (frameSkipCount == CaptureSkip)
+                    frameSkipCount = 0;
                 else
                 {
-                    FrameSkipCount++;
+                    frameSkipCount++;
                     return;
                 }
             }
 
             LineSegment dummySegment = null;
 
-            if (Segments.Count == 0)
+            if (segments.Count == 0)
             {
-                Segments.Add(new LineSegment(new Point(0, DrawingCanvas.ActualHeight), false));
-                StartPoint = new Point(0, DrawingCanvas.ActualHeight);
+                segments.Add(new LineSegment(new Point(0, DrawingCanvas.ActualHeight), false));
+                startPoint = new Point(0, DrawingCanvas.ActualHeight);
 
                 // if x is not 0 add line segment at start height
                 if (mousePointOverDrawingCanvas.X > 0)
-                    Segments.Add(new LineSegment(new Point(0, mousePointOverDrawingCanvas.Y), false));
+                    segments.Add(new LineSegment(new Point(0, mousePointOverDrawingCanvas.Y), false));
             }
-            else if (Segments.Count > 0)
+            else if (segments.Count > 0)
             {
-                dummySegment = Segments[Segments.Count - 1];
-                Segments.RemoveAt(Segments.Count - 1);
+                dummySegment = segments[segments.Count - 1];
+                segments.RemoveAt(segments.Count - 1);
             }
 
             if (dummySegment == null)
                 dummySegment = new LineSegment(new Point(DrawingCanvas.ActualWidth, DrawingCanvas.ActualHeight), false);
 
-            Segments.Add(new LineSegment(mousePointOverDrawingCanvas, false));
+            segments.Add(new LineSegment(mousePointOverDrawingCanvas, false));
 
             // add line segment to bottom right to prevent strange fill behaviour
-            Segments.Add(dummySegment);
+            segments.Add(dummySegment);
 
-            Geometry = new PathGeometry(new[] { new PathFigure(StartPoint, Segments, false) });
+            Geometry = new PathGeometry(new[] { new PathFigure(startPoint, segments, false) });
         }
 
         #endregion

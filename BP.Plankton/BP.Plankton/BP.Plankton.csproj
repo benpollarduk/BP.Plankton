@@ -84,6 +84,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\MathHelper.cs" />
+    <Compile Include="Model\VisualGeneration.cs" />
     <Compile Include="Model\Currents\CurrentSwellStage.cs" />
     <Compile Include="Model\Settings\QuickSetting.cs" />
     <Compile Include="Model\ZoomPreviewLocaterMode.cs" />

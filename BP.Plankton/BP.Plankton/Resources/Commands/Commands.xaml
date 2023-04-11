@@ -25,7 +25,7 @@
     <RoutedUICommand x:Key="ApplyQuickSettingCommand" Text="Apply Quick Setting"/>
     <RoutedUICommand x:Key="ToggleCurrentCommand" Text="Toggle Current"/>
     <RoutedUICommand x:Key="TriggerCurrentCommand" Text="Trigger Current"/>
-    <RoutedUICommand x:Key="ChangeZoomPreviewLocatorModeCommand" Text="Change Zoom Preview Locator Mode"/>
+    <RoutedUICommand x:Key="ChangeZoomPreviewLocaterModeCommand" Text="Change Zoom Preview Locater Mode"/>
     <RoutedUICommand x:Key="ChangeCurrentModeCommand" Text="Change Current Mode"/>
     <RoutedUICommand x:Key="ToggleCurrentIndicatorCommand" Text="Toggle Current Indicator"/>
     <RoutedUICommand x:Key="GenerateNewRandomColourPlanktonCommand" Text="Generate New Random Colour Plankton"/>

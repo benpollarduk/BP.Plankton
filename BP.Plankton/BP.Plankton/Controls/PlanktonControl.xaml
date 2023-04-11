@@ -59,7 +59,7 @@
         <CommandBinding x:Name="ApplyQuickSettingCommandBinding" Command="{StaticResource ApplyQuickSettingCommand}" Executed="ApplyQuickSettingCommandBinding_Executed"/>
         <CommandBinding x:Name="ToggleCurrentCommandBinding" Command="{StaticResource ToggleCurrentCommand}" Executed="ToggleCurrentCommandBinding_Executed"/>
         <CommandBinding x:Name="TriggerCurrentCommandBinding" Command="{StaticResource TriggerCurrentCommand}" Executed="TriggerCurrentCommandBinding_Executed"/>
-        <CommandBinding x:Name="ChangeZoomPreviewLocatorModeCommandBinding" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Executed="ChangeZoomPreviewLocatorModeCommandBinding_Executed"/>
+        <CommandBinding x:Name="ChangeZoomPreviewLocaterModeCommandBinding" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" Executed="ChangeZoomPreviewLocaterModeCommandBinding_Executed"/>
         <CommandBinding x:Name="ChangeCurrentModeCommandBinding" Command="{StaticResource ChangeCurrentModeCommand}" Executed="ChangeCurrentModeCommandBinding_Executed"/>
         <CommandBinding x:Name="ToggleCurrentIndicatorCommandBinding" Command="{StaticResource ToggleCurrentIndicatorCommand}" Executed="ToggleCurrentIndicatorCommandBinding_Executed"/>
         <CommandBinding x:Name="GenerateNewRandomColourPlanktonCommandBinding" Command="{StaticResource GenerateNewRandomColourPlanktonCommand}" Executed="GenerateNewRandomColourPlanktonCommandBinding_Executed"/>
@@ -89,7 +89,7 @@
         <KeyBinding Command="{StaticResource BreakoutOptionsToExternalWindowCommand}" Gesture="Ctrl+E"/>
     </UserControl.InputBindings>
     <Grid Name="LayoutGrid" FocusVisualStyle="{x:Null}">
-        <Canvas Name="AreaCanvas" Background="{DynamicResource BackgroundBrush}" Cursor="None" MouseMove="areaCanvas_MouseMove" MouseLeave="areaCanvas_MouseLeave" MouseEnter="areaCanvas_MouseEnter">
+        <Canvas Name="AreaCanvas" Background="{DynamicResource BackgroundBrush}" Cursor="None" MouseMove="AreaCanvas_MouseMove" MouseLeave="AreaCanvas_MouseLeave" MouseEnter="AreaCanvas_MouseEnter">
             <Border Name="LightingEffectBorder" BorderThickness="0" Opacity="0.0" Width="{Binding ElementName=AreaCanvas, Path=ActualWidth, Mode=OneWay}" Height="{Binding ElementName=AreaCanvas, Path=ActualHeight, Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding Path=UseLightingEffect, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Border.Background>
                     <RadialGradientBrush GradientOrigin="0,0">
@@ -124,7 +124,7 @@
                 <MultiBinding Converter="{StaticResource MultiBooleanAndToVisibilityConverter}">
                     <Binding Path="UseZoomPreview" Mode="OneWay"/>
                     <Binding ElementName="InnerPreviewBorder" Path="IsVisible" Mode="OneWay"/>
-                    <Binding Path="IsZoomPreviewLocatorVisible" Mode="OneWay"/>
+                    <Binding Path="IsZoomPreviewLocaterVisible" Mode="OneWay"/>
                 </MultiBinding>
             </Line.Visibility>
         </Line>
@@ -433,12 +433,12 @@
                             <Label IsEnabled="{Binding Path=UsePlanktonAttraction, Mode=OneWay}" Content="{Binding Path=PlanktonAttractionReach, Mode=OneWay}" Grid.Row="9" Grid.Column="2"/>
                             <Label Content="Colour:" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Row="10" Grid.Column="0"/>
                             <StackPanel IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Orientation="Horizontal" Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2">
-                                <RadioButton Name="GreenPlanktonRadioButton" Content="Green" CommandParameter="{StaticResource PlanktonGreenBrush}" IsChecked="True" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="WhitePlanktonRadioButton" Content="White" CommandParameter="{StaticResource PlanktonWhiteBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="RedPlanktonRadioButton" Content="Red" CommandParameter="{StaticResource PlanktonRedBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="TransparentPlanktonRadioButton" Content="Amoeba" CommandParameter="{StaticResource PlanktonTransparentBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="GunkPlanktonRadioButton" Content="Gunk" CommandParameter="{StaticResource PlanktonGunkBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
-                                <RadioButton Name="PerformancePlanktonRadioButton" Content="Quick" CommandParameter="{StaticResource PlanktonPerformanceBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="planktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="GreenPlanktonRadioButton" Content="Green" CommandParameter="{StaticResource PlanktonGreenBrush}" IsChecked="True" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="PlanktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="WhitePlanktonRadioButton" Content="White" CommandParameter="{StaticResource PlanktonWhiteBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="PlanktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="RedPlanktonRadioButton" Content="Red" CommandParameter="{StaticResource PlanktonRedBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="PlanktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="TransparentPlanktonRadioButton" Content="Amoeba" CommandParameter="{StaticResource PlanktonTransparentBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="PlanktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="GunkPlanktonRadioButton" Content="Gunk" CommandParameter="{StaticResource PlanktonGunkBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="PlanktonBrushRadioButton_Checked"/>
+                                <RadioButton Name="PerformancePlanktonRadioButton" Content="Quick" CommandParameter="{StaticResource PlanktonPerformanceBrush}" IsEnabled="{Binding Path=UseRandomElementFill, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Checked="PlanktonBrushRadioButton_Checked"/>
                             </StackPanel>
                             <Grid IsEnabled="{Binding Path=OverridePlanktonBrushWithCustom, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2">
                                 <Grid.ColumnDefinitions>
@@ -550,11 +550,11 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <RadioButton Name="SeaBackgroundRadioButton" Content="Sea" CommandParameter="{StaticResource BlueBlackBackgroundBrush}" IsChecked="True" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="0" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="PondBackgroundRadioButton" Content="Pond" CommandParameter="{StaticResource GreenBlueBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="1" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="DarkBackgroundRadioButton" Content="Dark" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="2" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="LightBackgroundRadioButton" Content="Light" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="3" Checked="backgroundBrushRadioButton_Checked"/>
-                                <RadioButton Name="StrangeBackgroundRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="4" Checked="backgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="SeaBackgroundRadioButton" Content="Sea" CommandParameter="{StaticResource BlueBlackBackgroundBrush}" IsChecked="True" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="0" Checked="BackgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="PondBackgroundRadioButton" Content="Pond" CommandParameter="{StaticResource GreenBlueBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="1" Checked="BackgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="DarkBackgroundRadioButton" Content="Dark" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="2" Checked="BackgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="LightBackgroundRadioButton" Content="Light" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="3" Checked="BackgroundBrushRadioButton_Checked"/>
+                                <RadioButton Name="StrangeBackgroundRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="4" Checked="BackgroundBrushRadioButton_Checked"/>
                                 <CheckBox Content="Random" IsChecked="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=TwoWay}" Grid.Column="5"/>
                                 <Button Content="Generate" Margin="3" Command="{StaticResource GenerateNewRandomColourBackgroundCommand}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBrush, Mode=OneWay}" Grid.Column="6"/>
                             </Grid>
@@ -842,8 +842,8 @@
                             <Label Content="{Binding Path=SeaBedMaxIncline, Mode=OneWay}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="2" Grid.Column="2"/>
                             <Label Content="Segments:" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="3" Grid.Column="0"/>
                             <StackPanel Orientation="Horizontal" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
-                                <CheckBox Name="LineCheckBox" Content="Line" IsChecked="{Binding Path=UseLineSegmentsInSeaBedPath, Mode=TwoWay}" Unchecked="lineCheckBox_Unchecked"/>
-                                <CheckBox Name="ArcCheckBox" Content="Arc" IsChecked="{Binding Path=UseArcSegmentsInSeaBedPath, Mode=TwoWay}" Unchecked="arcCheckBox_Unchecked"/>
+                                <CheckBox Name="LineCheckBox" Content="Line" IsChecked="{Binding Path=UseLineSegmentsInSeaBedPath, Mode=TwoWay}" Unchecked="LineCheckBox_Unchecked"/>
+                                <CheckBox Name="ArcCheckBox" Content="Arc" IsChecked="{Binding Path=UseArcSegmentsInSeaBedPath, Mode=TwoWay}" Unchecked="ArcCheckBox_Unchecked"/>
                             </StackPanel>
                             <Label Content="Type:" VerticalAlignment="Center" VerticalContentAlignment="Center" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Grid.Row="4" Grid.Column="0"/>
                             <Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2">
@@ -862,11 +862,11 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <RadioButton Name="RockSeaBedRadioButton" Content="Rock" CommandParameter="{StaticResource GraySeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" IsChecked="True" Grid.Column="0" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="SandSeaBedRadioButton" Content="Sand" CommandParameter="{StaticResource BrownSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="1" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="SlateSeaBedRadioButton" Content="Slate" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="2" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="IceSeaBedRadioButton" Content="Ice" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="3" Checked="seaBedRadioButton_Checked"/>
-                                <RadioButton Name="StrangeSeaBedRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="4" Checked="seaBedRadioButton_Checked"/>
+                                <RadioButton Name="RockSeaBedRadioButton" Content="Rock" CommandParameter="{StaticResource GraySeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" IsChecked="True" Grid.Column="0" Checked="SeaBedRadioButton_Checked"/>
+                                <RadioButton Name="SandSeaBedRadioButton" Content="Sand" CommandParameter="{StaticResource BrownSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="1" Checked="SeaBedRadioButton_Checked"/>
+                                <RadioButton Name="SlateSeaBedRadioButton" Content="Slate" CommandParameter="{StaticResource BlackBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="2" Checked="SeaBedRadioButton_Checked"/>
+                                <RadioButton Name="IceSeaBedRadioButton" Content="Ice" CommandParameter="{StaticResource WhiteBackgroundBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="3" Checked="SeaBedRadioButton_Checked"/>
+                                <RadioButton Name="StrangeSeaBedRadioButton" Content="Alien" CommandParameter="{StaticResource StrangeSeaBedBrush}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" Grid.Column="4" Checked="SeaBedRadioButton_Checked"/>
                                 <CheckBox Content="Random" IsChecked="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=TwoWay}" Grid.Column="5"/>
                                 <Button Content="Generate" Margin="3" Command="{StaticResource GenerateNewRandomColourSeaBedCommand}" IsEnabled="{Binding Path=GenerateAndUseRandomSeaBedBrush, Mode=OneWay}" Grid.Column="6"/>
                             </Grid>
@@ -892,9 +892,9 @@
                                 <TextBox Text="{Binding Path=LastSeaBedGeometry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" VerticalContentAlignment="Center">
                                     <TextBox.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Name="CopySeaBedGeometryToClipBoardMenuItem" Header="Copy" Click="copySeaBedGeometryToClipBoardMenuItem_Click"/>
+                                            <MenuItem Name="CopySeaBedGeometryToClipBoardMenuItem" Header="Copy" Click="CopySeaBedGeometryToClipBoardMenuItem_Click"/>
                                             <Separator/>
-                                            <MenuItem Name="PasteSeaBedGeometryToClipBoardMenuItem" Header="Paste" Click="pasteSeaBedGeometryToClipBoardMenuItem_Click"/>
+                                            <MenuItem Name="PasteSeaBedGeometryToClipBoardMenuItem" Header="Paste" Click="PasteSeaBedGeometryToClipBoardMenuItem_Click"/>
                                         </ContextMenu>
                                     </TextBox.ContextMenu>
                                 </TextBox>
@@ -941,38 +941,38 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Label Content="Show locator:" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="0"/>
-                                <RadioButton Name="LocatorNeverRadioButton" Content="Never" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="0" Grid.Column="1">
+                                <Label Content="Show locater:" VerticalAlignment="Center" VerticalContentAlignment="Center" Grid.Column="0"/>
+                                <RadioButton Name="LocaterNeverRadioButton" Content="Never" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" Grid.Row="0" Grid.Column="1">
                                     <RadioButton.CommandParameter>
                                         <model:ZoomPreviewLocaterMode>Never</model:ZoomPreviewLocaterMode>
                                     </RadioButton.CommandParameter>
                                 </RadioButton>
-                                <RadioButton Name="LocatorAlwaysRadioButton" Content="Always" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="0" Grid.Column="2">
+                                <RadioButton Name="LocaterAlwaysRadioButton" Content="Always" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" Grid.Row="0" Grid.Column="2">
                                     <RadioButton.CommandParameter>
                                         <model:ZoomPreviewLocaterMode>Always</model:ZoomPreviewLocaterMode>
                                     </RadioButton.CommandParameter>
                                 </RadioButton>
-                                <RadioButton Name="LocatorMainBubbleRadioButton" Content="Mouse bubble" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="0" Grid.Column="3">
+                                <RadioButton Name="LocaterMainBubbleRadioButton" Content="Mouse bubble" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" Grid.Row="0" Grid.Column="3">
                                     <RadioButton.CommandParameter>
                                         <model:ZoomPreviewLocaterMode>OnlyMainBubble</model:ZoomPreviewLocaterMode>
                                     </RadioButton.CommandParameter>
                                 </RadioButton>
-                                <RadioButton Name="LocatorPlanktonRadioButton" Content="Plankton" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="0" Grid.Column="4">
+                                <RadioButton Name="LocaterPlanktonRadioButton" Content="Plankton" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="0" Grid.Column="4">
                                     <RadioButton.CommandParameter>
                                         <model:ZoomPreviewLocaterMode>OnlyPlankton</model:ZoomPreviewLocaterMode>
                                     </RadioButton.CommandParameter>
                                 </RadioButton>
-                                <RadioButton Name="LocatorAnythingButPlanktonRadioButton" Content="All bubbles" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="1" Grid.Column="1">
+                                <RadioButton Name="LocaterAnythingButPlanktonRadioButton" Content="All bubbles" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="1" Grid.Column="1">
                                     <RadioButton.CommandParameter>
                                         <model:ZoomPreviewLocaterMode>AnythingButPlankton</model:ZoomPreviewLocaterMode>
                                     </RadioButton.CommandParameter>
                                 </RadioButton>
-                                <RadioButton Name="LocatorBubblesRadioButton" Content="Child bubbles" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="1" Grid.Column="2">
+                                <RadioButton Name="LocaterBubblesRadioButton" Content="Child bubbles" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Grid.Row="1" Grid.Column="2">
                                     <RadioButton.CommandParameter>
                                         <model:ZoomPreviewLocaterMode>OnlyChildBubbles</model:ZoomPreviewLocaterMode>
                                     </RadioButton.CommandParameter>
                                 </RadioButton>
-                                <RadioButton Name="LocatorPlanktonAndBubblesRadioButton" Content="Plankon &amp; child bubbles" IsChecked="True" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Command="{StaticResource ChangeZoomPreviewLocatorModeCommand}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2">
+                                <RadioButton Name="LocaterPlanktonAndBubblesRadioButton" Content="Plankon &amp; child bubbles" IsChecked="True" IsEnabled="{Binding Path=IfMainBubbleNotAvailablePreviewMostInterestingElement, Mode=OneWay}" Command="{StaticResource ChangeZoomPreviewLocaterModeCommand}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2">
                                     <RadioButton.CommandParameter>
                                         <model:ZoomPreviewLocaterMode>AnythingButMainBubble</model:ZoomPreviewLocaterMode>
                                     </RadioButton.CommandParameter>
@@ -1110,30 +1110,18 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30*" MaxWidth="120"/>
                                 <ColumnDefinition Width="40*"/>
                                 <ColumnDefinition Width="30*" MaxWidth="120"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="/Resources/Images/Assets/Plankton.png" Margin="6" Grid.Row="0" Grid.RowSpan="6"/>
+                            <Image Source="/Resources/Images/Assets/Plankton.png" Margin="6" Grid.Row="0" Grid.RowSpan="4"/>
                             <Label Content="Plankton" FontSize="18" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
                             <Label Content="{Binding Path=Version, Mode=OneWay}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
                             <TextBlock Text="Developed by Ben Pollard, October 30th 2013 - October 21st 2015" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="2" Grid.Column="1"/>
                             <Label Content="Released by 0xd FX" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
-                            <Label Name="WebsiteLabel" Cursor="Hand" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1" MouseDown="websiteLabel_MouseDown">
-                                <Label.Content>
-                                    <Underline>Check for updates/visit website</Underline>
-                                </Label.Content>
-                            </Label>
-                            <Label Name="FeedbackLabel" Cursor="Hand" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1" MouseDown="feedbackLabel_MouseDown">
-                                <Label.Content>
-                                    <Underline>Send feedback</Underline>
-                                </Label.Content>
-                            </Label>
-                            <Image Source="/Resources/Images/Assets/0xdFXLogo.png" Margin="6" Grid.Row="0" Grid.Column="2" Grid.RowSpan="6"/>
+                            <Image Source="/Resources/Images/Assets/0xdFXLogo.png" Margin="6" Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"/>
                         </Grid>
                     </TabItem>
                 </TabControl>

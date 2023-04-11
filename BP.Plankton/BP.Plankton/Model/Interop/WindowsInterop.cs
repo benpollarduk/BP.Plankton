@@ -16,7 +16,7 @@ namespace BP.Plankton.Model.Interop
 
         #region Constants
 
-        private const int VK_LBUTTON = 0x01;
+        private const int VkLbutton = 0x01;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace BP.Plankton.Model.Interop
         /// <returns>True if the left mouse button is down, else false.</returns>
         public static bool IsLeftMouseButtonDown()
         {
-            return IsButtonDown(VK_LBUTTON);
+            return IsButtonDown(VkLbutton);
         }
 
         /// <summary>

@@ -96,7 +96,7 @@ namespace BP.Plankton.Model.Currents
         /// <summary>
         /// Get or set the minimum X/Y z movement before it classed as zero. This allows the vector of the current to be zeroed when it becomes so small as to be irrelevant.
         /// </summary>
-        public double MinimumXYMovementBeforeZeroing { get; set; } = 0.25d;
+        public double MinimumXyMovementBeforeZeroing { get; set; } = 0.25d;
 
         #endregion
 
@@ -290,7 +290,7 @@ namespace BP.Plankton.Model.Currents
                             vector.X = relativeDirection.X *= Deceleration;
 
                             // if been reduced to an irrelevant amount
-                            if (Math.Abs(vector.X) < MinimumXYMovementBeforeZeroing)
+                            if (Math.Abs(vector.X) < MinimumXyMovementBeforeZeroing)
                                 vector.X = 0.0d;
                         }
 
@@ -300,7 +300,7 @@ namespace BP.Plankton.Model.Currents
                             vector.Y = relativeDirection.Y *= Deceleration;
 
                             // if been reduced to an irrelevant amount
-                            if (Math.Abs(vector.Y) < MinimumXYMovementBeforeZeroing)
+                            if (Math.Abs(vector.Y) < MinimumXyMovementBeforeZeroing)
                                 vector.Y = 0.0d;
                         }
 
@@ -334,7 +334,7 @@ namespace BP.Plankton.Model.Currents
                             vector.X = preCurrentRelativeDirection.X *= (Deceleration - ((1 - Deceleration) / PreCurrentDecelerationFactor));
 
                             // if been reduced to an irrelevant amount
-                            if (Math.Abs(vector.X) < MinimumXYMovementBeforeZeroing)
+                            if (Math.Abs(vector.X) < MinimumXyMovementBeforeZeroing)
                                 vector.X = 0.0d;
                         }
 
@@ -344,7 +344,7 @@ namespace BP.Plankton.Model.Currents
                             vector.Y = preCurrentRelativeDirection.Y *= (Deceleration - ((1 - Deceleration) / PreCurrentDecelerationFactor));
 
                             // if been reduced to an irrelevant amount
-                            if (Math.Abs(vector.Y) < MinimumXYMovementBeforeZeroing)
+                            if (Math.Abs(vector.Y) < MinimumXyMovementBeforeZeroing)
                                 vector.Y = 0.0d;
                         }
 
@@ -390,6 +390,55 @@ namespace BP.Plankton.Model.Currents
         public static double Get2DVectorLength(Vector3D vector3D)
         {
             return Math.Abs(Math.Sqrt((vector3D.X * vector3D.X) + (vector3D.Y * vector3D.Y)));
+        }
+
+        /// <summary>
+        /// Get a random vector.
+        /// </summary>
+        /// <param name="travel">Specify the maximum travel.</param>
+        /// <param name="random">The random generator.</param>
+        /// <returns>A new randomized vector.</returns>
+        public static Vector GetRandomVector(double travel, Random random)
+        {
+            var travelX = random.Next(0, (int)(travel * 10)) / 10d;
+            var travelY = travel - travelX;
+
+            // create the initial vector with randomized positive and negative for x and y
+            return new Vector(random.Next(1, 3) % 2 == 0 ? -travelX : travelX, random.Next(1, 3) % 2 == 0 ? -travelY : travelY);
+        }
+
+        /// <summary>
+        /// Generate a Z step.
+        /// </summary>
+        /// <param name="strength">Specify the strength of the step.</param>
+        /// <param name="variationAsPercentage">Specify a random variation to apply to the step represented as a percentage.</param>
+        /// <param name="maximum">The maximum overall step in value.</param>
+        /// <param name="minimum">The minimum overall step out value.</param>
+        /// <param name="currentZAdjustemnt">The current z adjustment.</param>
+        /// <param name="random">The random generator.</param>
+        /// <returns>A generate Z step to apply with a current.</returns>
+        public static double GenerateZStep(double strength, double variationAsPercentage, double maximum, double minimum, double currentZAdjustemnt, Random random)
+        {
+            double zDirection;
+
+            // adjust strength to be in a sensible range 
+            strength *= 0.01;
+
+            if (currentZAdjustemnt >= maximum)
+                zDirection = -1;
+            else if (currentZAdjustemnt <= minimum)
+                zDirection = 1;
+            else
+            {
+                if (currentZAdjustemnt > 0)
+                    zDirection = random.Next(0, 3) % 2 == 0 ? -1 : 1;
+                else if (currentZAdjustemnt < 0)
+                    zDirection = 1;
+                else
+                    zDirection = random.Next(0, 2) % 2 == 0 ? -1 : 1;
+            }
+
+            return (strength - ((strength / 100d) * random.Next(0, (int)variationAsPercentage))) * zDirection;
         }
 
         #endregion
