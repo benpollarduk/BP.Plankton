@@ -73,27 +73,27 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Identifies the DrawSeaBedControl.Geometry property.
         /// </summary>
-        public static readonly DependencyProperty GeometryProperty = DependencyProperty.Register("Geometry", typeof (PathGeometry), typeof (DrawSeaBedControl), new PropertyMetadata(new PathGeometry()));
+        public static readonly DependencyProperty GeometryProperty = DependencyProperty.Register("Geometry", typeof(PathGeometry), typeof(DrawSeaBedControl), new PropertyMetadata(new PathGeometry()));
 
         /// <summary>
         /// Identifies the DrawSeaBedControl.SeaBackground property.
         /// </summary>
-        public static readonly DependencyProperty SeaBackgroundProperty = DependencyProperty.Register("SeaBackground", typeof (Brush), typeof (DrawSeaBedControl), new PropertyMetadata(Brushes.White));
+        public static readonly DependencyProperty SeaBackgroundProperty = DependencyProperty.Register("SeaBackground", typeof(Brush), typeof(DrawSeaBedControl), new PropertyMetadata(Brushes.White));
 
         /// <summary>
         /// Identifies the DrawSeaBedControl.SeaBedBackground property.
         /// </summary>
-        public static readonly DependencyProperty SeaBedBackgroundProperty = DependencyProperty.Register("SeaBedBackground", typeof (Brush), typeof (DrawSeaBedControl), new PropertyMetadata(Brushes.Black));
+        public static readonly DependencyProperty SeaBedBackgroundProperty = DependencyProperty.Register("SeaBedBackground", typeof(Brush), typeof(DrawSeaBedControl), new PropertyMetadata(Brushes.Black));
 
         /// <summary>
         /// Identifies the DrawSeaBedControl.SeaBedStroke property.
         /// </summary>
-        public static readonly DependencyProperty SeaBedStrokeProperty = DependencyProperty.Register("SeaBedStroke", typeof (Brush), typeof (DrawSeaBedControl), new PropertyMetadata(Brushes.Black));
+        public static readonly DependencyProperty SeaBedStrokeProperty = DependencyProperty.Register("SeaBedStroke", typeof(Brush), typeof(DrawSeaBedControl), new PropertyMetadata(Brushes.Black));
 
         /// <summary>
         /// Identifies the DrawSeaBedControl.CaptureSkipProperty property.
         /// </summary>
-        public static readonly DependencyProperty CaptureSkipProperty = DependencyProperty.Register("CaptureSkipProperty", typeof (ushort), typeof (DrawSeaBedControl), new PropertyMetadata((ushort)5));
+        public static readonly DependencyProperty CaptureSkipProperty = DependencyProperty.Register("CaptureSkipProperty", typeof(ushort), typeof(DrawSeaBedControl), new PropertyMetadata((ushort)5));
 
         #endregion
 

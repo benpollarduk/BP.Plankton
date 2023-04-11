@@ -455,7 +455,7 @@ namespace BP.Plankton.Controls
         }
 
         /// <summary>
-        /// Get if this has been forced into tranparent mode. This can be called with PlanktonControl.ForceTransparentBackground, but cannot be undone. This is a dependency property.
+        /// Get if this has been forced into transparent mode. This can be called with PlanktonControl.ForceTransparentBackground, but cannot be undone. This is a dependency property.
         /// </summary>
         public bool IsForcedIntoTransparentMode
         {
@@ -1002,512 +1002,512 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Identifies the PlanktonControl.Elements property.
         /// </summary>
-        public static readonly DependencyProperty ElementsProperty = DependencyProperty.Register("Elements", typeof (int), typeof (PlanktonControl), new PropertyMetadata(750));
+        public static readonly DependencyProperty ElementsProperty = DependencyProperty.Register("Elements", typeof(int), typeof(PlanktonControl), new PropertyMetadata(750));
 
         /// <summary>
         /// Identifies the PlanktonControl.ElementsSize property.
         /// </summary>
-        public static readonly DependencyProperty ElementsSizeProperty = DependencyProperty.Register("ElementsSize", typeof (double), typeof (PlanktonControl), new PropertyMetadata(10d));
+        public static readonly DependencyProperty ElementsSizeProperty = DependencyProperty.Register("ElementsSize", typeof(double), typeof(PlanktonControl), new PropertyMetadata(10d));
 
         /// <summary>
         /// Identifies the PlanktonControl.ElementsSizeVariation property.
         /// </summary>
-        public static readonly DependencyProperty ElementsSizeVariationProperty = DependencyProperty.Register("ElementsSizeVariation", typeof (double), typeof (PlanktonControl), new PropertyMetadata(75d));
+        public static readonly DependencyProperty ElementsSizeVariationProperty = DependencyProperty.Register("ElementsSizeVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(75d));
 
         /// <summary>
         /// Identifies the PlanktonControl.Travel property.
         /// </summary>
-        public static readonly DependencyProperty TravelProperty = DependencyProperty.Register("Travel", typeof (double), typeof (PlanktonControl), new PropertyMetadata(3d));
+        public static readonly DependencyProperty TravelProperty = DependencyProperty.Register("Travel", typeof(double), typeof(PlanktonControl), new PropertyMetadata(3d));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsUpdating property.
         /// </summary>
-        public static readonly DependencyProperty IsUpdatingProperty = DependencyProperty.Register("IsUpdating", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsUpdatingProperty = DependencyProperty.Register("IsUpdating", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.Life property.
         /// </summary>
-        public static readonly DependencyProperty LifeProperty = DependencyProperty.Register("Life", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0d));
+        public static readonly DependencyProperty LifeProperty = DependencyProperty.Register("Life", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0d));
 
         /// <summary>
         /// Identifies the PlanktonControl.BubbleSize property.
         /// </summary>
-        public static readonly DependencyProperty BubbleSizeProperty = DependencyProperty.Register("BubbleSize", typeof (double), typeof (PlanktonControl), new PropertyMetadata(20d, OnBubbleSizePropertyChanged));
+        public static readonly DependencyProperty BubbleSizeProperty = DependencyProperty.Register("BubbleSize", typeof(double), typeof(PlanktonControl), new PropertyMetadata(20d, OnBubbleSizePropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseChildBubbles property.
         /// </summary>
-        public static readonly DependencyProperty UseChildBubblesProperty = DependencyProperty.Register("UseChildBubbles", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty UseChildBubblesProperty = DependencyProperty.Register("UseChildBubbles", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ChildBubbleBuoyancy property.
         /// </summary>
-        public static readonly DependencyProperty ChildBubbleBuoyancyProperty = DependencyProperty.Register("ChildBubbleBuoyancy", typeof (double), typeof (PlanktonControl), new PropertyMetadata(1.0d));
+        public static readonly DependencyProperty ChildBubbleBuoyancyProperty = DependencyProperty.Register("ChildBubbleBuoyancy", typeof(double), typeof(PlanktonControl), new PropertyMetadata(1.0d));
 
         /// <summary>
         /// Identifies the PlanktonControl.ChildBubbleRate property.
         /// </summary>
-        public static readonly DependencyProperty ChildBubbleRateProperty = DependencyProperty.Register("ChildBubbleRate", typeof (double), typeof (PlanktonControl), new PropertyMetadata(5d));
+        public static readonly DependencyProperty ChildBubbleRateProperty = DependencyProperty.Register("ChildBubbleRate", typeof(double), typeof(PlanktonControl), new PropertyMetadata(5d));
 
         /// <summary>
         /// Identifies the PlanktonControl.ChildBubbleSizeVariation property.
         /// </summary>
-        public static readonly DependencyProperty ChildBubbleSizeVariationProperty = DependencyProperty.Register("ChildBubbleSizeVariation", typeof (double), typeof (PlanktonControl), new PropertyMetadata(75d));
+        public static readonly DependencyProperty ChildBubbleSizeVariationProperty = DependencyProperty.Register("ChildBubbleSizeVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(75d));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseZoomPreview property.
         /// </summary>
-        public static readonly DependencyProperty UseZoomPreviewProperty = DependencyProperty.Register("UseZoomPreview", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true, OnUseZoomPreviewPropertyChanged));
+        public static readonly DependencyProperty UseZoomPreviewProperty = DependencyProperty.Register("UseZoomPreview", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true, OnUseZoomPreviewPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseAutoPanOnZoomPreview property.
         /// </summary>
-        public static readonly DependencyProperty UseAutoPanOnZoomPreviewProperty = DependencyProperty.Register("UseAutoPanOnZoomPreview", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true, OnUseAutoPanOnZoomPreviewPropertyChanged));
+        public static readonly DependencyProperty UseAutoPanOnZoomPreviewProperty = DependencyProperty.Register("UseAutoPanOnZoomPreview", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true, OnUseAutoPanOnZoomPreviewPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.MaximumZoom property.
         /// </summary>
-        public static readonly DependencyProperty MaximumZoomProperty = DependencyProperty.Register("MaximumZoom", typeof (double), typeof (PlanktonControl), new PropertyMetadata(5d));
+        public static readonly DependencyProperty MaximumZoomProperty = DependencyProperty.Register("MaximumZoom", typeof(double), typeof(PlanktonControl), new PropertyMetadata(5d));
 
         /// <summary>
         /// Identifies the PlanktonControl.MinimumZoom property.
         /// </summary>
-        public static readonly DependencyProperty MinimumZoomProperty = DependencyProperty.Register("MinimumZoom", typeof (double), typeof (PlanktonControl), new PropertyMetadata(2d));
+        public static readonly DependencyProperty MinimumZoomProperty = DependencyProperty.Register("MinimumZoom", typeof(double), typeof(PlanktonControl), new PropertyMetadata(2d));
 
         /// <summary>
         /// Identifies the PlanktonControl.AutoPanZoomSpeed property.
         /// </summary>
-        public static readonly DependencyProperty AutoPanSpeedProperty = DependencyProperty.Register("AutoPanSpeed", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0.01d));
+        public static readonly DependencyProperty AutoPanSpeedProperty = DependencyProperty.Register("AutoPanSpeed", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0.01d));
 
         /// <summary>
         /// Identifies the PlanktonControl.AutoPanSensitivity property.
         /// </summary>
-        public static readonly DependencyProperty AutoPanSensitivityProperty = DependencyProperty.Register("AutoPanSensitivity", typeof (double), typeof (PlanktonControl), new PropertyMetadata(1d));
+        public static readonly DependencyProperty AutoPanSensitivityProperty = DependencyProperty.Register("AutoPanSensitivity", typeof(double), typeof(PlanktonControl), new PropertyMetadata(1d));
 
         /// <summary>
         /// Identifies the PlanktonControl.MaximumChildBubbles property.
         /// </summary>
-        public static readonly DependencyProperty MaximumChildBubblesProperty = DependencyProperty.Register("MaximumChildBubbles", typeof (int), typeof (PlanktonControl), new PropertyMetadata(250));
+        public static readonly DependencyProperty MaximumChildBubblesProperty = DependencyProperty.Register("MaximumChildBubbles", typeof(int), typeof(PlanktonControl), new PropertyMetadata(250));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseSeaBed property.
         /// </summary>
-        public static readonly DependencyProperty UseSeaBedProperty = DependencyProperty.Register("UseSeaBed", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true, OnUseSeaBedPropertyChanged));
+        public static readonly DependencyProperty UseSeaBedProperty = DependencyProperty.Register("UseSeaBed", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true, OnUseSeaBedPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.SeaBedSmoothness property.
         /// </summary>
-        public static readonly DependencyProperty SeaBedSmoothnessProperty = DependencyProperty.Register("SeaBedSmoothness", typeof (double), typeof (PlanktonControl), new PropertyMetadata(40d));
+        public static readonly DependencyProperty SeaBedSmoothnessProperty = DependencyProperty.Register("SeaBedSmoothness", typeof(double), typeof(PlanktonControl), new PropertyMetadata(40d));
 
         /// <summary>
         /// Identifies the PlanktonControl.SeaBedMaxIncline property.
         /// </summary>
-        public static readonly DependencyProperty SeaBedMaxInclineProperty = DependencyProperty.Register("SeaBedMaxIncline", typeof (double), typeof (PlanktonControl), new PropertyMetadata(10d));
+        public static readonly DependencyProperty SeaBedMaxInclineProperty = DependencyProperty.Register("SeaBedMaxIncline", typeof(double), typeof(PlanktonControl), new PropertyMetadata(10d));
 
         /// <summary>
         /// Identifies the PlanktonControl.LastSeaBedGeometry property.
         /// </summary>
-        public static readonly DependencyProperty LastSeaBedGeometryProperty = DependencyProperty.Register("LastSeaBedGeometry", typeof (string), typeof (PlanktonControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty LastSeaBedGeometryProperty = DependencyProperty.Register("LastSeaBedGeometry", typeof(string), typeof(PlanktonControl), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the PlanktonControl.Version property.
         /// </summary>
-        public static readonly DependencyProperty VersionProperty = DependencyProperty.Register("Version", typeof (string), typeof (PlanktonControl));
+        public static readonly DependencyProperty VersionProperty = DependencyProperty.Register("Version", typeof(string), typeof(PlanktonControl));
 
         /// <summary>
         /// Identifies the PlanktonControl.UsePlanktonAttraction property.
         /// </summary>
-        public static readonly DependencyProperty UsePlanktonAttractionProperty = DependencyProperty.Register("UsePlanktonAttraction", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty UsePlanktonAttractionProperty = DependencyProperty.Register("UsePlanktonAttraction", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.InvertPlanktonAttraction property.
         /// </summary>
-        public static readonly DependencyProperty InvertPlanktonAttractionProperty = DependencyProperty.Register("InvertPlanktonAttraction", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty InvertPlanktonAttractionProperty = DependencyProperty.Register("InvertPlanktonAttraction", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.PlanktonAttractToChildBubbles property.
         /// </summary>
-        public static readonly DependencyProperty PlanktonAttractToChildBubblesProperty = DependencyProperty.Register("PlanktonAttractToChildBubbles", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty PlanktonAttractToChildBubblesProperty = DependencyProperty.Register("PlanktonAttractToChildBubbles", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.PlanktonAttractionStrength property.
         /// </summary>
-        public static readonly DependencyProperty PlanktonAttractionStrengthProperty = DependencyProperty.Register("PlanktonAttractionStrength", typeof (double), typeof (PlanktonControl), new PropertyMetadata(5d));
+        public static readonly DependencyProperty PlanktonAttractionStrengthProperty = DependencyProperty.Register("PlanktonAttractionStrength", typeof(double), typeof(PlanktonControl), new PropertyMetadata(5d));
 
         /// <summary>
         /// Identifies the PlanktonControl.PlanktonAttractionReach property.
         /// </summary>
-        public static readonly DependencyProperty PlanktonAttractionReachProperty = DependencyProperty.Register("PlanktonAttractionReach", typeof (double), typeof (PlanktonControl), new PropertyMetadata(3d));
+        public static readonly DependencyProperty PlanktonAttractionReachProperty = DependencyProperty.Register("PlanktonAttractionReach", typeof(double), typeof(PlanktonControl), new PropertyMetadata(3d));
 
         /// <summary>
         /// Identifies the PlanktonControl.LastRefreshTime property.
         /// </summary>
-        public static readonly DependencyProperty LastRefreshTimeProperty = DependencyProperty.Register("LastRefreshTime", typeof (int), typeof (PlanktonControl), new PropertyMetadata(0));
+        public static readonly DependencyProperty LastRefreshTimeProperty = DependencyProperty.Register("LastRefreshTime", typeof(int), typeof(PlanktonControl), new PropertyMetadata(0));
 
         /// <summary>
         /// Identifies the PlanktonControl.ActiveChildBubbles property.
         /// </summary>
-        public static readonly DependencyProperty ActiveChildBubblesProperty = DependencyProperty.Register("ActiveChildBubbles", typeof (int), typeof (PlanktonControl), new PropertyMetadata(0));
+        public static readonly DependencyProperty ActiveChildBubblesProperty = DependencyProperty.Register("ActiveChildBubbles", typeof(int), typeof(PlanktonControl), new PropertyMetadata(0));
 
         /// <summary>
         /// Identifies the PlanktonControl.MainBubbleCollisionsThisUpdate property.
         /// </summary>
-        public static readonly DependencyProperty MainBubbleCollisionsThisUpdateProperty = DependencyProperty.Register("MainBubbleCollisionsThisUpdate", typeof (int), typeof (PlanktonControl), new PropertyMetadata(0));
+        public static readonly DependencyProperty MainBubbleCollisionsThisUpdateProperty = DependencyProperty.Register("MainBubbleCollisionsThisUpdate", typeof(int), typeof(PlanktonControl), new PropertyMetadata(0));
 
         /// <summary>
         /// Identifies the PlanktonControl.RefreshTime property.
         /// </summary>
-        public static readonly DependencyProperty RefreshTimeProperty = DependencyProperty.Register("RefreshTime", typeof (int), typeof (PlanktonControl), new PropertyMetadata(10, OnRefreshTimePropertyChanged));
+        public static readonly DependencyProperty RefreshTimeProperty = DependencyProperty.Register("RefreshTime", typeof(int), typeof(PlanktonControl), new PropertyMetadata(10, OnRefreshTimePropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.WaterViscosity property.
         /// </summary>
-        public static readonly DependencyProperty WaterViscosityProperty = DependencyProperty.Register("WaterViscosity", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0.95d));
+        public static readonly DependencyProperty WaterViscosityProperty = DependencyProperty.Register("WaterViscosity", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0.95d));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseRandomElementFill property.
         /// </summary>
-        public static readonly DependencyProperty UseRandomElementFillProperty = DependencyProperty.Register("UseRandomElementFill", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnUseRandomElementFillPropertyChanged));
+        public static readonly DependencyProperty UseRandomElementFillProperty = DependencyProperty.Register("UseRandomElementFill", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnUseRandomElementFillPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.GenerateRandomElementFill property.
         /// </summary>
-        public static readonly DependencyProperty GenerateRandomElementFillProperty = DependencyProperty.Register("GenerateRandomElementFill", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnGenerateRandomElementFillPropertyChanged));
+        public static readonly DependencyProperty GenerateRandomElementFillProperty = DependencyProperty.Register("GenerateRandomElementFill", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnGenerateRandomElementFillPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.GenerateMultipleRandomElementFill property.
         /// </summary>
-        public static readonly DependencyProperty GenerateMultipleRandomElementFillProperty = DependencyProperty.Register("GenerateMultipleRandomElementFill", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnGenerateMultipleRandomElementFillPropertyChanged));
+        public static readonly DependencyProperty GenerateMultipleRandomElementFillProperty = DependencyProperty.Register("GenerateMultipleRandomElementFill", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnGenerateMultipleRandomElementFillPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.GenerateRandomLuminousElementFill property.
         /// </summary>
-        public static readonly DependencyProperty GenerateRandomLuminousElementFillProperty = DependencyProperty.Register("GenerateRandomLuminousElementFill", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnGenerateRandomLuminousElementFillPropertyChanged));
+        public static readonly DependencyProperty GenerateRandomLuminousElementFillProperty = DependencyProperty.Register("GenerateRandomLuminousElementFill", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnGenerateRandomLuminousElementFillPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseEfficientValuesWhenRandomGenerating property.
         /// </summary>
-        public static readonly DependencyProperty UseEfficientValuesWhenRandomGeneratingProperty = DependencyProperty.Register("UseEfficientValuesWhenRandomGenerating", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty UseEfficientValuesWhenRandomGeneratingProperty = DependencyProperty.Register("UseEfficientValuesWhenRandomGenerating", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseSmoothMousePositionUpdating property.
         /// </summary>
-        public static readonly DependencyProperty UseSmoothMousePositionUpdatingProperty = DependencyProperty.Register("UseSmoothMousePositionUpdating", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty UseSmoothMousePositionUpdatingProperty = DependencyProperty.Register("UseSmoothMousePositionUpdating", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.ZoomPreviewSize property.
         /// </summary>
-        public static readonly DependencyProperty ZoomPreviewSizeProperty = DependencyProperty.Register("ZoomPreviewSize", typeof (double), typeof (PlanktonControl), new PropertyMetadata(100d));
+        public static readonly DependencyProperty ZoomPreviewSizeProperty = DependencyProperty.Register("ZoomPreviewSize", typeof(double), typeof(PlanktonControl), new PropertyMetadata(100d));
 
         /// <summary>
         /// Identifies the PlanktonControl.IfMainBubbleNotAvailablePreviewMostInterestingElement property.
         /// </summary>
-        public static readonly DependencyProperty IfMainBubbleNotAvailablePreviewMostInterestingElementProperty = DependencyProperty.Register("IfMainBubbleNotAvailablePreviewMostInterestingElement", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IfMainBubbleNotAvailablePreviewMostInterestingElementProperty = DependencyProperty.Register("IfMainBubbleNotAvailablePreviewMostInterestingElement", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowOptions property.
         /// </summary>
-        public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowOptionsProperty = DependencyProperty.Register("ShowOptions", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsPaused property.
         /// </summary>
-        public static readonly DependencyProperty IsPausedProperty = DependencyProperty.Register("IsPaused", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnIsPausedPropertyChanged));
+        public static readonly DependencyProperty IsPausedProperty = DependencyProperty.Register("IsPaused", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnIsPausedPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsForcedIntoTransparentMode property.
         /// </summary>
-        public static readonly DependencyProperty IsForcedIntoTransparentModeProperty = DependencyProperty.Register("IsForcedIntoTransparentMode", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsForcedIntoTransparentModeProperty = DependencyProperty.Register("IsForcedIntoTransparentMode", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.GenerateAndUseRandomSeaBrush property.
         /// </summary>
-        public static readonly DependencyProperty GenerateAndUseRandomSeaBrushProperty = DependencyProperty.Register("GenerateAndUseRandomSeaBrush", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnGenerateAndUseRandomSeaBrushPropertyChanged));
+        public static readonly DependencyProperty GenerateAndUseRandomSeaBrushProperty = DependencyProperty.Register("GenerateAndUseRandomSeaBrush", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnGenerateAndUseRandomSeaBrushPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.GenerateAndUseRandomSeaBedBrush property.
         /// </summary>
-        public static readonly DependencyProperty GenerateAndUseRandomSeaBedBrushProperty = DependencyProperty.Register("GenerateAndUseRandomSeaBedBrush", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnGenerateAndUseRandomSeaBedBrushPropertyChanged));
+        public static readonly DependencyProperty GenerateAndUseRandomSeaBedBrushProperty = DependencyProperty.Register("GenerateAndUseRandomSeaBedBrush", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnGenerateAndUseRandomSeaBedBrushPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseOnlyStandardBrushesWhenRandomGenerating property.
         /// </summary>
-        public static readonly DependencyProperty UseOnlyStandardBrushesWhenRandomGeneratingProperty = DependencyProperty.Register("UseOnlyStandardBrushesWhenRandomGenerating", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty UseOnlyStandardBrushesWhenRandomGeneratingProperty = DependencyProperty.Register("UseOnlyStandardBrushesWhenRandomGenerating", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsInFullScreenMode property.
         /// </summary>
-        public static readonly DependencyProperty IsInFullScreenModeProperty = DependencyProperty.Register("IsInFullScreenMode", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnIsInFullScreenModePropertyChanged));
+        public static readonly DependencyProperty IsInFullScreenModeProperty = DependencyProperty.Register("IsInFullScreenMode", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnIsInFullScreenModePropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseArcSegmentsInSeaBedPath property.
         /// </summary>
-        public static readonly DependencyProperty UseArcSegmentsInSeaBedPathProperty = DependencyProperty.Register("UseArcSegmentsInSeaBedPath", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty UseArcSegmentsInSeaBedPathProperty = DependencyProperty.Register("UseArcSegmentsInSeaBedPath", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseLineSegmentsInSeaBedPath property.
         /// </summary>
-        public static readonly DependencyProperty UseLineSegmentsInSeaBedPathProperty = DependencyProperty.Register("UseLineSegmentsInSeaBedPath", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty UseLineSegmentsInSeaBedPathProperty = DependencyProperty.Register("UseLineSegmentsInSeaBedPath", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.OverridePlanktonBrushWithCustom property.
         /// </summary>
-        public static readonly DependencyProperty OverridePlanktonBrushWithCustomProperty = DependencyProperty.Register("OverridePlanktonBrushWithCustom", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnOverridePlanktonBrushWithCustomPropertyChanged));
+        public static readonly DependencyProperty OverridePlanktonBrushWithCustomProperty = DependencyProperty.Register("OverridePlanktonBrushWithCustom", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnOverridePlanktonBrushWithCustomPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.OverrideBackgroundBrushWithCustom property.
         /// </summary>
-        public static readonly DependencyProperty OverrideBackgroundBrushWithCustomProperty = DependencyProperty.Register("OverrideBackgroundBrushWithCustom", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnOverrideBackgroundBrushWithCustomPropertyChanged));
+        public static readonly DependencyProperty OverrideBackgroundBrushWithCustomProperty = DependencyProperty.Register("OverrideBackgroundBrushWithCustom", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnOverrideBackgroundBrushWithCustomPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.OverrideSeaBedBrushWithCustom property.
         /// </summary>
-        public static readonly DependencyProperty OverrideSeaBedBrushWithCustomProperty = DependencyProperty.Register("OverrideSeaBedBrushWithCustom", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnOverrideSeaBedBrushWithCustomPropertyChanged));
+        public static readonly DependencyProperty OverrideSeaBedBrushWithCustomProperty = DependencyProperty.Register("OverrideSeaBedBrushWithCustom", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnOverrideSeaBedBrushWithCustomPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.CustomPlanktonBrush property.
         /// </summary>
-        public static readonly DependencyProperty CustomPlanktonBrushProperty = DependencyProperty.Register("CustomPlanktonBrush", typeof (Brush), typeof (PlanktonControl), new PropertyMetadata(Brushes.White, OnCustomPlanktonBrushPropertyChanged));
+        public static readonly DependencyProperty CustomPlanktonBrushProperty = DependencyProperty.Register("CustomPlanktonBrush", typeof(Brush), typeof(PlanktonControl), new PropertyMetadata(Brushes.White, OnCustomPlanktonBrushPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.CustomBackgroundBrush property.
         /// </summary>
-        public static readonly DependencyProperty CustomBackgroundBrushProperty = DependencyProperty.Register("CustomBackgroundBrush", typeof (Brush), typeof (PlanktonControl), new PropertyMetadata(Brushes.White, OnCustomBackgroundBrushPropertyChanged));
+        public static readonly DependencyProperty CustomBackgroundBrushProperty = DependencyProperty.Register("CustomBackgroundBrush", typeof(Brush), typeof(PlanktonControl), new PropertyMetadata(Brushes.White, OnCustomBackgroundBrushPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.CustomSeaBedBrush property.
         /// </summary>
-        public static readonly DependencyProperty CustomSeaBedBrushProperty = DependencyProperty.Register("CustomSeaBedBrush", typeof (Brush), typeof (PlanktonControl), new PropertyMetadata(Brushes.White, OnCustomSeaBedBrushPropertyChanged));
+        public static readonly DependencyProperty CustomSeaBedBrushProperty = DependencyProperty.Register("CustomSeaBedBrush", typeof(Brush), typeof(PlanktonControl), new PropertyMetadata(Brushes.White, OnCustomSeaBedBrushPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseCurrent property.
         /// </summary>
-        public static readonly DependencyProperty UseCurrentProperty = DependencyProperty.Register("UseCurrent", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty UseCurrentProperty = DependencyProperty.Register("UseCurrent", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentRate property.
         /// </summary>
-        public static readonly DependencyProperty CurrentRateProperty = DependencyProperty.Register("CurrentRate", typeof (double), typeof (PlanktonControl), new PropertyMetadata(5d));
+        public static readonly DependencyProperty CurrentRateProperty = DependencyProperty.Register("CurrentRate", typeof(double), typeof(PlanktonControl), new PropertyMetadata(5d));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentVariation property.
         /// </summary>
-        public static readonly DependencyProperty CurrentVariationProperty = DependencyProperty.Register("CurrentVariation", typeof (double), typeof (PlanktonControl), new PropertyMetadata(50d));
+        public static readonly DependencyProperty CurrentVariationProperty = DependencyProperty.Register("CurrentVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(50d));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentStrength property.
         /// </summary>
-        public static readonly DependencyProperty CurrentStrengthProperty = DependencyProperty.Register("CurrentStrength", typeof (double), typeof (PlanktonControl), new PropertyMetadata(20d));
+        public static readonly DependencyProperty CurrentStrengthProperty = DependencyProperty.Register("CurrentStrength", typeof(double), typeof(PlanktonControl), new PropertyMetadata(20d));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentDirection property.
         /// </summary>
-        public static readonly DependencyProperty CurrentDirectionProperty = DependencyProperty.Register("CurrentDirection", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0d));
+        public static readonly DependencyProperty CurrentDirectionProperty = DependencyProperty.Register("CurrentDirection", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0d));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseRandomCurrentDirection property.
         /// </summary>
-        public static readonly DependencyProperty UseRandomCurrentDirectionProperty = DependencyProperty.Register("UseRandomCurrentDirection", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty UseRandomCurrentDirectionProperty = DependencyProperty.Register("UseRandomCurrentDirection", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.ActiveCurrent property.
         /// </summary>
-        public static readonly DependencyProperty ActiveCurrentProperty = DependencyProperty.Register("ActiveCurrent", typeof (Current), typeof (PlanktonControl), new PropertyMetadata(new Current()));
+        public static readonly DependencyProperty ActiveCurrentProperty = DependencyProperty.Register("ActiveCurrent", typeof(Current), typeof(PlanktonControl), new PropertyMetadata(new Current()));
 
         /// <summary>
         /// Identifies the PlanktonControl.ZoomPreviewLocaterMode property.
         /// </summary>
-        public static readonly DependencyProperty ZoomPreviewLocaterModeProperty = DependencyProperty.Register("ZoomPreviewLocaterMode", typeof (ZoomPreviewLocaterMode), typeof (PlanktonControl), new PropertyMetadata(ZoomPreviewLocaterMode.AnythingButMainBubble, OnZoomPreviewLocaterModePropertyChanged));
+        public static readonly DependencyProperty ZoomPreviewLocaterModeProperty = DependencyProperty.Register("ZoomPreviewLocaterMode", typeof(ZoomPreviewLocaterMode), typeof(PlanktonControl), new PropertyMetadata(ZoomPreviewLocaterMode.AnythingButMainBubble, OnZoomPreviewLocaterModePropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsZoomPreviewLocaterVisible property.
         /// </summary>
-        public static readonly DependencyProperty IsZoomPreviewLocaterVisibleProperty = DependencyProperty.Register("IsZoomPreviewLocaterVisible", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsZoomPreviewLocaterVisibleProperty = DependencyProperty.Register("IsZoomPreviewLocaterVisible", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseZOnCurrent property.
         /// </summary>
-        public static readonly DependencyProperty UseZOnCurrentProperty = DependencyProperty.Register("UseZOnCurrent", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty UseZOnCurrentProperty = DependencyProperty.Register("UseZOnCurrent", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentZStep property.
         /// </summary>
-        public static readonly DependencyProperty CurrentZStepProperty = DependencyProperty.Register("CurrentZStep", typeof (double), typeof (PlanktonControl), new PropertyMetadata(50d));
+        public static readonly DependencyProperty CurrentZStepProperty = DependencyProperty.Register("CurrentZStep", typeof(double), typeof(PlanktonControl), new PropertyMetadata(50d));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentZStepVariation property.
         /// </summary>
-        public static readonly DependencyProperty CurrentZStepVariationProperty = DependencyProperty.Register("CurrentZStepVariation", typeof (double), typeof (PlanktonControl), new PropertyMetadata(50d));
+        public static readonly DependencyProperty CurrentZStepVariationProperty = DependencyProperty.Register("CurrentZStepVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(50d));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentMode property.
         /// </summary>
-        public static readonly DependencyProperty CurrentModeProperty = DependencyProperty.Register("CurrentMode", typeof (CurrentSwellStage), typeof (PlanktonControl), new PropertyMetadata(CurrentSwellStage.PreMainUp, OnCurrentModePropertyChanged));
+        public static readonly DependencyProperty CurrentModeProperty = DependencyProperty.Register("CurrentMode", typeof(CurrentSwellStage), typeof(PlanktonControl), new PropertyMetadata(CurrentSwellStage.PreMainUp, OnCurrentModePropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowAboutTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowAboutTabProperty = DependencyProperty.Register("ShowAboutTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowAboutTabProperty = DependencyProperty.Register("ShowAboutTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowQuickSettingsTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowQuickSettingsTabProperty = DependencyProperty.Register("ShowQuickSettingsTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowQuickSettingsTabProperty = DependencyProperty.Register("ShowQuickSettingsTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowPlanktonTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowPlanktonTabProperty = DependencyProperty.Register("ShowPlanktonTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowPlanktonTabProperty = DependencyProperty.Register("ShowPlanktonTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowBubblesTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowBubblesTabProperty = DependencyProperty.Register("ShowBubblesTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowBubblesTabProperty = DependencyProperty.Register("ShowBubblesTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowWaterTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowWaterTabProperty = DependencyProperty.Register("ShowWaterTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowWaterTabProperty = DependencyProperty.Register("ShowWaterTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowSeaBedTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowSeaBedTabProperty = DependencyProperty.Register("ShowSeaBedTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowSeaBedTabProperty = DependencyProperty.Register("ShowSeaBedTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowCurrentTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowCurrentTabProperty = DependencyProperty.Register("ShowCurrentTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowCurrentTabProperty = DependencyProperty.Register("ShowCurrentTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowPreviewTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowPreviewTabProperty = DependencyProperty.Register("ShowPreviewTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowPreviewTabProperty = DependencyProperty.Register("ShowPreviewTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowOtherTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowOtherTabProperty = DependencyProperty.Register("ShowOtherTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowOtherTabProperty = DependencyProperty.Register("ShowOtherTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowSaveLoadTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowSaveLoadTabProperty = DependencyProperty.Register("ShowSaveLoadTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowSaveLoadTabProperty = DependencyProperty.Register("ShowSaveLoadTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowMassTab property.
         /// </summary>
-        public static readonly DependencyProperty ShowMassTabProperty = DependencyProperty.Register("ShowMassTab", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowMassTabProperty = DependencyProperty.Register("ShowMassTab", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.IgnoreWaterViscosityWhenGeneratingCurrent property.
         /// </summary>
-        public static readonly DependencyProperty IgnoreWaterViscosityWhenGeneratingCurrentProperty = DependencyProperty.Register("IgnoreWaterViscosityWhenGeneratingCurrent", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IgnoreWaterViscosityWhenGeneratingCurrentProperty = DependencyProperty.Register("IgnoreWaterViscosityWhenGeneratingCurrent", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentAcceleration property.
         /// </summary>
-        public static readonly DependencyProperty CurrentAccelerationProperty = DependencyProperty.Register("CurrentAcceleration", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0.95d));
+        public static readonly DependencyProperty CurrentAccelerationProperty = DependencyProperty.Register("CurrentAcceleration", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0.95d));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentDeceleration property.
         /// </summary>
-        public static readonly DependencyProperty CurrentDecelerationProperty = DependencyProperty.Register("CurrentDeceleration", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0.97d));
+        public static readonly DependencyProperty CurrentDecelerationProperty = DependencyProperty.Register("CurrentDeceleration", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0.97d));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsCurrentActive property.
         /// </summary>
-        public static readonly DependencyProperty IsCurrentActiveProperty = DependencyProperty.Register("IsCurrentActive", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsCurrentActiveProperty = DependencyProperty.Register("IsCurrentActive", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false));
 
         /// <summary>
         /// Identifies the PlanktonControl.ActiveCurrentDirection property.
         /// </summary>
-        public static readonly DependencyProperty ActiveCurrentDirectionProperty = DependencyProperty.Register("ActiveCurrentDirection", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0d, OnActiveCurrentDirectionPropertyChanged));
+        public static readonly DependencyProperty ActiveCurrentDirectionProperty = DependencyProperty.Register("ActiveCurrentDirection", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0d, OnActiveCurrentDirectionPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.ShowCurrentIndicator property.
         /// </summary>
-        public static readonly DependencyProperty ShowCurrentIndicatorProperty = DependencyProperty.Register("ShowCurrentIndicator", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true, OnShowCurrentIndicatorPropertyChanged));
+        public static readonly DependencyProperty ShowCurrentIndicatorProperty = DependencyProperty.Register("ShowCurrentIndicator", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true, OnShowCurrentIndicatorPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentIndicatorBackgroundBrush property.
         /// </summary>
-        public static readonly DependencyProperty CurrentIndicatorBackgroundBrushProperty = DependencyProperty.Register("CurrentIndicatorBackgroundBrush", typeof (Brush), typeof (PlanktonControl), new PropertyMetadata(Brushes.White));
+        public static readonly DependencyProperty CurrentIndicatorBackgroundBrushProperty = DependencyProperty.Register("CurrentIndicatorBackgroundBrush", typeof(Brush), typeof(PlanktonControl), new PropertyMetadata(Brushes.White));
 
         /// <summary>
         /// Identifies the PlanktonControl.CurrentIndicatorForegroundBrush property.
         /// </summary>
-        public static readonly DependencyProperty CurrentIndicatorForegroundBrushProperty = DependencyProperty.Register("CurrentIndicatorForegroundBrush", typeof (Brush), typeof (PlanktonControl), new PropertyMetadata(Brushes.White));
+        public static readonly DependencyProperty CurrentIndicatorForegroundBrushProperty = DependencyProperty.Register("CurrentIndicatorForegroundBrush", typeof(Brush), typeof(PlanktonControl), new PropertyMetadata(Brushes.White));
 
         /// <summary>
         /// Identifies the PlanktonControl.ZoomPreviewBrush property.
         /// </summary>
-        public static readonly DependencyProperty ZoomPreviewBrushProperty = DependencyProperty.Register("ZoomPreviewBrush", typeof (Brush), typeof (PlanktonControl), new PropertyMetadata(Brushes.White));
+        public static readonly DependencyProperty ZoomPreviewBrushProperty = DependencyProperty.Register("ZoomPreviewBrush", typeof(Brush), typeof(PlanktonControl), new PropertyMetadata(Brushes.White));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseAnimation property.
         /// </summary>
-        public static readonly DependencyProperty UseAnimationProperty = DependencyProperty.Register("UseAnimation", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true, OnUseAnimationPropertyChanged));
+        public static readonly DependencyProperty UseAnimationProperty = DependencyProperty.Register("UseAnimation", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true, OnUseAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.OptionsExpanderAnimationDuration property.
         /// </summary>
-        public static readonly DependencyProperty OptionsExpanderAnimationDurationProperty = DependencyProperty.Register("OptionsExpanderAnimationDuration", typeof (Duration), typeof (PlanktonControl), new PropertyMetadata(new Duration(TimeSpan.FromMilliseconds(250))));
+        public static readonly DependencyProperty OptionsExpanderAnimationDurationProperty = DependencyProperty.Register("OptionsExpanderAnimationDuration", typeof(Duration), typeof(PlanktonControl), new PropertyMetadata(new Duration(TimeSpan.FromMilliseconds(250))));
 
         /// <summary>
         /// Identifies the PlanktonControl.IsOptionsBreakoutViable property.
         /// </summary>
-        public static readonly DependencyProperty IsOptionsBreakoutViableProperty = DependencyProperty.Register("IsOptionsBreakoutViable", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsOptionsBreakoutViableProperty = DependencyProperty.Register("IsOptionsBreakoutViable", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.MaintainStandardPhysicsWhenRandomGeneratingSettings property.
         /// </summary>
-        public static readonly DependencyProperty MaintainStandardPhysicsWhenRandomGeneratingSettingsProperty = DependencyProperty.Register("MaintainStandardPhysicsWhenRandomGeneratingSettings", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty MaintainStandardPhysicsWhenRandomGeneratingSettingsProperty = DependencyProperty.Register("MaintainStandardPhysicsWhenRandomGeneratingSettings", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseZoomPreviewBlurEffect property.
         /// </summary>
-        public static readonly DependencyProperty UseZoomPreviewBlurEffectProperty = DependencyProperty.Register("UseZoomPreviewBlurEffect", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true, OnUseZoomPreviewBlurEffectPropertyChanged));
+        public static readonly DependencyProperty UseZoomPreviewBlurEffectProperty = DependencyProperty.Register("UseZoomPreviewBlurEffect", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true, OnUseZoomPreviewBlurEffectPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.MaximumZoomPreviewBlur property.
         /// </summary>
-        public static readonly DependencyProperty MaximumZoomPreviewBlurProperty = DependencyProperty.Register("MaximumZoomPreviewBlur", typeof (double), typeof (PlanktonControl), new PropertyMetadata(7d));
+        public static readonly DependencyProperty MaximumZoomPreviewBlurProperty = DependencyProperty.Register("MaximumZoomPreviewBlur", typeof(double), typeof(PlanktonControl), new PropertyMetadata(7d));
 
         /// <summary>
         /// Identifies the PlanktonControl.ZoomPreviewBlurStrength property.
         /// </summary>
-        public static readonly DependencyProperty ZoomPreviewBlurStrengthProperty = DependencyProperty.Register("ZoomPreviewBlurStrength", typeof (double), typeof (PlanktonControl), new PropertyMetadata(5d));
+        public static readonly DependencyProperty ZoomPreviewBlurStrengthProperty = DependencyProperty.Register("ZoomPreviewBlurStrength", typeof(double), typeof(PlanktonControl), new PropertyMetadata(5d));
 
         /// <summary>
         /// Identifies the PlanktonControl.ZoomPreviewBlurCorrection property.
         /// </summary>
-        public static readonly DependencyProperty ZoomPreviewBlurCorrectionProperty = DependencyProperty.Register("ZoomPreviewBlurCorrection", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0.15d));
+        public static readonly DependencyProperty ZoomPreviewBlurCorrectionProperty = DependencyProperty.Register("ZoomPreviewBlurCorrection", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0.15d));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseGravity property.
         /// </summary>
-        public static readonly DependencyProperty UseGravityProperty = DependencyProperty.Register("UseGravity", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(true));
+        public static readonly DependencyProperty UseGravityProperty = DependencyProperty.Register("UseGravity", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(true));
 
         /// <summary>
         /// Identifies the PlanktonControl.Density property.
         /// </summary>
-        public static readonly DependencyProperty DensityProperty = DependencyProperty.Register("Density", typeof (double), typeof (PlanktonControl), new PropertyMetadata(1.0d));
+        public static readonly DependencyProperty DensityProperty = DependencyProperty.Register("Density", typeof(double), typeof(PlanktonControl), new PropertyMetadata(1.0d));
 
         /// <summary>
         /// Identifies the PlanktonControl.UseLightingEffect property.
         /// </summary>
-        public static readonly DependencyProperty UseLightingEffectProperty = DependencyProperty.Register("UseLightingEffect", typeof (bool), typeof (PlanktonControl), new PropertyMetadata(false, OnUseLightingEffectPropertyChanged));
+        public static readonly DependencyProperty UseLightingEffectProperty = DependencyProperty.Register("UseLightingEffect", typeof(bool), typeof(PlanktonControl), new PropertyMetadata(false, OnUseLightingEffectPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.LightingEffectStrength property.
         /// </summary>
-        public static readonly DependencyProperty LightingEffectStrengthProperty = DependencyProperty.Register("LightingEffectStrength", typeof (double), typeof (PlanktonControl), new PropertyMetadata(0.5d, OnLightingEffectStrengthPropertyChanged));
+        public static readonly DependencyProperty LightingEffectStrengthProperty = DependencyProperty.Register("LightingEffectStrength", typeof(double), typeof(PlanktonControl), new PropertyMetadata(0.5d, OnLightingEffectStrengthPropertyChanged));
 
         /// <summary>
         /// Identifies the PlanktonControl.LightingEffectSpeedRatio property.
         /// </summary>
-        public static readonly DependencyProperty LightingEffectSpeedRatioProperty = DependencyProperty.Register("LightingEffectSpeedRatio", typeof (double), typeof (PlanktonControl), new PropertyMetadata(1d, OnLightingEffectSpeedRatioPropertyChanged));
+        public static readonly DependencyProperty LightingEffectSpeedRatioProperty = DependencyProperty.Register("LightingEffectSpeedRatio", typeof(double), typeof(PlanktonControl), new PropertyMetadata(1d, OnLightingEffectSpeedRatioPropertyChanged));
 
         #endregion
 
@@ -1625,13 +1625,12 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Handle breaking out options to an external window.
         /// </summary>
-        /// <returns>The ExternalOptionsWindow the options are broken out into if this is possible, else false.</returns>
-        private ExternalOptionsWindow BreakoutOptionsToExternalWindow()
+        private void BreakoutOptionsToExternalWindow()
         {
             try
             {
                 if (!IsOptionsBreakoutViable)
-                    return null;
+                    return;
 
                 var externalOptionsWindow = new ExternalOptionsWindow { DataContext = DataContext };
 
@@ -1663,13 +1662,10 @@ namespace BP.Plankton.Controls
                 };
 
                 externalOptionsWindow.Show();
-
-                return externalOptionsWindow;
             }
             catch (Exception e)
             {
                 Debug.WriteLine($"Exception caught breaking out options to external window: {e.Message}");
-                return null;
             }
         }
 
@@ -1969,31 +1965,31 @@ namespace BP.Plankton.Controls
 
                     int planktonBrushIndex;
 
-                    if (GreenPlanktonRadioButton.IsChecked.Value)
+                    if (GreenPlanktonRadioButton.IsChecked != null && GreenPlanktonRadioButton.IsChecked.Value)
                         planktonBrushIndex = 0;
-                    else if (RedPlanktonRadioButton.IsChecked.Value)
+                    else if (RedPlanktonRadioButton.IsChecked != null && RedPlanktonRadioButton.IsChecked.Value)
                         planktonBrushIndex = 1;
-                    else if (WhitePlanktonRadioButton.IsChecked.Value)
+                    else if (WhitePlanktonRadioButton.IsChecked != null && WhitePlanktonRadioButton.IsChecked.Value)
                         planktonBrushIndex = 2;
-                    else if (TransparentPlanktonRadioButton.IsChecked.Value)
+                    else if (TransparentPlanktonRadioButton.IsChecked != null && TransparentPlanktonRadioButton.IsChecked.Value)
                         planktonBrushIndex = 3;
-                    else if (GunkPlanktonRadioButton.IsChecked.Value)
+                    else if (GunkPlanktonRadioButton.IsChecked != null && GunkPlanktonRadioButton.IsChecked.Value)
                         planktonBrushIndex = 4;
-                    else if (PerformancePlanktonRadioButton.IsChecked.Value)
+                    else if (PerformancePlanktonRadioButton.IsChecked != null && PerformancePlanktonRadioButton.IsChecked.Value)
                         planktonBrushIndex = 5;
                     else planktonBrushIndex = 0;
 
                     int seaBedBrushIndex;
 
-                    if (RockSeaBedRadioButton.IsChecked.Value)
+                    if (RockSeaBedRadioButton.IsChecked != null && RockSeaBedRadioButton.IsChecked.Value)
                         seaBedBrushIndex = 0;
-                    else if (SandSeaBedRadioButton.IsChecked.Value)
+                    else if (SandSeaBedRadioButton.IsChecked != null && SandSeaBedRadioButton.IsChecked.Value)
                         seaBedBrushIndex = 1;
-                    else if (SlateSeaBedRadioButton.IsChecked.Value)
+                    else if (SlateSeaBedRadioButton.IsChecked != null && SlateSeaBedRadioButton.IsChecked.Value)
                         seaBedBrushIndex = 2;
-                    else if (IceSeaBedRadioButton.IsChecked.Value)
+                    else if (IceSeaBedRadioButton.IsChecked != null && IceSeaBedRadioButton.IsChecked.Value)
                         seaBedBrushIndex = 3;
-                    else if (StrangeSeaBedRadioButton.IsChecked.Value)
+                    else if (StrangeSeaBedRadioButton.IsChecked != null && StrangeSeaBedRadioButton.IsChecked.Value)
                         seaBedBrushIndex = 4;
                     else seaBedBrushIndex = 0;
 
@@ -2320,10 +2316,10 @@ namespace BP.Plankton.Controls
             var segmentTypes = new List<Type>();
 
             if (useLine)
-                segmentTypes.Add(typeof (LineSegment));
+                segmentTypes.Add(typeof(LineSegment));
 
             if (useArc)
-                segmentTypes.Add(typeof (ArcSegment));
+                segmentTypes.Add(typeof(ArcSegment));
 
             if (segmentTypes.Count == 0)
                 throw new ArgumentException("Either arcs or lines must be specified as segment types");
@@ -2333,9 +2329,9 @@ namespace BP.Plankton.Controls
                 endPoint = new Point(Math.Min(area.ActualWidth, Math.Min(startPoint.X + Math.Max(1, RandomGenerator.Next((int)Math.Sqrt(relativeSmoothness), relativeSmoothness)), area.ActualWidth)), Math.Min(area.ActualHeight, Math.Max(0, startPoint.Y + RandomGenerator.Next(-relativeIncline, relativeIncline))));
                 var type = segmentTypes[RandomGenerator.Next(0, segmentTypes.Count)];
 
-                if (type == typeof (LineSegment))
+                if (type == typeof(LineSegment))
                     segments.Add(new LineSegment(endPoint, true));
-                else if (type == typeof (ArcSegment))
+                else if (type == typeof(ArcSegment))
                     segments.Add(new ArcSegment(endPoint, new Size((Math.Max(endPoint.X, startPoint.X) - Math.Min(endPoint.X, startPoint.X)) * 2d, (Math.Max(endPoint.Y, startPoint.Y) - Math.Min(endPoint.Y, startPoint.Y)) * 2d), 0d, false, RandomGenerator.Next(0, 2) % 2 == 0 ? SweepDirection.Clockwise : SweepDirection.Counterclockwise, true));
                 else
                     throw new InvalidOperationException("Invalid type selected");
@@ -2371,114 +2367,6 @@ namespace BP.Plankton.Controls
 
                 LastSeaBedGeometry = data;
                 SeaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
-                return true;
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("The data was not a valid geometry.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("The data was not a valid geometry.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show("The data was not a valid geometry.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Re-render a previous sea bed geometry at a new size.
-        /// </summary>
-        /// <param name="geometry">The geometry to re-render.</param>
-        /// <param name="previousSizeOfGeometry">The previous size used for the geometry.</param>
-        /// <param name="newSizeOfGeomety">The new size to use for the geometry.</param>
-        private bool ReRenderPreviousSeaBedAtNewSize(PathGeometry geometry, Size previousSizeOfGeometry, Size newSizeOfGeomety)
-        {
-            try
-            {
-                RemoveSeaBed();
-
-                var xScale = newSizeOfGeomety.Width / previousSizeOfGeometry.Width;
-                var yScale = newSizeOfGeomety.Height / previousSizeOfGeometry.Height;
-
-                if (geometry != null)
-                {
-                    var pG = new PathGeometry();
-
-                    foreach (var pF in geometry.Figures)
-                    {
-                        var newFigure = new PathFigure { StartPoint = new Point(pF.StartPoint.X * xScale, pF.StartPoint.Y * yScale) };
-
-                        foreach (var pS in pF.Segments)
-                        {
-                            if (pS is ArcSegment)
-                            {
-                                var aS = pS as ArcSegment;
-                                newFigure.Segments.Add(new ArcSegment(new Point(aS.Point.X * xScale, aS.Point.Y * yScale), new Size(aS.Size.Width * xScale, aS.Size.Height * yScale), aS.RotationAngle, aS.IsLargeArc, aS.SweepDirection, aS.IsStroked));
-                            }
-                            else if (pS is BezierSegment)
-                            {
-                                var bS = pS as BezierSegment;
-                                newFigure.Segments.Add(new BezierSegment(new Point(bS.Point1.X * xScale, bS.Point1.Y * yScale), new Point(bS.Point2.X * xScale, bS.Point2.Y * yScale), new Point(bS.Point3.X * xScale, bS.Point3.Y * yScale), bS.IsStroked));
-                            }
-                            else if (pS is LineSegment)
-                            {
-                                var lS = pS as LineSegment;
-                                newFigure.Segments.Add(new LineSegment(new Point(lS.Point.X * xScale, lS.Point.Y * yScale), lS.IsStroked));
-                            }
-                            else if (pS is PolyBezierSegment)
-                            {
-                                var pBs = pS as PolyBezierSegment;
-                                var points = new Point[pBs.Points.Count];
-                                for (var i = 0; i < pBs.Points.Count; i++)
-                                    points[i] = new Point(pBs.Points[i].X * xScale, pBs.Points[i].Y * yScale);
-
-                                newFigure.Segments.Add(new PolyBezierSegment(points, pBs.IsStroked));
-                            }
-                            else if (pS is PolyLineSegment)
-                            {
-                                var pLs = pS as PolyLineSegment;
-                                var points = new Point[pLs.Points.Count];
-
-                                for (var i = 0; i < pLs.Points.Count; i++)
-                                    points[i] = new Point(pLs.Points[i].X * xScale, pLs.Points[i].Y * yScale);
-
-                                newFigure.Segments.Add(new PolyLineSegment(points, pLs.IsStroked));
-                            }
-                            else if (pS is PolyQuadraticBezierSegment)
-                            {
-                                var pQbs = pS as PolyQuadraticBezierSegment;
-                                var points = new Point[pQbs.Points.Count];
-
-                                for (var i = 0; i < pQbs.Points.Count; i++)
-                                    points[i] = new Point(pQbs.Points[i].X * xScale, pQbs.Points[i].Y * yScale);
-
-                                newFigure.Segments.Add(new PolyQuadraticBezierSegment(points, pQbs.IsStroked));
-                            }
-                            else if (pS is QuadraticBezierSegment)
-                            {
-                                var qBs = pS as QuadraticBezierSegment;
-                                newFigure.Segments.Add(new QuadraticBezierSegment(new Point(qBs.Point1.X * xScale, qBs.Point1.Y * yScale), new Point(qBs.Point2.X * xScale, qBs.Point2.Y * yScale), qBs.IsStroked));
-                            }
-                            else
-                                throw new NotImplementedException();
-                        }
-
-                        pG.Figures.Add(newFigure);
-                    }
-
-                    SeaBedPath.Data = pG;
-                    SeaBedGeometry = pG;
-                    LastSeaBedGeometry = SeaBedGeometry.ToString();
-                    SeaBedPen = new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness);
-                }
-                else
-                    RenderSeaBed(UseLineSegmentsInSeaBedPath, UseArcSegmentsInSeaBedPath);
-
                 return true;
             }
             catch (ArgumentException)
@@ -2692,18 +2580,6 @@ namespace BP.Plankton.Controls
         }
 
         /// <summary>
-        /// Force a transparent background onto this control.
-        /// </summary>
-        private void ForceTransparentBackgound()
-        {
-            if (!IsForcedIntoTransparentMode)
-                return;
-
-            AreaCanvas.Background = Brushes.Transparent;
-            IsForcedIntoTransparentMode = true;
-        }
-
-        /// <summary>
         /// Set the background brush from the current settings.
         /// </summary>
         /// <param name="maintainLastGeneratedBackgroundBrushIfPossible">Specify if the last generated sea bed brush should be maintained if possible.</param>
@@ -2725,15 +2601,15 @@ namespace BP.Plankton.Controls
             else
             {
                 Brush brush;
-                if (SeaBackgroundRadioButton.IsChecked.Value)
+                if (SeaBackgroundRadioButton.IsChecked != null && SeaBackgroundRadioButton.IsChecked.Value)
                     brush = SeaBackgroundRadioButton.CommandParameter as Brush;
-                else if (PondBackgroundRadioButton.IsChecked.Value)
+                else if (PondBackgroundRadioButton.IsChecked != null && PondBackgroundRadioButton.IsChecked.Value)
                     brush = PondBackgroundRadioButton.CommandParameter as Brush;
-                else if (DarkBackgroundRadioButton.IsChecked.Value)
+                else if (DarkBackgroundRadioButton.IsChecked != null && DarkBackgroundRadioButton.IsChecked.Value)
                     brush = DarkBackgroundRadioButton.CommandParameter as Brush;
-                else if (LightBackgroundRadioButton.IsChecked.Value)
+                else if (LightBackgroundRadioButton.IsChecked != null && LightBackgroundRadioButton.IsChecked.Value)
                     brush = LightBackgroundRadioButton.CommandParameter as Brush;
-                else if (StrangeBackgroundRadioButton.IsChecked.Value)
+                else if (StrangeBackgroundRadioButton.IsChecked != null && StrangeBackgroundRadioButton.IsChecked.Value)
                     brush = StrangeBackgroundRadioButton.CommandParameter as Brush;
                 else brush = SeaBackgroundRadioButton.CommandParameter as Brush;
 
@@ -2763,15 +2639,15 @@ namespace BP.Plankton.Controls
             else
             {
                 Brush brush;
-                if (RockSeaBedRadioButton.IsChecked.Value)
+                if (RockSeaBedRadioButton.IsChecked != null && RockSeaBedRadioButton.IsChecked.Value)
                     brush = RockSeaBedRadioButton.CommandParameter as Brush;
-                else if (SandSeaBedRadioButton.IsChecked.Value)
+                else if (SandSeaBedRadioButton.IsChecked != null && SandSeaBedRadioButton.IsChecked.Value)
                     brush = SandSeaBedRadioButton.CommandParameter as Brush;
-                else if (SlateSeaBedRadioButton.IsChecked.Value)
+                else if (SlateSeaBedRadioButton.IsChecked != null && SlateSeaBedRadioButton.IsChecked.Value)
                     brush = SlateSeaBedRadioButton.CommandParameter as Brush;
-                else if (IceSeaBedRadioButton.IsChecked.Value)
+                else if (IceSeaBedRadioButton.IsChecked != null && IceSeaBedRadioButton.IsChecked.Value)
                     brush = IceSeaBedRadioButton.CommandParameter as Brush;
-                else if (StrangeSeaBedRadioButton.IsChecked.Value)
+                else if (StrangeSeaBedRadioButton.IsChecked != null && StrangeSeaBedRadioButton.IsChecked.Value)
                     brush = StrangeSeaBedRadioButton.CommandParameter as Brush;
                 else brush = RockSeaBedRadioButton.CommandParameter as Brush;
 
@@ -3593,7 +3469,8 @@ namespace BP.Plankton.Controls
 
             if (UseZoomPreview)
             {
-                var maxZoomPreview = (double)new ZoomPreviewMaxHeightConverter().Convert(newestSizeRenderRequest.Height, typeof(double), null, CultureInfo.CurrentCulture);
+                var converter = new ZoomPreviewMaxHeightConverter();
+                var maxZoomPreview = (double)(converter.Convert(newestSizeRenderRequest.Height, typeof(double), null, CultureInfo.CurrentCulture) ?? 1d);
 
                 if (ZoomPreviewSize > maxZoomPreview)
                     ZoomPreviewSize = maxZoomPreview;

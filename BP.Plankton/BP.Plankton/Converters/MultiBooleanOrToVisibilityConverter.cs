@@ -21,12 +21,21 @@ namespace BP.Plankton.Converters
         /// <returns></returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var booleanValue = false;
+            var anyTrue = false;
 
-            if (values.Any(element => (element != null) && (bool.TryParse(element.ToString(), out booleanValue))))
-                return booleanValue ? Visibility.Visible : Visibility.Collapsed;
+            foreach (var element in values)
+            {
+                if (!bool.TryParse(element?.ToString() ?? string.Empty, out var b))
+                    continue;
 
-            return Visibility.Collapsed;
+                if (!b)
+                    continue;
+                
+                anyTrue = true;
+                break;
+            }
+
+            return anyTrue ? Visibility.Visible : Visibility.Hidden;
         }
 
         /// <summary>

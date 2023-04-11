@@ -32,7 +32,7 @@ namespace BP.Plankton.Windows
         /// <summary>
         /// Identifies the DrawSeaBedWindow.DrawingControl property.
         /// </summary>
-        public static readonly DependencyProperty DrawingControlProperty = DependencyProperty.Register("DrawingControl", typeof (DrawSeaBedControl), typeof (DrawSeaBedWindow), new PropertyMetadata(null));
+        public static readonly DependencyProperty DrawingControlProperty = DependencyProperty.Register("DrawingControl", typeof(DrawSeaBedControl), typeof(DrawSeaBedWindow), new PropertyMetadata(null));
 
         #endregion
 

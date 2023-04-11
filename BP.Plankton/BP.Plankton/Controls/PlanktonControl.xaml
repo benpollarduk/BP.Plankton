@@ -232,8 +232,8 @@
                 </Grid.Resources>
                 <TabControl Name="OptionsTabControl" Opacity="0.0" Margin="6" TabStripPlacement="Top" Background="Black" BorderBrush="White" BorderThickness="1" Focusable="False">
                     <TabItem Header="Quick" Visibility="{Binding Path=ShowQuickSettingsTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
-                        <UniformGrid>
-                            <UniformGrid.Resources>
+                        <WrapPanel Orientation="Horizontal">
+                            <WrapPanel.Resources>
                                 <Style TargetType="Button" BasedOn="{StaticResource ButtonBaseStyle}">
                                     <Setter Property="Height" Value="40"/>
                                     <Setter Property="Width" Value="88"/>
@@ -276,7 +276,7 @@
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                            </UniformGrid.Resources>
+                            </WrapPanel.Resources>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
                                     <Grid>
@@ -380,11 +380,11 @@
                                 <Button.Content>
                                     <Grid>
                                         <Image Source="/Resources/Images/Buttons/Random.png" Stretch="UniformToFill"/>
-                                        <Label Content="Random (Ctrl+N)" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Content="Random&#x0a;(Ctrl+N)" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Button.Content>
                             </Button>
-                        </UniformGrid>
+                        </WrapPanel>
                     </TabItem>
                     <TabItem Header="Plankton" Visibility="{Binding Path=ShowPlanktonTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
                         <Grid>

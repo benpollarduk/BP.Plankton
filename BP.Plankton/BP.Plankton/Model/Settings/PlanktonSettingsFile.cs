@@ -1041,7 +1041,7 @@ namespace BP.Plankton.Model.Settings
                 file.CurrentZStepVariation = double.Parse(GetAttribute(doc, "Current", "CurrentZStepVariation").Value);
 
             if (AttributeExists(doc, "Current", "CurrentMode"))
-                file.CurrentMode = (CurrentSwellStage)Enum.Parse(typeof (CurrentSwellStage), GetAttribute(doc, "Current", "CurrentMode").Value);
+                file.CurrentMode = (CurrentSwellStage)Enum.Parse(typeof(CurrentSwellStage), GetAttribute(doc, "Current", "CurrentMode").Value);
 
             if (AttributeExists(doc, "Current", "IgnoreWaterViscosityWhenGeneratingCurrent"))
                 file.IgnoreWaterViscosityWhenGeneratingCurrent = bool.Parse(GetAttribute(doc, "Current", "IgnoreWaterViscosityWhenGeneratingCurrent").Value);

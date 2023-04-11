@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace BP.Plankton.Converters
 {
-    [ValueConversion(typeof (double), typeof (double))]
+    [ValueConversion(typeof(double), typeof(double))]
     internal class ZoomPreviewMaxHeightConverter : IValueConverter
     {
         #region IValueConverter Members

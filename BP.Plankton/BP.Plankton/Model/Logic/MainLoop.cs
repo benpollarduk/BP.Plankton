@@ -22,7 +22,6 @@ namespace BP.Plankton.Model.Logic
         /// <param name="element">The FrameworkElement to update the rectangle property to.</param>
         private static void UpdateRectangle(ref Rect rectangle, Geometry element)
         {
-            // set bounds
             rectangle = element.Bounds;
         }
 
@@ -94,14 +93,12 @@ namespace BP.Plankton.Model.Logic
         /// <param name="mousePosition">The current mouse position.</param>
         /// <param name="currentBubbleElements">The current child bubble elements.</param>
         /// <param name="forceBubbleRerender">If bubble re-render should be forced.</param>
-        /// <param name="mainBubbleState">The main bubble state.</param>
-        /// <param name="mainBubbleRectangle">A rectangle describing the main bubble.</param>
-        private static void UpdateBubbles(PlanktonControl control, FrameworkElement area, Random random, Vector mouseVector, bool useSeaBed, double seaBedHeight, Point mousePosition, out int currentBubbleElements, out bool forceBubbleRerender, out Rect mainBubbleRectangle)
+        private static void UpdateBubbles(PlanktonControl control, FrameworkElement area, Random random, Vector mouseVector, bool useSeaBed, double seaBedHeight, Point mousePosition, out int currentBubbleElements, out bool forceBubbleRerender)
         {
             var bubbleBrush = control.FindResource("BubbleBrush") as Brush;
             var maxBubbleSize = control.BubbleSize * Math.PI;
             var childBubbleBuoyancy = control.ChildBubbleBuoyancy * control.WaterViscosity;
-            mainBubbleRectangle = new Rect();
+            var bubbleElementRectangle = new Rect();
             forceBubbleRerender = false;
 
             if (control.Bubble != null)
@@ -160,25 +157,25 @@ namespace BP.Plankton.Model.Logic
                     if (!control.ChildBubbles[childBubbleElement])
                         continue;
 
-                    UpdateRectangle(ref mainBubbleRectangle, childBubbleElement.Geometry);
+                    UpdateRectangle(ref bubbleElementRectangle, childBubbleElement.Geometry);
 
                     if (useSeaBed)
                     {
                         if (!(childBubbleElement.Vector.Y < 0) && !(control.ActiveCurrent.ActiveStep().Y < 0))
                             continue;
 
-                        if (mainBubbleRectangle.Y + mainBubbleRectangle.Height <= 0)
+                        if (bubbleElementRectangle.Y + bubbleElementRectangle.Height <= 0)
                         {
                             control.PopChildBubble(childBubbleElement);
                         }
                         else if (childBubbleElement.Vector.Y > 0 || control.ActiveCurrent.ActiveStep().Y > 0)
                         {
-                            if (mainBubbleRectangle.Y > area.ActualHeight)
+                            if (bubbleElementRectangle.Y > area.ActualHeight)
                             {
                                 control.PopChildBubble(childBubbleElement);
                                 forceBubbleRerender = true;
                             }
-                            else if (mainBubbleRectangle.Y + mainBubbleRectangle.Height >= area.ActualHeight - seaBedHeight &&
+                            else if (bubbleElementRectangle.Y + bubbleElementRectangle.Height >= area.ActualHeight - seaBedHeight &&
                                      control.SeaBedGeometry.StrokeContainsWithDetail(control.SeaBedPen, childBubbleElement.Geometry) != IntersectionDetail.Empty ||
                                      control.SeaBedGeometry.FillContainsWithDetail(childBubbleElement.Geometry) != IntersectionDetail.Empty)
                             {
@@ -191,7 +188,8 @@ namespace BP.Plankton.Model.Logic
                     {
                         // if going up and off top of screen, or going down and off bottom of screen
                         if ((childBubbleElement.Vector.Y < 0 || control.ActiveCurrent.ActiveStep().Y < 0) &&
-                            mainBubbleRectangle.Y + mainBubbleRectangle.Height <= 0 || (childBubbleElement.Vector.Y > 0 || control.ActiveCurrent.ActiveStep().Y > 0) && mainBubbleRectangle.Y > area.ActualHeight)
+                            bubbleElementRectangle.Y + bubbleElementRectangle.Height <= 0 || (childBubbleElement.Vector.Y > 0 || control.ActiveCurrent.ActiveStep().Y > 0) &&
+                            bubbleElementRectangle.Y > area.ActualHeight)
                         {
                             control.PopChildBubble(childBubbleElement);
                         }
@@ -225,9 +223,8 @@ namespace BP.Plankton.Model.Logic
         /// <param name="useSeaBed">If the sea bed is used.</param>
         /// <param name="seaBedHeight">The sea bed height.</param>
         /// <param name="currentBubbleElements">The number of bubble elements.</param>
-        /// <param name="bubbleElementRectangle">A rectangle describing the main bubble.</param>
         /// <param name="mainBubbleCollisions">The number of collisions with the main bubble.</param>
-        private static void UpdatePlankton(PlanktonControl control, FrameworkElement area, Random random, bool useSeaBed, double seaBedHeight, int currentBubbleElements, Rect bubbleElementRectangle, out int mainBubbleCollisions)
+        private static void UpdatePlankton(PlanktonControl control, FrameworkElement area, Random random, bool useSeaBed, double seaBedHeight, int currentBubbleElements, out int mainBubbleCollisions)
         {
             var centerPointOfElement = new Point(0, 0);
             var planktonElementRectangle = new Rect();
@@ -236,6 +233,7 @@ namespace BP.Plankton.Model.Logic
             var maxElementMass = control.ElementsSize * Math.PI * control.Density;
             var planktonAttractionStrength = control.PlanktonAttractionStrength / 10d;
             var actualTravel = control.Travel / 10d;
+            var bubbleElementRectangle = new Rect();
             mainBubbleCollisions = 0;
 
             for (var planktonIndex = 0; planktonIndex < control.Elements; planktonIndex++)
@@ -539,53 +537,47 @@ namespace BP.Plankton.Model.Logic
 
             control.IsUpdating = true;
 
+            Console.WriteLine(control.UseCurrent.ToString() + " " + control.ShowCurrentIndicator.ToString());
+
             var seaBedHeight = control.SeaBedGeometry?.Bounds.Height ?? 0d;
-            var lastRenderdPlankton = 0;
-            var lastRenderedBubbleElements = 0;
             var mousePosition = Mouse.GetPosition(area);
             var useSeaBed = control.SeaBedGeometry != null && control.UseSeaBed;
-            var hadBubble = control.Bubble != null;
 
             UpdateCurrent(control, random);
-            UpdateBubbles(control, area, random, mouseVector, useSeaBed, seaBedHeight, mousePosition, out var currentBubbleElements, out var forceBubbleRerender, out var bubbleElementRectangle);
-            UpdatePlankton(control, area, random, useSeaBed, seaBedHeight, currentBubbleElements, bubbleElementRectangle, out var mainBubbleCollisions);
+            UpdateBubbles(control, area, random, mouseVector, useSeaBed, seaBedHeight, mousePosition, out var bubbleElements, out var forceBubbleRerender);
+            UpdatePlankton(control, area, random, useSeaBed, seaBedHeight, bubbleElements, out var mainBubbleCollisions);
             UpdatePreview(control, area, mousePosition);
 
-            if (control.Elements != lastRenderdPlankton)
+            // if plankton count has changed
+            if (control.Elements != area.Plankton)
             {
                 var planktonHostVisual = new DrawingVisual();
                 control.ElementHost.SpecifyPlanktonDrawingVisual(planktonHostVisual);
                 control.ElementHost.AddPlanktonElements(control.Plankton.ToArray());
             }
 
-            // if forcing bubble re-render, new bubbles added, or got down to no rendered bubbles but there were before - we don't want to re render everything when a bubble goes off screen
-            if (forceBubbleRerender || currentBubbleElements == 0 && lastRenderedBubbleElements > 0)
+            // if forcing bubble re-render or bubble count has changed
+            if (forceBubbleRerender || bubbleElements != area.Bubbles)
             {
-                var bubbleHostVisual = new DrawingVisual();
-                control.ElementHost.SpecifyBubbleDrawingVisual(bubbleHostVisual);
-                control.ElementHost.AddBubbleElements(control.ChildBubbles.Keys.ToArray());
+                control.ElementHost.SpecifyBubbleDrawingVisual(new DrawingVisual());
+                
+                if (control.Bubble != null)
+                    control.ElementHost.AddMainBubbleElement(control.Bubble);
+
+                if (control.ChildBubbles?.Any() ?? false)
+                    control.ElementHost.AddBubbleElements(control.ChildBubbles.Keys.ToArray());
+            }
+            else if (control.Bubble != null && !area.HasBubbleHostVisual)
+            {
+                control.ElementHost.SpecifyMainBubbleDrawingVisual(new DrawingVisual());
+                control.ElementHost.AddMainBubbleElement(control.Bubble);
+            }
+            else if (control.Bubble == null && area.HasBubbleHostVisual)
+            {
+                control.ElementHost.SpecifyMainBubbleDrawingVisual(new DrawingVisual());
             }
 
-            if (control.Bubble != null)
-            {
-                lock (control.Bubble)
-                {
-                    if (!area.HasBubbleHostVisual || control.Bubble != null && !hadBubble)
-                    {
-                        var mainBubbleHostVisual = new DrawingVisual();
-                        control.ElementHost.SpecifyMainBubbleDrawingVisual(mainBubbleHostVisual);
-                        control.ElementHost.AddMainBubbleElement(control.Bubble);
-                    }
-                }
-            }
-            else if (hadBubble)
-            {
-                // need to remove the main bubble visual to not leave a hanging element
-                var mainBubbleHostVisual = new DrawingVisual();
-                control.ElementHost.SpecifyMainBubbleDrawingVisual(mainBubbleHostVisual);
-            }
-
-            control.ActiveChildBubbles = currentBubbleElements;
+            control.ActiveChildBubbles = bubbleElements;
             control.MainBubbleCollisionsThisUpdate = mainBubbleCollisions;
             control.IsUpdating = false;
         }

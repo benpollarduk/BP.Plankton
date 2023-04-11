@@ -40,7 +40,7 @@ namespace BP.Plankton.Windows
         /// <summary>
         /// Identifies the MainWindow.StartupFile property.
         /// </summary>
-        public static readonly DependencyProperty StartupFileProperty = DependencyProperty.Register("StartupFile", typeof (PlanktonSettingsFile), typeof (MainWindow), new PropertyMetadata(PlanktonSettingsFile.LuminousRandomStartup));
+        public static readonly DependencyProperty StartupFileProperty = DependencyProperty.Register("StartupFile", typeof(PlanktonSettingsFile), typeof(MainWindow), new PropertyMetadata(PlanktonSettingsFile.LuminousRandomStartup));
 
         #endregion
 
@@ -82,7 +82,7 @@ namespace BP.Plankton.Windows
                 PlanktonControl.UseZoomPreviewBlurEffect = settings.UseZoomPreviewBlurEffect;
                 PlanktonControl.ZoomPreviewBlurCorrection = settings.ZoomPreviewBlurCorrection;
                 PlanktonControl.ZoomPreviewBlurStrength = settings.ZoomPreviewBlurStrength;
-                PlanktonControl.ZoomPreviewLocaterMode = (ZoomPreviewLocaterMode)Enum.Parse(typeof (ZoomPreviewLocaterMode), settings.ZoomPreviewLocaterMode);
+                PlanktonControl.ZoomPreviewLocaterMode = (ZoomPreviewLocaterMode)Enum.Parse(typeof(ZoomPreviewLocaterMode), settings.ZoomPreviewLocaterMode);
                 PlanktonControl.ZoomPreviewSize = settings.ZoomPreviewSize;
             }
             catch (Exception e)

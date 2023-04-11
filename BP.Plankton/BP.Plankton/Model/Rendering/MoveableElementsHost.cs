@@ -18,6 +18,8 @@ namespace BP.Plankton.Model.Rendering
         private DrawingVisual mainBubbleDrawingVisual;
         private readonly List<DrawingVisual> extendedDrawingVisuals = new List<DrawingVisual>();
         private readonly VisualCollection children;
+        private int planktonCount;
+        private int bubbleCount;
 
         #endregion
 
@@ -37,6 +39,16 @@ namespace BP.Plankton.Model.Rendering
         /// Get if there is a bubble host visual.
         /// </summary>
         public bool HasBubbleHostVisual => bubbleDrawingVisual != null;
+
+        /// <summary>
+        /// Get the number of plankton.
+        /// </summary>
+        public int Plankton => HasPlanktonHostVisual ? planktonCount : 0;
+
+        /// <summary>
+        /// Get the number of bubbles.
+        /// </summary>
+        public int Bubbles => HasBubbleHostVisual ? bubbleCount : 0;
 
         #endregion
 
@@ -70,8 +82,11 @@ namespace BP.Plankton.Model.Rendering
         /// </summary>
         public virtual void RemovePlanktonDrawingVisual()
         {
-            if (planktonDrawingVisual != null)
-                Remove(planktonDrawingVisual);
+            if (planktonDrawingVisual == null) 
+                return;
+
+            Remove(planktonDrawingVisual);
+            planktonCount = 0;
         }
 
         /// <summary>
@@ -79,8 +94,11 @@ namespace BP.Plankton.Model.Rendering
         /// </summary>
         public virtual void RemoveBubblesDrawingVisual()
         {
-            if (bubbleDrawingVisual != null)
-                Remove(bubbleDrawingVisual);
+            if (bubbleDrawingVisual == null)
+                return;
+
+            Remove(bubbleDrawingVisual);
+            bubbleCount = 0;
         }
 
         /// <summary>
@@ -100,6 +118,7 @@ namespace BP.Plankton.Model.Rendering
         {
             RemovePlanktonDrawingVisual();
             planktonDrawingVisual = visual;
+            planktonCount = 0;
             Add(planktonDrawingVisual);
         }
 
@@ -111,6 +130,7 @@ namespace BP.Plankton.Model.Rendering
         {
             RemoveBubblesDrawingVisual();
             bubbleDrawingVisual = visual;
+            bubbleCount = 0;
             Add(bubbleDrawingVisual);
         }
 
@@ -232,7 +252,10 @@ namespace BP.Plankton.Model.Rendering
             using (var dC = planktonDrawingVisual.RenderOpen())
             {
                 foreach (var g in elements)
+                {
                     dC.DrawGeometry(g.Fill, g.Stroke, g.Geometry);
+                    planktonCount++;
+                }
             }
         }
 
@@ -245,7 +268,10 @@ namespace BP.Plankton.Model.Rendering
             using (var dC = bubbleDrawingVisual.RenderOpen())
             {
                 foreach (var g in elements)
+                {
                     dC.DrawGeometry(g.Fill, g.Stroke, g.Geometry);
+                    bubbleCount++;
+                }
             }
         }
 
