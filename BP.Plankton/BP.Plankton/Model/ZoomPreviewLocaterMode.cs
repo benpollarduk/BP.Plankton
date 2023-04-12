@@ -1,7 +1,7 @@
 ﻿namespace BP.Plankton.Model
 {
     /// <summary>
-    /// Enumeration of zoom preview locater modes
+    /// Enumeration of zoom preview locater modes.
     /// </summary>
     public enum ZoomPreviewLocaterMode
     {

@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace BP.Plankton.Model.Rendering
+namespace BP.Plankton.Model
 {
     /// <summary>
-    /// Provides a class for hosting MoveableElements.
+    /// Provides a class for hosting IOrganicElements.
     /// </summary>
-    public class MoveableElementsHost : FrameworkElement
+    public class OrganicElementsHost : FrameworkElement
     {
         #region Fields
 
         private DrawingVisual planktonDrawingVisual;
         private DrawingVisual bubbleDrawingVisual;
         private DrawingVisual mainBubbleDrawingVisual;
-        private readonly List<DrawingVisual> extendedDrawingVisuals = new List<DrawingVisual>();
         private readonly VisualCollection children;
         private int planktonCount;
         private int bubbleCount;
@@ -41,6 +38,11 @@ namespace BP.Plankton.Model.Rendering
         public bool HasBubbleHostVisual => bubbleDrawingVisual != null;
 
         /// <summary>
+        /// Get if there is a main bubble host visual.
+        /// </summary>
+        public bool HasMainBubbleHostVisual => mainBubbleDrawingVisual != null;
+
+        /// <summary>
         /// Get the number of plankton.
         /// </summary>
         public int Plankton => HasPlanktonHostVisual ? planktonCount : 0;
@@ -55,9 +57,9 @@ namespace BP.Plankton.Model.Rendering
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the MoveableElementsHost class.
+        /// Initializes a new instance of the OrganicElementsHost class.
         /// </summary>
-        public MoveableElementsHost()
+        public OrganicElementsHost()
         {
             children = new VisualCollection(this);
         }
@@ -74,7 +76,6 @@ namespace BP.Plankton.Model.Rendering
             RemovePlanktonDrawingVisual();
             RemoveBubblesDrawingVisual();
             RemoveMainBubbleDrawingVisual();
-            RemoveAllExtendedVisuals();
         }
 
         /// <summary>
@@ -86,6 +87,7 @@ namespace BP.Plankton.Model.Rendering
                 return;
 
             Remove(planktonDrawingVisual);
+            planktonDrawingVisual = null;
             planktonCount = 0;
         }
 
@@ -98,6 +100,7 @@ namespace BP.Plankton.Model.Rendering
                 return;
 
             Remove(bubbleDrawingVisual);
+            bubbleDrawingVisual = null;
             bubbleCount = 0;
         }
 
@@ -106,8 +109,11 @@ namespace BP.Plankton.Model.Rendering
         /// </summary>
         public virtual void RemoveMainBubbleDrawingVisual()
         {
-            if (mainBubbleDrawingVisual != null)
-                Remove(mainBubbleDrawingVisual);
+            if (mainBubbleDrawingVisual == null)
+                return;
+
+            Remove(mainBubbleDrawingVisual);
+            mainBubbleDrawingVisual = null;
         }
 
         /// <summary>
@@ -146,72 +152,6 @@ namespace BP.Plankton.Model.Rendering
         }
 
         /// <summary>
-        /// Add an additional DrawwingVisual layer.
-        /// </summary>
-        /// <param name="visual">The visual to add.</param>
-        public virtual void AddExtendedVisual(DrawingVisual visual)
-        {
-            extendedDrawingVisuals.Add(visual);
-            Add(visual);
-        }
-
-        /// <summary>
-        /// Remove all of the extended DrawingVisual layers.
-        /// </summary>
-        public virtual void RemoveAllExtendedVisuals()
-        {
-            foreach (var dV in extendedDrawingVisuals)
-                RemoveExtendedVisual(dV);
-
-            extendedDrawingVisuals.Clear();
-        }
-
-        /// <summary>
-        /// Remove one of the extended DrawingVisual layers.
-        /// </summary>
-        /// <param name="visual">The visual to remove.</param>
-        public virtual void RemoveExtendedVisual(DrawingVisual visual)
-        {
-            if (!extendedDrawingVisuals.Contains(visual))
-                throw new InvalidOperationException("The specified visual is not included in this hosts visual children.");
-
-            extendedDrawingVisuals.Remove(visual);
-            Remove(visual);
-        }
-
-        /// <summary>
-        /// Get an array containing all the extended DraingVisual layers.
-        /// </summary>
-        /// <returns>The extended visuals in an array.</returns>
-        public DrawingVisual[] GetExtendedVisuals()
-        {
-            return extendedDrawingVisuals.ToArray<DrawingVisual>();
-        }
-
-        /// <summary>
-        /// Get an extended DraingVisual layer at a specified index.
-        /// </summary>
-        /// <param name="index">The index of the visual.</param>
-        /// <returns>A DrawingVisual layer at the specified index.</returns>
-        public DrawingVisual GetExtendedVisual(int index)
-        {
-            if ((index < 0) || (index >= extendedDrawingVisuals.Count))
-                throw new ArgumentOutOfRangeException();
-            
-            return extendedDrawingVisuals.ElementAt(index);
-        }
-
-        /// <summary>
-        /// Determine if this contains a visual.
-        /// </summary>
-        /// <param name="visual">The visual to locate.</param>
-        /// <returns>True if the visual could be located, else false.</returns>
-        public virtual bool ContainsVisual(Visual visual)
-        {
-            return children.Contains(visual);
-        }
-
-        /// <summary>
         /// Overrides System.Windows.Media.Visual.FrameworkElement.GetVisualChild(int index), and returns a child at the specified index from a collection of child elements.
         /// </summary>
         /// <param name="index">The zero-based index of the requested child element in the collection.</param>
@@ -244,10 +184,10 @@ namespace BP.Plankton.Model.Rendering
         }
 
         /// <summary>
-        /// Add a collection of MoveableElements to the plankton layer.
+        /// Add a collection of plankton to the plankton layer.
         /// </summary>
         /// <param name="elements">The elements to add.</param>
-        public virtual void AddPlanktonElements(params MoveableElement[] elements)
+        public virtual void AddPlanktonElements(params Plankton[] elements)
         {
             using (var dC = planktonDrawingVisual.RenderOpen())
             {
@@ -260,10 +200,10 @@ namespace BP.Plankton.Model.Rendering
         }
 
         /// <summary>
-        /// Add a collection of MoveableElements to the bubbles layer.
+        /// Add a collection of bubbles to the bubbles layer.
         /// </summary>
         /// <param name="elements">The elements to add.</param>
-        public virtual void AddBubbleElements(params MoveableElement[] elements)
+        public virtual void AddBubbleElements(params Bubble[] elements)
         {
             using (var dC = bubbleDrawingVisual.RenderOpen())
             {
@@ -279,23 +219,10 @@ namespace BP.Plankton.Model.Rendering
         /// Add the main bubble element to the main bubble layer.
         /// </summary>
         /// <param name="element">The element to add.</param>
-        public virtual void AddMainBubbleElement(MoveableElement element)
+        public virtual void AddMainBubbleElement(Bubble element)
         {
             using (var dC = mainBubbleDrawingVisual.RenderOpen())
                 dC.DrawGeometry(element.Fill, element.Stroke, element.Geometry);
-        }
-
-        /// <summary>
-        /// Add an element to one of the extended visual layers.
-        /// </summary>
-        /// <param name="element">The element to add.</param>
-        /// <param name="stroke">The pen to use to render the elements stroke.</param>
-        /// <param name="fill">The brush to use to render the elements fill.</param>
-        /// <param name="visual">The visual to add the element to.</param>
-        public virtual void AddElementToExtendedVisualLayer(Geometry element, Pen stroke, Brush fill, DrawingVisual visual)
-        {
-            using (var dC = visual.RenderOpen())
-                dC.DrawGeometry(fill, stroke, element);
         }
 
         #endregion

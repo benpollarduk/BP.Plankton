@@ -18,7 +18,6 @@ using BP.Plankton.Model;
 using BP.Plankton.Model.Currents;
 using BP.Plankton.Model.Interop;
 using BP.Plankton.Model.Logic;
-using BP.Plankton.Model.Rendering;
 using BP.Plankton.Model.Settings;
 using BP.Plankton.Windows;
 using Microsoft.Win32;
@@ -45,7 +44,7 @@ namespace BP.Plankton.Controls
         private bool isHandlingMousePositionUpdate;
         private bool hasResizeProcessBeenRequested;
         private Size newestSizeRenderRequest;
-        private MoveableElement zoomPreviewFocusedPlankton;
+        private Model.Plankton zoomPreviewFocusedPlankton;
         private Brush[] lastGeneratedPlanktonBrushes;
         private Brush lastGeneratedSeaBedBrush;
         private Brush lastGeneratedBackgroundBrush;
@@ -59,28 +58,28 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Get or set the number of plankton elements that should be used. This is a dependency property.
         /// </summary>
-        public int Elements
+        public int PlanktonElements
         {
-            get { return (int)GetValue(ElementsProperty); }
-            set { SetValue(ElementsProperty, value); }
+            get { return (int)GetValue(PlanktonElementsProperty); }
+            set { SetValue(PlanktonElementsProperty, value); }
         }
 
         /// <summary>
         /// Get or set the size of the plankton elements represented as equal with and height. This is a dependency property.
         /// </summary>
-        public double ElementsSize
+        public double PlanktonElementsSize
         {
-            get { return (double)GetValue(ElementsSizeProperty); }
-            set { SetValue(ElementsSizeProperty, value); }
+            get { return (double)GetValue(PlanktonElementsSizeProperty); }
+            set { SetValue(PlanktonElementsSizeProperty, value); }
         }
 
         /// <summary>
         /// Get or set the plankton elements size variation, represented as a percentage. This is a dependency property.
         /// </summary>
-        public double ElementsSizeVariation
+        public double PlanktonElementsSizeVariation
         {
-            get { return (double)GetValue(ElementsSizeVariationProperty); }
-            set { SetValue(ElementsSizeVariationProperty, value); }
+            get { return (double)GetValue(PlanktonElementsSizeVariationProperty); }
+            set { SetValue(PlanktonElementsSizeVariationProperty, value); }
         }
 
         /// <summary>
@@ -977,12 +976,12 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Get or set the plankton elements.
         /// </summary>
-        public List<MoveableElement> Plankton { get; set; } = new List<MoveableElement>();
+        public List<Model.Plankton> Plankton { get; set; } = new List<Model.Plankton>();
 
         /// <summary>
         /// Get the child bubble elements.
         /// </summary>
-        public Dictionary<MoveableElement, bool> ChildBubbles { get; } = new Dictionary<MoveableElement, bool>();
+        public Dictionary<Bubble, bool> ChildBubbles { get; } = new Dictionary<Bubble, bool>();
 
         /// <summary>
         /// Get the bubble collision history.
@@ -992,12 +991,27 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Get or set the bubble.
         /// </summary>
-        public MoveableElement Bubble { get; set; }
+        public Bubble Bubble { get; set; }
 
         /// <summary>
-        /// Get the pen used to draw bubbles.
+        /// Get the pen used to draw the main bubble.
         /// </summary>
-        public Pen BubblePen { get; }
+        public Pen MainBubblePen { get; }
+
+        /// <summary>
+        /// Get the pen used to draw child bubbles.
+        /// </summary>
+        public Pen ChildBubblePen { get; }
+
+        /// <summary>
+        /// Get the brush used to draw the main bubble.
+        /// </summary>
+        public Brush MainBubbleBrush { get; }
+
+        /// <summary>
+        /// Get the brush used to draw child bubbles.
+        /// </summary>
+        public Brush ChildBubbleBrush { get; }
 
         /// <summary>
         /// Get or set the pen used to draw the sea bed.
@@ -1044,19 +1058,19 @@ namespace BP.Plankton.Controls
         #region DependencyProperties
 
         /// <summary>
-        /// Identifies the PlanktonControl.Elements property.
+        /// Identifies the PlanktonControl.PlanktonElements property.
         /// </summary>
-        public static readonly DependencyProperty ElementsProperty = DependencyProperty.Register("Elements", typeof(int), typeof(PlanktonControl), new PropertyMetadata(750));
+        public static readonly DependencyProperty PlanktonElementsProperty = DependencyProperty.Register("PlanktonElements", typeof(int), typeof(PlanktonControl), new PropertyMetadata(750));
 
         /// <summary>
-        /// Identifies the PlanktonControl.ElementsSize property.
+        /// Identifies the PlanktonControl.PlanktonElementsSize property.
         /// </summary>
-        public static readonly DependencyProperty ElementsSizeProperty = DependencyProperty.Register("ElementsSize", typeof(double), typeof(PlanktonControl), new PropertyMetadata(10d));
+        public static readonly DependencyProperty PlanktonElementsSizeProperty = DependencyProperty.Register("PlanktonElementsSize", typeof(double), typeof(PlanktonControl), new PropertyMetadata(10d));
 
         /// <summary>
-        /// Identifies the PlanktonControl.ElementsSizeVariation property.
+        /// Identifies the PlanktonControl.PlanktonElementsSizeVariation property.
         /// </summary>
-        public static readonly DependencyProperty ElementsSizeVariationProperty = DependencyProperty.Register("ElementsSizeVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(75d));
+        public static readonly DependencyProperty PlanktonElementsSizeVariationProperty = DependencyProperty.Register("PlanktonElementsSizeVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(75d));
 
         /// <summary>
         /// Identifies the PlanktonControl.Travel property.
@@ -1572,7 +1586,10 @@ namespace BP.Plankton.Controls
             Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             ZoomPreviewFactor = MaximumZoom;
             var bubbleStroke = new SolidColorBrush(Color.FromArgb(165, Colors.SteelBlue.R, Colors.SteelBlue.G, Colors.SteelBlue.B));
-            BubblePen = new Pen(bubbleStroke, 0d);
+            MainBubblePen = new Pen(bubbleStroke, 0d);
+            MainBubbleBrush = FindResource("MainBubbleBrush") as Brush;
+            ChildBubblePen = new Pen(bubbleStroke, 0d);
+            ChildBubbleBrush = FindResource("ChildBubbleBrush") as Brush;
         }
 
         #endregion
@@ -1582,38 +1599,38 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Generate and populate a panel with elements.
         /// </summary>
-        /// <param name="elements">Specify the amount of elements to use.</param>
-        /// <param name="elementDiameter">Specify the diameter of each element.</param>
-        /// <param name="elementsVariation">Specify the variation in size of each element.</param>
+        /// <param name="number">Specify the number of plankton elements to use.</param>
+        /// <param name="diameter">Specify the diameter of each plankton element.</param>
+        /// <param name="variation">Specify the variation in size of each plankton element.</param>
         /// <param name="travel">Specify the travel each element should apply along its vector on each update.</param>
-        /// <param name="minX">Specify the minimum x location to generate each element within.</param>
-        /// <param name="maxX">Specify the maximum x location to generate each element within.</param>
-        /// <param name="minY">Specify the minimum y location to generate each element within.</param>
-        /// <param name="maxY">Specify the maximum x location to generate each element within.</param>
-        /// <param name="fillBrushes">Specify a collection of brushes that will randomly assigned as the fill of the elements.</param>
-        private void Populate(int elements, double elementDiameter, int elementsVariation, double travel, int minX, int maxX, int minY, int maxY, params Brush[] fillBrushes)
+        /// <param name="minX">Specify the minimum x location to generate each plankton element within.</param>
+        /// <param name="maxX">Specify the maximum x location to generate each plankton element within.</param>
+        /// <param name="minY">Specify the minimum y location to generate each plankton element within.</param>
+        /// <param name="maxY">Specify the maximum x location to generate each plankton element within.</param>
+        /// <param name="fillBrushes">Specify a collection of brushes that will randomly assigned as the fill of the plankton elements.</param>
+        private void PopulatePlankton(int number, double diameter, int variation, double travel, int minX, int maxX, int minY, int maxY, params Brush[] fillBrushes)
         {
-            var variation = 0.0d;
+            var appliedVariation = 0.0d;
             var useRandomFill = fillBrushes != null && fillBrushes.Length > 0;
             var brush = fillBrushes != null && fillBrushes.Length > 0 ? fillBrushes[0] : Brushes.Black;
             var pen = new Pen(Brushes.Black, 0d);
 
-            for (var i = 0; i < elements; i++)
+            for (var i = 0; i < variation; i++)
             {
                 if (useRandomFill)
                     brush = fillBrushes[RandomGenerator.Next(0, fillBrushes.Length)];
 
-                if (Math.Abs(elementsVariation) > 0.0)
-                    variation = RandomGenerator.Next(0, elementsVariation);
+                if (Math.Abs(variation) > 0.0)
+                    appliedVariation = RandomGenerator.Next(0, variation);
 
-                Plankton.Add(MoveableElement.Create(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), elementDiameter / 2d - elementDiameter / 200d * variation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
+                Plankton.Add(new Model.Plankton(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), diameter / 2d - diameter / 200d * appliedVariation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
             }
         }
 
         /// <summary>
-        /// Clear all current objects.
+        /// Clear all organic elements.
         /// </summary>
-        private void ClearAllCurrentObjects()
+        private void ClearAllOrganicElements()
         {
             if (update != null)
             {
@@ -1623,7 +1640,7 @@ namespace BP.Plankton.Controls
 
             Plankton.Clear();
             ChildBubbles.Clear();
-            ElementHost.RemoveAllDrawingVisuals();
+            OrganicElementHost.RemoveAllDrawingVisuals();
         }
 
         /// <summary>
@@ -1757,17 +1774,17 @@ namespace BP.Plankton.Controls
         /// <param name="maintainAnyGeneratedBrushes">Specify if any currently generated brushes ar maintained.</param>
         public void RegenerateWithCurrentSettings(bool maintainAnyGeneratedBrushes)
         {
-            ClearAllCurrentObjects();
+            ClearAllOrganicElements();
 
             ActiveCurrent = new Current(0, 0)
             {
-                MaximumZAdjustment = ElementsSizeSlider.Maximum / ElementsSize,
-                MinimumZAdjustment = -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d
+                MaximumZAdjustment = PlanktonElementsSizeSlider.Maximum / PlanktonElementsSize,
+                MinimumZAdjustment = -(PlanktonElementsSize - PlanktonElementsSize / 100d * PlanktonElementsSizeVariation) + 0.5d
             };
 
             CurrentZ = 0.0d;
 
-            var area = ElementHost;
+            var area = OrganicElementHost;
 
             if (!area.IsMouseOver)
                 Bubble = null;
@@ -1800,8 +1817,8 @@ namespace BP.Plankton.Controls
 
             var seaBedBounds = SeaBedPath?.Data?.GetRenderBounds(new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness)) ?? new Rect(0, area.ActualHeight, area.ActualWidth, 0);
             var space = new Size(area.ActualWidth, Math.Max(0d, area.ActualHeight - seaBedBounds.Height));
-            var radius = Math.Min(ElementsSize / 2d, Math.Min(space.Height, space.Width));
-            Populate(Elements, ElementsSize, (int)ElementsSizeVariation, Travel / 10d, (int)radius, Math.Max((int)(area.ActualWidth - radius), (int)radius), (int)radius, Math.Max((int)(space.Height - radius), (int)radius), lastGeneratedPlanktonBrushes);
+            var radius = Math.Min(PlanktonElementsSize / 2d, Math.Min(space.Height, space.Width));
+            PopulatePlankton(PlanktonElements, PlanktonElementsSize, (int)PlanktonElementsSizeVariation, Travel / 10d, (int)radius, Math.Max((int)(area.ActualWidth - radius), (int)radius), (int)radius, Math.Max((int)(space.Height - radius), (int)radius), lastGeneratedPlanktonBrushes);
             
             // define update callback for timer
             EventHandler updateCallback = (s, args) => MainLoop.Update(this, area, RandomGenerator, mouseVector, maintainAnyGeneratedBrushes);
@@ -1816,7 +1833,7 @@ namespace BP.Plankton.Controls
         /// Update the zoom preview element locater lines location.
         /// </summary>
         /// <param name="element">The element to locate.</param>
-        private void UpdateZoomPreviewLocaterLinePositions(MoveableElement element)
+        private void UpdateZoomPreviewLocaterLinePositions(IOrganicElement element)
         {
             if (element == null)
                 return;
@@ -1833,7 +1850,7 @@ namespace BP.Plankton.Controls
         /// <param name="locaterMode">Specify the locater mode to use for the zoom preview.</param>
         /// <param name="showLocater">Returns if the locater should be shown.</param>
         /// <returns>The logical element for the focus to remain on.</returns>
-        public MoveableElement GetPreviewFocusElement(ZoomPreviewLocaterMode locaterMode, out bool showLocater)
+        public IOrganicElement GetPreviewFocusElement(ZoomPreviewLocaterMode locaterMode, out bool showLocater)
         {
             if (Bubble != null)
             {
@@ -1886,7 +1903,7 @@ namespace BP.Plankton.Controls
             // try plankton elements - try and used the focused plankton, if it's stationary or valid any more find the next fastest
             if ((zoomPreviewFocusedPlankton == null || !Plankton.Contains(zoomPreviewFocusedPlankton) || Math.Abs(zoomPreviewFocusedPlankton.Vector.Length) < 0.0) && Plankton.Count > 0)
             {
-                MoveableElement fastestPlankton = null;
+                Model.Plankton fastestPlankton = null;
 
                 lock (Plankton)
                 {
@@ -1946,7 +1963,7 @@ namespace BP.Plankton.Controls
         /// <param name="visualSource">The visual source the zoom preview relates to.</param>
         /// <param name="zoomFactor">The zoom factor to apply where 1.0d specifies that the bubble should fill the preview.</param>
         /// <param name="showLocaterLine">Specify if the locater line should be shown.</param>
-        public void UpdateZoomPreview(Point targetPoint, MoveableElement target, FrameworkElement visualSource, double zoomFactor, bool showLocaterLine)
+        public void UpdateZoomPreview(Point targetPoint, IOrganicElement target, FrameworkElement visualSource, double zoomFactor, bool showLocaterLine)
         {
             var bounds = target?.Geometry.Bounds ?? new Rect(0, 0, 100, 100);
             var targetWidth = target != null ? bounds.Width : 100;
@@ -2065,9 +2082,9 @@ namespace BP.Plankton.Controls
                     file.CurrentZStep = CurrentZStep;
                     file.CurrentZStepVariation = CurrentZStepVariation;
                     file.Density = Density;
-                    file.Elements = Elements;
-                    file.ElementsSize = ElementsSize;
-                    file.ElementsSizeVariation = ElementsSizeVariation;
+                    file.PlanktonElements = PlanktonElements;
+                    file.PlanktonElementsSize = PlanktonElementsSize;
+                    file.PlanktonElementsSizeVariation = PlanktonElementsSizeVariation;
                     file.GenerateAndUseRandomSeaBedBrush = GenerateAndUseRandomSeaBedBrush;
                     file.GenerateAndUseRandomSeaBrush = GenerateAndUseRandomSeaBrush;
                     file.GenerateMultipleRandomElementFill = GenerateMultipleRandomElementFill;
@@ -2207,7 +2224,7 @@ namespace BP.Plankton.Controls
             var wasPaused = IsPaused;
             IsPaused = true;
 
-            ClearAllCurrentObjects();
+            ClearAllOrganicElements();
             RemoveSeaBed();
 
             preventRegenerationOfPlanktonOnColourChange = true;
@@ -2216,9 +2233,9 @@ namespace BP.Plankton.Controls
             ChildBubbleRate = file.ChildBubbleRate;
             ChildBubbleSizeVariation = file.ChildBubbleSizeVariation;
             Density = file.Density;
-            Elements = file.Elements;
-            ElementsSize = file.ElementsSize;
-            ElementsSizeVariation = file.ElementsSizeVariation;
+            PlanktonElements = file.PlanktonElements;
+            PlanktonElementsSize = file.PlanktonElementsSize;
+            PlanktonElementsSizeVariation = file.PlanktonElementsSizeVariation;
             GenerateMultipleRandomElementFill = file.GenerateMultipleRandomElementFill;
             GenerateRandomElementFill = file.GenerateRandomElementFill;
             GenerateRandomLuminousElementFill = file.GenerateRandomLuminousElementFill;
@@ -2468,12 +2485,12 @@ namespace BP.Plankton.Controls
                     file = new PlanktonSettingsFile();
 
                     if (UseEfficientValuesWhenRandomGenerating)
-                        file.Elements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count / 2)];
+                        file.PlanktonElements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count / 2)];
                     else
-                        file.Elements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count)];
+                        file.PlanktonElements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count)];
 
-                    file.ElementsSize = ElementsSizeSlider.Ticks[RandomGenerator.Next(0, ElementsSizeSlider.Ticks.Count)];
-                    file.ElementsSizeVariation = RandomGenerator.Next(0, 100);
+                    file.PlanktonElementsSize = PlanktonElementsSizeSlider.Ticks[RandomGenerator.Next(0, PlanktonElementsSizeSlider.Ticks.Count)];
+                    file.PlanktonElementsSizeVariation = RandomGenerator.Next(0, 100);
                     file.WaterViscosity = MaintainStandardPhysicsWhenRandomGeneratingSettings ? 0.98d : ViscositySlider.Ticks[RandomGenerator.Next(0, ViscositySlider.Ticks.Count)];
                     file.Travel = TravelSlider.Ticks[RandomGenerator.Next(0, TravelSlider.Ticks.Count)];
                     file.Life = RandomGenerator.Next(0, 100);
@@ -2552,14 +2569,9 @@ namespace BP.Plankton.Controls
         /// <param name="center">The center point of the main bubble.</param>
         /// <param name="vector">The vector of the main bubble.</param>
         /// <returns>The main bubble.</returns>
-        private MoveableElement GenerateMainBubble(Point center, Vector vector)
+        private Bubble GenerateMainBubble(Point center, Vector vector)
         {
-            var b = FindResource("BubbleBrush") as Brush;
-
-            if (b != null)
-                b.Opacity = 0.65d;
-
-            return MoveableElement.Create(center, BubbleSize / 2d, vector, BubblePen, b);
+            return new Bubble(center, BubbleSize / 2d, vector, MainBubblePen, MainBubbleBrush);
         }
 
         /// <summary>
@@ -2609,7 +2621,7 @@ namespace BP.Plankton.Controls
         /// Pop a child bubble.
         /// </summary>
         /// <param name="child">The bubble to pop.</param>
-        public void PopChildBubble(MoveableElement child)
+        public void PopChildBubble(Bubble child)
         {
             ChildBubbles[child] = false;
         }
@@ -2720,7 +2732,7 @@ namespace BP.Plankton.Controls
                         planktonBrushes = lastGeneratedPlanktonBrushes;
                     else
                     {
-                        planktonBrushes = new Brush[RandomGenerator.Next(1, Math.Max(1, GenerateMultipleRandomElementFill ? Elements > 100 ? Elements / 10 : Elements : 1))];
+                        planktonBrushes = new Brush[RandomGenerator.Next(1, Math.Max(1, GenerateMultipleRandomElementFill ? PlanktonElements > 100 ? PlanktonElements / 10 : PlanktonElements : 1))];
 
                         for (var index = 0; index < planktonBrushes.Length; index++)
                         {
@@ -2870,14 +2882,14 @@ namespace BP.Plankton.Controls
                 return;
 
             update?.Stop();
-            ElementHost.RemovePlanktonDrawingVisual();
+            OrganicElementHost.RemovePlanktonDrawingVisual();
             lastGeneratedPlanktonBrushes = GetPlanktonBrushesFromCurrentSettings(false);
 
             foreach (var element in Plankton)
                 element.Fill = lastGeneratedPlanktonBrushes[RandomGenerator.Next(0, lastGeneratedPlanktonBrushes.Length)];
 
-            ElementHost.SpecifyPlanktonDrawingVisual(new DrawingVisual());
-            ElementHost.AddPlanktonElements(Plankton.ToArray());
+            OrganicElementHost.SpecifyPlanktonDrawingVisual(new DrawingVisual());
+            OrganicElementHost.AddPlanktonElements(Plankton.ToArray());
 
             if (update != null && !IsPaused)
                 update.Start();
@@ -3254,24 +3266,24 @@ namespace BP.Plankton.Controls
 
         private void QuickIncreasePlanktonCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!(Elements < AmountSlider.Maximum))
+            if (!(PlanktonElements < AmountSlider.Maximum))
                 return;
 
             var ticks = AmountSlider.Ticks.ToList();
-            var index = ticks.IndexOf(Elements);
-            Elements = (int)ticks[index + 1];
+            var index = ticks.IndexOf(PlanktonElements);
+            PlanktonElements = (int)ticks[index + 1];
 
             RegenerateWithCurrentSettings(true);
         }
 
         private void QuickDecreasePlanktonCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!(Elements > AmountSlider.Minimum))
+            if (!(PlanktonElements > AmountSlider.Minimum))
                 return;
 
             var ticks = AmountSlider.Ticks.ToList();
-            var index = ticks.IndexOf(Elements);
-            Elements = (int)ticks[index - 1];
+            var index = ticks.IndexOf(PlanktonElements);
+            PlanktonElements = (int)ticks[index - 1];
 
             RegenerateWithCurrentSettings(true);
         }
@@ -3385,7 +3397,7 @@ namespace BP.Plankton.Controls
 
         private void TriggerCurrentCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, ElementsSizeSlider.Maximum / ElementsSize, -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d, CurrentZ, RandomGenerator) : 0.0d, CurrentMode)
+            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, PlanktonElementsSizeSlider.Maximum / PlanktonElementsSize, -(PlanktonElementsSize - PlanktonElementsSize / 100d * PlanktonElementsSizeVariation) + 0.5d, CurrentZ, RandomGenerator) : 0.0d, CurrentMode)
             {
                 Deceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentDeceleration : WaterViscosity,
                 Acceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentAcceleration : WaterViscosity
@@ -3488,7 +3500,7 @@ namespace BP.Plankton.Controls
                 {
                     hasResizeProcessBeenRequested = true;
 
-                    ClearAllCurrentObjects();
+                    ClearAllOrganicElements();
                     RemoveSeaBed();
 
                     DispatcherTimer dT = null;

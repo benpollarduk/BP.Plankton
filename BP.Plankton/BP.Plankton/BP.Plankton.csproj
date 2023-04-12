@@ -88,6 +88,8 @@
     <Compile Include="Model\Logic\MathHelper.cs" />
     <Compile Include="Model\Logic\VisualGeneration.cs" />
     <Compile Include="Model\Currents\CurrentSwellStage.cs" />
+    <Compile Include="Model\IOrganicElement.cs" />
+    <Compile Include="Model\Bubble.cs" />
     <Compile Include="Model\Settings\QuickSetting.cs" />
     <Compile Include="Model\ZoomPreviewLocaterMode.cs" />
     <Compile Include="Converters\BooleanToVisibilityCollapsedConverter.cs" />
@@ -153,7 +155,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Currents\Current.cs" />
-    <Compile Include="Model\Rendering\MoveableElementsHost.cs" />
+    <Compile Include="Model\OrganicElementsHost.cs" />
     <Compile Include="Model\Interop\WindowsInterop.cs" />
     <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\BooleanToVisibiltyConverter.cs" />
@@ -176,7 +178,7 @@
     <Compile Include="Controls\PlanktonControl.xaml.cs">
       <DependentUpon>PlanktonControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\Rendering\MoveableElement.cs" />
+    <Compile Include="Model\Plankton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
