@@ -87,7 +87,6 @@ namespace BP.Plankton.Model.Logic
             var bubbleBrush = control.FindResource("BubbleBrush") as Brush;
             var maxBubbleSize = control.BubbleSize * Math.PI;
             var childBubbleBuoyancy = control.ChildBubbleBuoyancy * control.WaterViscosity;
-            var bubbleElementRectangle = new Rect();
             forceBubbleRerender = false;
 
             if (control.Bubble != null)
@@ -106,7 +105,7 @@ namespace BP.Plankton.Model.Logic
                 {
                     var relativeChildBubbleDimension = control.BubbleSize / 2d;
                     relativeChildBubbleDimension -= relativeChildBubbleDimension / 100d * random.Next(0, (int)control.ChildBubbleSizeVariation);
-                    control.ChildBubbles.Add(new Bubble(new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.BubblePen, bubbleBrush), (new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.BubblePen, bubbleBrush), true);
+                    control.ChildBubbles.Add(new Bubble(new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.BubblePen, bubbleBrush), true);
                     forceBubbleRerender = true;
                 }
             }
@@ -146,7 +145,7 @@ namespace BP.Plankton.Model.Logic
                     if (!control.ChildBubbles[childBubbleElement])
                         continue;
 
-                    bubbleElementRectangle = childBubbleElement.Geometry.Bounds;
+                    var bubbleElementRectangle = childBubbleElement.Geometry.Bounds;
 
                     if (useSeaBed)
                     {
@@ -216,13 +215,11 @@ namespace BP.Plankton.Model.Logic
         private static void UpdatePlankton(PlanktonControl control, FrameworkElement area, Random random, bool useSeaBed, double seaBedHeight, int currentBubbleElements, out int mainBubbleCollisions)
         {
             var centerPointOfElement = new Point(0, 0);
-            var planktonElementRectangle = new Rect();
             var useGravity = control.UseGravity;
             var density = control.Density;
             var maxElementMass = control.ElementsSize * Math.PI * control.Density;
             var planktonAttractionStrength = control.PlanktonAttractionStrength / 10d;
             var actualTravel = control.Travel / 10d;
-            var bubbleElementRectangle = new Rect();
             mainBubbleCollisions = 0;
 
             for (var planktonIndex = 0; planktonIndex < control.Elements; planktonIndex++)
@@ -247,7 +244,7 @@ namespace BP.Plankton.Model.Logic
                     planktonElement.Geometry.Center = centerPointOfElement;
                 }
 
-                planktonElementRectangle = planktonElement.Geometry.Bounds;
+                var planktonElementRectangle = planktonElement.Geometry.Bounds;
 
                 if (Math.Abs(planktonVector.X) + Math.Abs(planktonVector.Y) > actualTravel)
                 {
@@ -262,7 +259,7 @@ namespace BP.Plankton.Model.Logic
                 for (var bubbleIndex = control.Bubble != null ? -1 : 0; bubbleIndex < currentBubbleElements; bubbleIndex++)
                 {
                     var bubbleElement = bubbleIndex == -1 ? control.Bubble : control.ChildBubbles.Keys.ElementAt(bubbleIndex);
-                    bubbleElementRectangle = bubbleElement.Geometry.Bounds;
+                    var bubbleElementRectangle = bubbleElement.Geometry.Bounds;
 
                     // if plankton is fully inside the bubble
                     if (MathHelper.DoRegularCirclesOverlap(bubbleElementRectangle.Left, bubbleElementRectangle.Top, bubbleElementRectangle.Width / 2d, planktonElementRectangle.Left, planktonElementRectangle.Top, planktonElementRectangle.Width / 2d))
