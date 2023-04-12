@@ -84,6 +84,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\QuickSettingToToolTipStringConverter.cs" />
+    <Compile Include="Converters\QuickSettingToStringConverter.cs" />
+    <Compile Include="Converters\QuickSettingToBitmapFrameConverter.cs" />
     <Compile Include="Model\Logic\MainLoop.cs" />
     <Compile Include="Model\Logic\MathHelper.cs" />
     <Compile Include="Model\Logic\VisualGeneration.cs" />
@@ -218,26 +221,26 @@
     <Resource Include="Resources\Images\Assets\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Buttons\Default.png" />
+    <Resource Include="Resources\Images\QuickButtons\Default.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Buttons\Attraction.png" />
-    <Resource Include="Resources\Images\Buttons\Dense.png" />
-    <Resource Include="Resources\Images\Buttons\Gunk.png" />
-    <Resource Include="Resources\Images\Buttons\Original.png" />
+    <Resource Include="Resources\Images\QuickButtons\Attraction.png" />
+    <Resource Include="Resources\Images\QuickButtons\Dense.png" />
+    <Resource Include="Resources\Images\QuickButtons\Gunk.png" />
+    <Resource Include="Resources\Images\QuickButtons\Original.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Buttons\AntiGravity.png" />
-    <Resource Include="Resources\Images\Buttons\Spikey.png" />
+    <Resource Include="Resources\Images\QuickButtons\AntiGravity.png" />
+    <Resource Include="Resources\Images\QuickButtons\Spikey.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Buttons\Quick.png" />
+    <Resource Include="Resources\Images\QuickButtons\Performance.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Buttons\Random.png" />
+    <Resource Include="Resources\Images\QuickButtons\Random.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Buttons\Startup.png" />
+    <Resource Include="Resources\Images\QuickButtons\LuminousRandomStartup.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -252,7 +255,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Buttons\PenWhiteTrans.png" />
+    <Resource Include="Resources\Images\Icons\PenWhiteTrans.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

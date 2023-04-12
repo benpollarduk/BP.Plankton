@@ -1615,7 +1615,7 @@ namespace BP.Plankton.Controls
             var brush = fillBrushes != null && fillBrushes.Length > 0 ? fillBrushes[0] : Brushes.Black;
             var pen = new Pen(Brushes.Black, 0d);
 
-            for (var i = 0; i < variation; i++)
+            for (var i = 0; i < number; i++)
             {
                 if (useRandomFill)
                     brush = fillBrushes[RandomGenerator.Next(0, fillBrushes.Length)];
@@ -2233,9 +2233,6 @@ namespace BP.Plankton.Controls
             ChildBubbleRate = file.ChildBubbleRate;
             ChildBubbleSizeVariation = file.ChildBubbleSizeVariation;
             Density = file.Density;
-            PlanktonElements = file.PlanktonElements;
-            PlanktonElementsSize = file.PlanktonElementsSize;
-            PlanktonElementsSizeVariation = file.PlanktonElementsSizeVariation;
             GenerateMultipleRandomElementFill = file.GenerateMultipleRandomElementFill;
             GenerateRandomElementFill = file.GenerateRandomElementFill;
             GenerateRandomLuminousElementFill = file.GenerateRandomLuminousElementFill;
@@ -2246,6 +2243,9 @@ namespace BP.Plankton.Controls
             PlanktonAttractionReach = file.PlanktonAttractionReach;
             PlanktonAttractionStrength = file.PlanktonAttractionStrength;
             PlanktonAttractToChildBubbles = file.PlanktonAttractToChildBubbles;
+            PlanktonElements = file.PlanktonElements;
+            PlanktonElementsSize = file.PlanktonElementsSize;
+            PlanktonElementsSizeVariation = file.PlanktonElementsSizeVariation;
             SeaBedMaxIncline = file.SeaBedMaxIncline;
             SeaBedSmoothness = file.SeaBedSmoothness;
             Travel = file.Travel;
