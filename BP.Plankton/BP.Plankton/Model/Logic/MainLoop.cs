@@ -6,7 +6,6 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using BP.Plankton.Controls;
 using BP.Plankton.Model.Currents;
-using BP.Plankton.Model.Rendering;
 
 namespace BP.Plankton.Model.Logic
 {
@@ -15,16 +14,6 @@ namespace BP.Plankton.Model.Logic
     /// </summary>
     public static class MainLoop
     {
-        /// <summary>
-        /// Update a rectangle to border the perimeter of a FrameworkElement.
-        /// </summary>
-        /// <param name="rectangle">The rectangle to update.</param>
-        /// <param name="element">The FrameworkElement to update the rectangle property to.</param>
-        private static void UpdateRectangle(ref Rect rectangle, Geometry element)
-        {
-            rectangle = element.Bounds;
-        }
-
         /// <summary>
         /// Handle current updates.
         /// </summary>
@@ -117,7 +106,7 @@ namespace BP.Plankton.Model.Logic
                 {
                     var relativeChildBubbleDimension = control.BubbleSize / 2d;
                     relativeChildBubbleDimension -= relativeChildBubbleDimension / 100d * random.Next(0, (int)control.ChildBubbleSizeVariation);
-                    control.ChildBubbles.Add(MoveableElement.Create(new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.BubblePen, bubbleBrush), true);
+                    control.ChildBubbles.Add(new Bubble(new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.BubblePen, bubbleBrush), (new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.BubblePen, bubbleBrush), true);
                     forceBubbleRerender = true;
                 }
             }
@@ -157,7 +146,7 @@ namespace BP.Plankton.Model.Logic
                     if (!control.ChildBubbles[childBubbleElement])
                         continue;
 
-                    UpdateRectangle(ref bubbleElementRectangle, childBubbleElement.Geometry);
+                    bubbleElementRectangle = childBubbleElement.Geometry.Bounds;
 
                     if (useSeaBed)
                     {
@@ -258,7 +247,7 @@ namespace BP.Plankton.Model.Logic
                     planktonElement.Geometry.Center = centerPointOfElement;
                 }
 
-                UpdateRectangle(ref planktonElementRectangle, planktonElement.Geometry);
+                planktonElementRectangle = planktonElement.Geometry.Bounds;
 
                 if (Math.Abs(planktonVector.X) + Math.Abs(planktonVector.Y) > actualTravel)
                 {
@@ -267,13 +256,13 @@ namespace BP.Plankton.Model.Logic
                     planktonVector.Y *= control.WaterViscosity;
                 }
 
-                MoveableElement closestBubble = null;
+                Bubble closestBubble = null;
                 double closestBubbleProximity = int.MaxValue;
 
                 for (var bubbleIndex = control.Bubble != null ? -1 : 0; bubbleIndex < currentBubbleElements; bubbleIndex++)
                 {
                     var bubbleElement = bubbleIndex == -1 ? control.Bubble : control.ChildBubbles.Keys.ElementAt(bubbleIndex);
-                    UpdateRectangle(ref bubbleElementRectangle, bubbleElement.Geometry);
+                    bubbleElementRectangle = bubbleElement.Geometry.Bounds;
 
                     // if plankton is fully inside the bubble
                     if (MathHelper.DoRegularCirclesOverlap(bubbleElementRectangle.Left, bubbleElementRectangle.Top, bubbleElementRectangle.Width / 2d, planktonElementRectangle.Left, planktonElementRectangle.Top, planktonElementRectangle.Width / 2d))
@@ -325,7 +314,7 @@ namespace BP.Plankton.Model.Logic
                     if (closestBubble == null)
                         continue;
 
-                    UpdateRectangle(ref bubbleElementRectangle, closestBubble.Geometry);
+                    bubbleElementRectangle = closestBubble.Geometry.Bounds;
                     planktonVector.X = Math.Min(Math.Max(Math.Abs(bubbleElementRectangle.Left + bubbleElementRectangle.Width / 2d - (planktonElementRectangle.Left + planktonElementRectangle.Width / 2d)) - (planktonElementRectangle.Width / 2d + bubbleElementRectangle.Width / 2d), 0), Math.Max(actualTravel, planktonAttractionStrength)) * (bubbleElementRectangle.Left + bubbleElementRectangle.Width / 2d < planktonElementRectangle.Left + planktonElementRectangle.Width / 2d ? -1 : 1) * (control.InvertPlanktonAttraction ? -1 : 1);
                     planktonVector.Y = Math.Min(Math.Max(Math.Abs(bubbleElementRectangle.Top + bubbleElementRectangle.Height / 2d - (planktonElementRectangle.Top + planktonElementRectangle.Height / 2d)) - (planktonElementRectangle.Height / 2d + bubbleElementRectangle.Height / 2d), 0), Math.Max(actualTravel, planktonAttractionStrength)) * (bubbleElementRectangle.Top + bubbleElementRectangle.Height / 2d < planktonElementRectangle.Top + planktonElementRectangle.Height / 2d ? -1 : 1) * (control.InvertPlanktonAttraction ? -1 : 1);
                 }
@@ -447,7 +436,7 @@ namespace BP.Plankton.Model.Logic
         /// <param name="control">The control.</param>
         /// <param name="area">The area.</param>
         /// <param name="mousePosition">The mouse position.</param>
-        private static void UpdatePreview(PlanktonControl control, MoveableElementsHost area, Point mousePosition)
+        private static void UpdatePreview(PlanktonControl control, OrganicElementsHost area, Point mousePosition)
         {
             if (!control.UseZoomPreview)
                 return;
@@ -529,7 +518,7 @@ namespace BP.Plankton.Model.Logic
         /// <param name="random">A random generator used to handle randomisation.</param>
         /// <param name="mouseVector">The vector of the last mouse move.</param>
         /// <param name="maintainAnyGeneratedBrushes">If generated brushes should be maintained.</param>
-        public static void Update(PlanktonControl control, MoveableElementsHost area, Random random, Vector mouseVector, bool maintainAnyGeneratedBrushes)
+        public static void Update(PlanktonControl control, OrganicElementsHost area, Random random, Vector mouseVector, bool maintainAnyGeneratedBrushes)
         {
             // if not updating already - too many elements on a slow processor could lock up if this is called too frequently
             if (control.IsUpdating)

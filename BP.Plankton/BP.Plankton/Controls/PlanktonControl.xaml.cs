@@ -18,7 +18,6 @@ using BP.Plankton.Model;
 using BP.Plankton.Model.Currents;
 using BP.Plankton.Model.Interop;
 using BP.Plankton.Model.Logic;
-using BP.Plankton.Model.Rendering;
 using BP.Plankton.Model.Settings;
 using BP.Plankton.Windows;
 using Microsoft.Win32;
@@ -45,7 +44,7 @@ namespace BP.Plankton.Controls
         private bool isHandlingMousePositionUpdate;
         private bool hasResizeProcessBeenRequested;
         private Size newestSizeRenderRequest;
-        private MoveableElement zoomPreviewFocusedPlankton;
+        private Model.Plankton zoomPreviewFocusedPlankton;
         private Brush[] lastGeneratedPlanktonBrushes;
         private Brush lastGeneratedSeaBedBrush;
         private Brush lastGeneratedBackgroundBrush;
@@ -977,12 +976,12 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Get or set the plankton elements.
         /// </summary>
-        public List<MoveableElement> Plankton { get; set; } = new List<MoveableElement>();
+        public List<Model.Plankton> Plankton { get; set; } = new List<Model.Plankton>();
 
         /// <summary>
         /// Get the child bubble elements.
         /// </summary>
-        public Dictionary<MoveableElement, bool> ChildBubbles { get; } = new Dictionary<MoveableElement, bool>();
+        public Dictionary<Bubble, bool> ChildBubbles { get; } = new Dictionary<Bubble, bool>();
 
         /// <summary>
         /// Get the bubble collision history.
@@ -992,7 +991,7 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Get or set the bubble.
         /// </summary>
-        public MoveableElement Bubble { get; set; }
+        public Bubble Bubble { get; set; }
 
         /// <summary>
         /// Get the pen used to draw bubbles.
@@ -1606,7 +1605,7 @@ namespace BP.Plankton.Controls
                 if (Math.Abs(elementsVariation) > 0.0)
                     variation = RandomGenerator.Next(0, elementsVariation);
 
-                Plankton.Add(MoveableElement.Create(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), elementDiameter / 2d - elementDiameter / 200d * variation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
+                Plankton.Add(new Model.Plankton(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), elementDiameter / 2d - elementDiameter / 200d * variation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
             }
         }
 
@@ -1816,7 +1815,7 @@ namespace BP.Plankton.Controls
         /// Update the zoom preview element locater lines location.
         /// </summary>
         /// <param name="element">The element to locate.</param>
-        private void UpdateZoomPreviewLocaterLinePositions(MoveableElement element)
+        private void UpdateZoomPreviewLocaterLinePositions(IOrganicElement element)
         {
             if (element == null)
                 return;
@@ -1833,7 +1832,7 @@ namespace BP.Plankton.Controls
         /// <param name="locaterMode">Specify the locater mode to use for the zoom preview.</param>
         /// <param name="showLocater">Returns if the locater should be shown.</param>
         /// <returns>The logical element for the focus to remain on.</returns>
-        public MoveableElement GetPreviewFocusElement(ZoomPreviewLocaterMode locaterMode, out bool showLocater)
+        public IOrganicElement GetPreviewFocusElement(ZoomPreviewLocaterMode locaterMode, out bool showLocater)
         {
             if (Bubble != null)
             {
@@ -1886,7 +1885,7 @@ namespace BP.Plankton.Controls
             // try plankton elements - try and used the focused plankton, if it's stationary or valid any more find the next fastest
             if ((zoomPreviewFocusedPlankton == null || !Plankton.Contains(zoomPreviewFocusedPlankton) || Math.Abs(zoomPreviewFocusedPlankton.Vector.Length) < 0.0) && Plankton.Count > 0)
             {
-                MoveableElement fastestPlankton = null;
+                Model.Plankton fastestPlankton = null;
 
                 lock (Plankton)
                 {
@@ -1946,7 +1945,7 @@ namespace BP.Plankton.Controls
         /// <param name="visualSource">The visual source the zoom preview relates to.</param>
         /// <param name="zoomFactor">The zoom factor to apply where 1.0d specifies that the bubble should fill the preview.</param>
         /// <param name="showLocaterLine">Specify if the locater line should be shown.</param>
-        public void UpdateZoomPreview(Point targetPoint, MoveableElement target, FrameworkElement visualSource, double zoomFactor, bool showLocaterLine)
+        public void UpdateZoomPreview(Point targetPoint, IOrganicElement target, FrameworkElement visualSource, double zoomFactor, bool showLocaterLine)
         {
             var bounds = target?.Geometry.Bounds ?? new Rect(0, 0, 100, 100);
             var targetWidth = target != null ? bounds.Width : 100;
@@ -2552,14 +2551,14 @@ namespace BP.Plankton.Controls
         /// <param name="center">The center point of the main bubble.</param>
         /// <param name="vector">The vector of the main bubble.</param>
         /// <returns>The main bubble.</returns>
-        private MoveableElement GenerateMainBubble(Point center, Vector vector)
+        private Bubble GenerateMainBubble(Point center, Vector vector)
         {
             var b = FindResource("BubbleBrush") as Brush;
 
             if (b != null)
                 b.Opacity = 0.65d;
 
-            return MoveableElement.Create(center, BubbleSize / 2d, vector, BubblePen, b);
+            return new Bubble(center, BubbleSize / 2d, vector, BubblePen, b);
         }
 
         /// <summary>
@@ -2609,7 +2608,7 @@ namespace BP.Plankton.Controls
         /// Pop a child bubble.
         /// </summary>
         /// <param name="child">The bubble to pop.</param>
-        public void PopChildBubble(MoveableElement child)
+        public void PopChildBubble(Bubble child)
         {
             ChildBubbles[child] = false;
         }
