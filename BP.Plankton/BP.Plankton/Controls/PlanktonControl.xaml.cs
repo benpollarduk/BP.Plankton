@@ -1599,38 +1599,38 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Generate and populate a panel with elements.
         /// </summary>
-        /// <param name="elements">Specify the amount of elements to use.</param>
-        /// <param name="elementDiameter">Specify the diameter of each element.</param>
-        /// <param name="elementsVariation">Specify the variation in size of each element.</param>
+        /// <param name="number">Specify the number of plankton elements to use.</param>
+        /// <param name="diameter">Specify the diameter of each plankton element.</param>
+        /// <param name="variation">Specify the variation in size of each plankton element.</param>
         /// <param name="travel">Specify the travel each element should apply along its vector on each update.</param>
-        /// <param name="minX">Specify the minimum x location to generate each element within.</param>
-        /// <param name="maxX">Specify the maximum x location to generate each element within.</param>
-        /// <param name="minY">Specify the minimum y location to generate each element within.</param>
-        /// <param name="maxY">Specify the maximum x location to generate each element within.</param>
-        /// <param name="fillBrushes">Specify a collection of brushes that will randomly assigned as the fill of the elements.</param>
-        private void Populate(int elements, double elementDiameter, int elementsVariation, double travel, int minX, int maxX, int minY, int maxY, params Brush[] fillBrushes)
+        /// <param name="minX">Specify the minimum x location to generate each plankton element within.</param>
+        /// <param name="maxX">Specify the maximum x location to generate each plankton element within.</param>
+        /// <param name="minY">Specify the minimum y location to generate each plankton element within.</param>
+        /// <param name="maxY">Specify the maximum x location to generate each plankton element within.</param>
+        /// <param name="fillBrushes">Specify a collection of brushes that will randomly assigned as the fill of the plankton elements.</param>
+        private void PopulatePlankton(int number, double diameter, int variation, double travel, int minX, int maxX, int minY, int maxY, params Brush[] fillBrushes)
         {
-            var variation = 0.0d;
+            var appliedVariation = 0.0d;
             var useRandomFill = fillBrushes != null && fillBrushes.Length > 0;
             var brush = fillBrushes != null && fillBrushes.Length > 0 ? fillBrushes[0] : Brushes.Black;
             var pen = new Pen(Brushes.Black, 0d);
 
-            for (var i = 0; i < elements; i++)
+            for (var i = 0; i < variation; i++)
             {
                 if (useRandomFill)
                     brush = fillBrushes[RandomGenerator.Next(0, fillBrushes.Length)];
 
-                if (Math.Abs(elementsVariation) > 0.0)
-                    variation = RandomGenerator.Next(0, elementsVariation);
+                if (Math.Abs(variation) > 0.0)
+                    appliedVariation = RandomGenerator.Next(0, variation);
 
-                Plankton.Add(new Model.Plankton(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), elementDiameter / 2d - elementDiameter / 200d * variation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
+                Plankton.Add(new Model.Plankton(new Point(RandomGenerator.Next(minX, maxX), RandomGenerator.Next(minY, maxY)), diameter / 2d - diameter / 200d * appliedVariation, Current.GetRandomVector(travel, RandomGenerator), pen, brush));
             }
         }
 
         /// <summary>
-        /// Clear all current objects.
+        /// Clear all organic elements.
         /// </summary>
-        private void ClearAllCurrentObjects()
+        private void ClearAllOrganicElements()
         {
             if (update != null)
             {
@@ -1640,7 +1640,7 @@ namespace BP.Plankton.Controls
 
             Plankton.Clear();
             ChildBubbles.Clear();
-            ElementHost.RemoveAllDrawingVisuals();
+            OrganicElementHost.RemoveAllDrawingVisuals();
         }
 
         /// <summary>
@@ -1774,7 +1774,7 @@ namespace BP.Plankton.Controls
         /// <param name="maintainAnyGeneratedBrushes">Specify if any currently generated brushes ar maintained.</param>
         public void RegenerateWithCurrentSettings(bool maintainAnyGeneratedBrushes)
         {
-            ClearAllCurrentObjects();
+            ClearAllOrganicElements();
 
             ActiveCurrent = new Current(0, 0)
             {
@@ -1784,7 +1784,7 @@ namespace BP.Plankton.Controls
 
             CurrentZ = 0.0d;
 
-            var area = ElementHost;
+            var area = OrganicElementHost;
 
             if (!area.IsMouseOver)
                 Bubble = null;
@@ -1818,7 +1818,7 @@ namespace BP.Plankton.Controls
             var seaBedBounds = SeaBedPath?.Data?.GetRenderBounds(new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness)) ?? new Rect(0, area.ActualHeight, area.ActualWidth, 0);
             var space = new Size(area.ActualWidth, Math.Max(0d, area.ActualHeight - seaBedBounds.Height));
             var radius = Math.Min(PlanktonElementsSize / 2d, Math.Min(space.Height, space.Width));
-            Populate(PlanktonElements, PlanktonElementsSize, (int)PlanktonElementsSizeVariation, Travel / 10d, (int)radius, Math.Max((int)(area.ActualWidth - radius), (int)radius), (int)radius, Math.Max((int)(space.Height - radius), (int)radius), lastGeneratedPlanktonBrushes);
+            PopulatePlankton(PlanktonElements, PlanktonElementsSize, (int)PlanktonElementsSizeVariation, Travel / 10d, (int)radius, Math.Max((int)(area.ActualWidth - radius), (int)radius), (int)radius, Math.Max((int)(space.Height - radius), (int)radius), lastGeneratedPlanktonBrushes);
             
             // define update callback for timer
             EventHandler updateCallback = (s, args) => MainLoop.Update(this, area, RandomGenerator, mouseVector, maintainAnyGeneratedBrushes);
@@ -2224,7 +2224,7 @@ namespace BP.Plankton.Controls
             var wasPaused = IsPaused;
             IsPaused = true;
 
-            ClearAllCurrentObjects();
+            ClearAllOrganicElements();
             RemoveSeaBed();
 
             preventRegenerationOfPlanktonOnColourChange = true;
@@ -2882,14 +2882,14 @@ namespace BP.Plankton.Controls
                 return;
 
             update?.Stop();
-            ElementHost.RemovePlanktonDrawingVisual();
+            OrganicElementHost.RemovePlanktonDrawingVisual();
             lastGeneratedPlanktonBrushes = GetPlanktonBrushesFromCurrentSettings(false);
 
             foreach (var element in Plankton)
                 element.Fill = lastGeneratedPlanktonBrushes[RandomGenerator.Next(0, lastGeneratedPlanktonBrushes.Length)];
 
-            ElementHost.SpecifyPlanktonDrawingVisual(new DrawingVisual());
-            ElementHost.AddPlanktonPlanktonElements(Plankton.ToArray());
+            OrganicElementHost.SpecifyPlanktonDrawingVisual(new DrawingVisual());
+            OrganicElementHost.AddPlanktonElements(Plankton.ToArray());
 
             if (update != null && !IsPaused)
                 update.Start();
@@ -3500,7 +3500,7 @@ namespace BP.Plankton.Controls
                 {
                     hasResizeProcessBeenRequested = true;
 
-                    ClearAllCurrentObjects();
+                    ClearAllOrganicElements();
                     RemoveSeaBed();
 
                     DispatcherTimer dT = null;

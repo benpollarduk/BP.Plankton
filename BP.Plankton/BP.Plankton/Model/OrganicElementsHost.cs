@@ -5,9 +5,9 @@ using System.Windows.Media;
 namespace BP.Plankton.Model
 {
     /// <summary>
-    /// Provides a class for hosting IOrganicPlanktonElements.
+    /// Provides a class for hosting IOrganicElements.
     /// </summary>
-    public class OrganicPlanktonElementsHost : FrameworkElement
+    public class OrganicElementsHost : FrameworkElement
     {
         #region Fields
 
@@ -38,6 +38,11 @@ namespace BP.Plankton.Model
         public bool HasBubbleHostVisual => bubbleDrawingVisual != null;
 
         /// <summary>
+        /// Get if there is a main bubble host visual.
+        /// </summary>
+        public bool HasMainBubbleHostVisual => mainBubbleDrawingVisual != null;
+
+        /// <summary>
         /// Get the number of plankton.
         /// </summary>
         public int Plankton => HasPlanktonHostVisual ? planktonCount : 0;
@@ -52,9 +57,9 @@ namespace BP.Plankton.Model
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the OrganicPlanktonElementsHost class.
+        /// Initializes a new instance of the OrganicElementsHost class.
         /// </summary>
-        public OrganicPlanktonElementsHost()
+        public OrganicElementsHost()
         {
             children = new VisualCollection(this);
         }
@@ -82,6 +87,7 @@ namespace BP.Plankton.Model
                 return;
 
             Remove(planktonDrawingVisual);
+            planktonDrawingVisual = null;
             planktonCount = 0;
         }
 
@@ -94,6 +100,7 @@ namespace BP.Plankton.Model
                 return;
 
             Remove(bubbleDrawingVisual);
+            bubbleDrawingVisual = null;
             bubbleCount = 0;
         }
 
@@ -102,8 +109,11 @@ namespace BP.Plankton.Model
         /// </summary>
         public virtual void RemoveMainBubbleDrawingVisual()
         {
-            if (mainBubbleDrawingVisual != null)
-                Remove(mainBubbleDrawingVisual);
+            if (mainBubbleDrawingVisual == null)
+                return;
+
+            Remove(mainBubbleDrawingVisual);
+            mainBubbleDrawingVisual = null;
         }
 
         /// <summary>
@@ -142,16 +152,6 @@ namespace BP.Plankton.Model
         }
 
         /// <summary>
-        /// Determine if this contains a visual.
-        /// </summary>
-        /// <param name="visual">The visual to locate.</param>
-        /// <returns>True if the visual could be located, else false.</returns>
-        public virtual bool ContainsVisual(Visual visual)
-        {
-            return children.Contains(visual);
-        }
-
-        /// <summary>
         /// Overrides System.Windows.Media.Visual.FrameworkElement.GetVisualChild(int index), and returns a child at the specified index from a collection of child elements.
         /// </summary>
         /// <param name="index">The zero-based index of the requested child element in the collection.</param>
@@ -184,10 +184,10 @@ namespace BP.Plankton.Model
         }
 
         /// <summary>
-        /// Add a collection of MoveablePlanktonElements to the plankton layer.
+        /// Add a collection of plankton to the plankton layer.
         /// </summary>
         /// <param name="elements">The elements to add.</param>
-        public virtual void AddPlanktonPlanktonElements(params Plankton[] elements)
+        public virtual void AddPlanktonElements(params Plankton[] elements)
         {
             using (var dC = planktonDrawingVisual.RenderOpen())
             {
@@ -200,10 +200,10 @@ namespace BP.Plankton.Model
         }
 
         /// <summary>
-        /// Add a collection of MoveablePlanktonElements to the bubbles layer.
+        /// Add a collection of bubbles to the bubbles layer.
         /// </summary>
         /// <param name="elements">The elements to add.</param>
-        public virtual void AddBubblePlanktonElements(params Bubble[] elements)
+        public virtual void AddBubbleElements(params Bubble[] elements)
         {
             using (var dC = bubbleDrawingVisual.RenderOpen())
             {

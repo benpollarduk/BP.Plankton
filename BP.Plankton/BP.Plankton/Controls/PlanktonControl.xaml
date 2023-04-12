@@ -102,7 +102,7 @@
                 </Border.Background>
             </Border>
             <Path Name="SeaBedPath" Fill="{DynamicResource SeaBedBrush}" Stroke="Black" StrokeThickness="1"/>
-            <model:OrganicPlanktonElementsHost x:Name="ElementHost" Width="{Binding ElementName=AreaCanvas, Path=ActualWidth, Mode=OneWay}" Height="{Binding ElementName=AreaCanvas, Path=ActualHeight, Mode=OneWay}"/>
+            <model:OrganicElementsHost x:Name="OrganicElementHost" Width="{Binding ElementName=AreaCanvas, Path=ActualWidth, Mode=OneWay}" Height="{Binding ElementName=AreaCanvas, Path=ActualHeight, Mode=OneWay}"/>
         </Canvas>
         <Grid Name="CurrentIndicatorMasterGrid" Width="60" Height="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" Opacity="0.25" IsHitTestVisible="False">
             <Grid.Visibility>
