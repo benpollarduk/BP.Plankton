@@ -28,6 +28,9 @@
             <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <converters:BooleanToVisibilityCollapsedConverter x:Key="BooleanToVisibilityCollapsedConverter"/>
             <converters:BooleanInverterConverter x:Key="BooleanInverterConverter"/>
+            <converters:QuickSettingToBitmapFrameConverter x:Key="QuickSettingToBitmapFrameConverter"/>
+            <converters:QuickSettingToStringConverter x:Key="QuickSettingToStringConverter"/>
+            <converters:QuickSettingToToolTipStringConverter x:Key="QuickSettingToToolTipStringConverter"/>
             <GridLength x:Key="TitleWidth">80</GridLength>
             <GridLength x:Key="ValueWidth">40</GridLength>
             <Storyboard x:Key="LightingEffectStoryboard" RepeatBehavior="Forever" AutoReverse="False" Duration="{Binding Path=LightingEffectSpeedRatio, Mode=OneWay, Converter={StaticResource DoubleToAnimationDurationConverterConverter}, ConverterParameter=0:0:35}">
@@ -237,29 +240,32 @@
                                     <Setter Property="Height" Value="40"/>
                                     <Setter Property="Width" Value="88"/>
                                     <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content, Mode=OneWay}"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
-                                                <Border CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-                                                    <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{TemplateBinding Content}">
-                                                        <ContentPresenter.Triggers>
-                                                            <EventTrigger RoutedEvent="ContentPresenter.MouseEnter">
+                                                <Border CornerRadius="2" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" ToolTip="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Path=Content, Converter={StaticResource QuickSettingToToolTipStringConverter}}">
+                                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                                        <Grid.Triggers>
+                                                            <EventTrigger RoutedEvent="Grid.MouseEnter">
                                                                 <BeginStoryboard>
                                                                     <Storyboard>
                                                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.1"/>
                                                                     </Storyboard>
                                                                 </BeginStoryboard>
                                                             </EventTrigger>
-                                                            <EventTrigger RoutedEvent="ContentPresenter.MouseLeave">
+                                                            <EventTrigger RoutedEvent="Grid.MouseLeave">
                                                                 <BeginStoryboard>
                                                                     <Storyboard>
                                                                         <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1"/>
                                                                     </Storyboard>
                                                                 </BeginStoryboard>
                                                             </EventTrigger>
-                                                        </ContentPresenter.Triggers>
-                                                    </ContentPresenter>
-                                                </Border>
+                                                        </Grid.Triggers>
+                                                        <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Path=Content, Converter={StaticResource QuickSettingToBitmapFrameConverter}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="Fant"/>
+                                                        <Label Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Path=Content, Converter={StaticResource QuickSettingToStringConverter}}" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </Border> 
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -278,109 +284,52 @@
                             </WrapPanel.Resources>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Startup.png" Stretch="UniformToFill"/>
-                                        <Label Content="Default" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>LuminousRandomStartup</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Default.png" Stretch="UniformToFill"/>
-                                        <Label Content="Original" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>Default</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}" Visibility="Collapsed">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Original.png" Stretch="UniformToFill"/>
-                                        <Label Content="Original" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>Original</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Quick.png" Stretch="UniformToFill"/>
-                                        <Label Content="Performance" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>Performance</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Spikey.png" Stretch="UniformToFill"/>
-                                        <Label Content="Spikey" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>Spikey</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Attraction.png" Stretch="UniformToFill"/>
-                                        <Label Content="Attraction" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>Attraction</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Gunk.png" Stretch="UniformToFill"/>
-                                        <Label Content="Gunk" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>Gunk</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Dense.png" Stretch="UniformToFill"/>
-                                        <Label Content="Dense" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>Dense</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource ApplyQuickSettingCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/AntiGravity.png" Stretch="UniformToFill"/>
-                                        <Label Content="Anti-gravity" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                    </Grid>
-                                </Button.Content>
-                                <Button.CommandParameter>
                                     <settings:QuickSetting>AntiGravity</settings:QuickSetting>
-                                </Button.CommandParameter>
+                                </Button.Content>
                             </Button>
                             <Button Command="{StaticResource RandomCommand}">
                                 <Button.Content>
-                                    <Grid>
-                                        <Image Source="/Resources/Images/Buttons/Random.png" Stretch="UniformToFill"/>
-                                        <Label Content="Random&#x0a;(Ctrl+N)" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
+                                    <settings:QuickSetting>Random</settings:QuickSetting>
                                 </Button.Content>
                             </Button>
                         </WrapPanel>
@@ -905,7 +854,7 @@
                             </Grid>
                             <Button IsEnabled="{Binding Path=UseSeaBed, Mode=OneWay}" Command="{StaticResource GenerateGeometryRealtimeCommand}" Margin="3" Grid.Row="7" Grid.Column="2">
                                 <Button.Content>
-                                    <Image Source="/Resources/Images/Buttons/PenWhiteTrans.png" Margin="-2"/>
+                                    <Image Source="/Resources/Images/Icons/PenWhiteTrans.png" Margin="-2"/>
                                 </Button.Content>
                             </Button>
                         </Grid>
@@ -1119,12 +1068,12 @@
                                 <ColumnDefinition Width="40*"/>
                                 <ColumnDefinition Width="30*" MaxWidth="120"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="/Resources/Images/Assets/Plankton.png" Margin="6" Grid.Row="0" Grid.RowSpan="4"/>
+                            <Image Source="/Resources/Images/Assets/Plankton.png" Margin="6" RenderOptions.BitmapScalingMode="Fant" Grid.Row="0" Grid.RowSpan="4"/>
                             <Label Content="Plankton" FontSize="18" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
                             <Label Content="{Binding Path=Version, Mode=OneWay}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
                             <TextBlock Text="Developed by Ben Pollard, 2013 - 2023" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="2" Grid.Column="1"/>
                             <Label Content="Released by 0xd FX" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
-                            <Image Source="/Resources/Images/Assets/0xdFXLogo.png" Margin="6" Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"/>
+                            <Image Source="/Resources/Images/Assets/0xdFXLogo.png" Margin="6" RenderOptions.BitmapScalingMode="Fant" Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"/>
                         </Grid>
                     </TabItem>
                 </TabControl>
