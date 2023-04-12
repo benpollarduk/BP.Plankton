@@ -6,9 +6,9 @@ using System.Windows.Media;
 namespace BP.Plankton.Model
 {
     /// <summary>
-    /// Provides a class for hosting IOrganicElements.
+    /// Provides a class for hosting IOrganicPlanktonElements.
     /// </summary>
-    public class OrganicElementsHost : FrameworkElement
+    public class OrganicPlanktonElementsHost : FrameworkElement
     {
         #region Fields
 
@@ -53,9 +53,9 @@ namespace BP.Plankton.Model
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the OrganicElementsHost class.
+        /// Initializes a new instance of the OrganicPlanktonElementsHost class.
         /// </summary>
-        public OrganicElementsHost()
+        public OrganicPlanktonElementsHost()
         {
             children = new VisualCollection(this);
         }
@@ -185,10 +185,10 @@ namespace BP.Plankton.Model
         }
 
         /// <summary>
-        /// Add a collection of MoveableElements to the plankton layer.
+        /// Add a collection of MoveablePlanktonElements to the plankton layer.
         /// </summary>
         /// <param name="elements">The elements to add.</param>
-        public virtual void AddPlanktonElements(params Plankton[] elements)
+        public virtual void AddPlanktonPlanktonElements(params Plankton[] elements)
         {
             using (var dC = planktonDrawingVisual.RenderOpen())
             {
@@ -201,10 +201,10 @@ namespace BP.Plankton.Model
         }
 
         /// <summary>
-        /// Add a collection of MoveableElements to the bubbles layer.
+        /// Add a collection of MoveablePlanktonElements to the bubbles layer.
         /// </summary>
         /// <param name="elements">The elements to add.</param>
-        public virtual void AddBubbleElements(params Bubble[] elements)
+        public virtual void AddBubblePlanktonElements(params Bubble[] elements)
         {
             using (var dC = bubbleDrawingVisual.RenderOpen())
             {

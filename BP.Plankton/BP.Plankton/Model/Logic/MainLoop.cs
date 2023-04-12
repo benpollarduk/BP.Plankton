@@ -80,9 +80,9 @@ namespace BP.Plankton.Model.Logic
         /// <param name="useSeaBed">If the sea bed is being used.</param>
         /// <param name="seaBedHeight">The height of the sea bed.</param>
         /// <param name="mousePosition">The current mouse position.</param>
-        /// <param name="currentBubbleElements">The current child bubble elements.</param>
+        /// <param name="currentBubblePlanktonElements">The current child bubble elements.</param>
         /// <param name="forceBubbleRerender">If bubble re-render should be forced.</param>
-        private static void UpdateBubbles(PlanktonControl control, FrameworkElement area, Random random, Vector mouseVector, bool useSeaBed, double seaBedHeight, Point mousePosition, out int currentBubbleElements, out bool forceBubbleRerender)
+        private static void UpdateBubbles(PlanktonControl control, FrameworkElement area, Random random, Vector mouseVector, bool useSeaBed, double seaBedHeight, Point mousePosition, out int currentBubblePlanktonElements, out bool forceBubbleRerender)
         {
             var maxBubbleSize = control.BubbleSize * Math.PI;
             var childBubbleBuoyancy = control.ChildBubbleBuoyancy * control.WaterViscosity;
@@ -193,11 +193,11 @@ namespace BP.Plankton.Model.Logic
                     }
                 }
 
-                currentBubbleElements = control.ChildBubbles.Count;
+                currentBubblePlanktonElements = control.ChildBubbles.Count;
             }
             else
             {
-                currentBubbleElements = 0;
+                currentBubblePlanktonElements = 0;
             }
         }
 
@@ -209,19 +209,19 @@ namespace BP.Plankton.Model.Logic
         /// <param name="random">A random generator to use for all randomisation.</param>
         /// <param name="useSeaBed">If the sea bed is used.</param>
         /// <param name="seaBedHeight">The sea bed height.</param>
-        /// <param name="currentBubbleElements">The number of bubble elements.</param>
+        /// <param name="currentBubblePlanktonElements">The number of bubble elements.</param>
         /// <param name="mainBubbleCollisions">The number of collisions with the main bubble.</param>
-        private static void UpdatePlankton(PlanktonControl control, FrameworkElement area, Random random, bool useSeaBed, double seaBedHeight, int currentBubbleElements, out int mainBubbleCollisions)
+        private static void UpdatePlankton(PlanktonControl control, FrameworkElement area, Random random, bool useSeaBed, double seaBedHeight, int currentBubblePlanktonElements, out int mainBubbleCollisions)
         {
             var centerPointOfElement = new Point(0, 0);
             var useGravity = control.UseGravity;
             var density = control.Density;
-            var maxElementMass = control.ElementsSize * Math.PI * control.Density;
+            var maxElementMass = control.PlanktonElementsSize * Math.PI * control.Density;
             var planktonAttractionStrength = control.PlanktonAttractionStrength / 10d;
             var actualTravel = control.Travel / 10d;
             mainBubbleCollisions = 0;
 
-            for (var planktonIndex = 0; planktonIndex < control.Elements; planktonIndex++)
+            for (var planktonIndex = 0; planktonIndex < control.PlanktonElements; planktonIndex++)
             {
                 var planktonElement = control.Plankton[planktonIndex];
                 var planktonVector = planktonElement.Vector;
@@ -236,8 +236,8 @@ namespace BP.Plankton.Model.Logic
                 if (control.UseCurrent &&
                     (!useSeaBed || planktonElement.Geometry.Center.Y + planktonElement.Geometry.RadiusY < area.ActualHeight - seaBedHeight))
                 {
-                    planktonElement.Geometry.RadiusX = Math.Max(0, Math.Min(control.ElementsSizeSlider.Maximum / 2d, planktonElement.Geometry.RadiusX + control.ActiveCurrent.ActiveStep().Z * (2d - normalisedMassComparedToBiggest)));
-                    planktonElement.Geometry.RadiusY = Math.Max(0, Math.Min(control.ElementsSizeSlider.Maximum / 2d, planktonElement.Geometry.RadiusY + control.ActiveCurrent.ActiveStep().Z * (2d - normalisedMassComparedToBiggest)));
+                    planktonElement.Geometry.RadiusX = Math.Max(0, Math.Min(control.PlanktonElementsSizeSlider.Maximum / 2d, planktonElement.Geometry.RadiusX + control.ActiveCurrent.ActiveStep().Z * (2d - normalisedMassComparedToBiggest)));
+                    planktonElement.Geometry.RadiusY = Math.Max(0, Math.Min(control.PlanktonElementsSizeSlider.Maximum / 2d, planktonElement.Geometry.RadiusY + control.ActiveCurrent.ActiveStep().Z * (2d - normalisedMassComparedToBiggest)));
                     centerPointOfElement.X = Math.Max(0 + planktonElement.Geometry.RadiusX, Math.Min(area.ActualWidth - planktonElement.Geometry.RadiusX, planktonElement.Geometry.Center.X + control.ActiveCurrent.ActiveStep().X * (2d - normalisedMassComparedToBiggest)));
                     centerPointOfElement.Y = Math.Max(0 + planktonElement.Geometry.RadiusY, Math.Min(area.ActualHeight - planktonElement.Geometry.RadiusY, planktonElement.Geometry.Center.Y + control.ActiveCurrent.ActiveStep().Y * (2d - normalisedMassComparedToBiggest)));
                     planktonElement.Geometry.Center = centerPointOfElement;
@@ -255,7 +255,7 @@ namespace BP.Plankton.Model.Logic
                 Bubble closestBubble = null;
                 double closestBubbleProximity = int.MaxValue;
 
-                for (var bubbleIndex = control.Bubble != null ? -1 : 0; bubbleIndex < currentBubbleElements; bubbleIndex++)
+                for (var bubbleIndex = control.Bubble != null ? -1 : 0; bubbleIndex < currentBubblePlanktonElements; bubbleIndex++)
                 {
                     var bubbleElement = bubbleIndex == -1 ? control.Bubble : control.ChildBubbles.Keys.ElementAt(bubbleIndex);
                     var bubbleElementRectangle = bubbleElement.Geometry.Bounds;
@@ -432,7 +432,7 @@ namespace BP.Plankton.Model.Logic
         /// <param name="control">The control.</param>
         /// <param name="area">The area.</param>
         /// <param name="mousePosition">The mouse position.</param>
-        private static void UpdatePreview(PlanktonControl control, OrganicElementsHost area, Point mousePosition)
+        private static void UpdatePreview(PlanktonControl control, OrganicPlanktonElementsHost area, Point mousePosition)
         {
             if (!control.UseZoomPreview)
                 return;
@@ -514,7 +514,7 @@ namespace BP.Plankton.Model.Logic
         /// <param name="random">A random generator used to handle randomisation.</param>
         /// <param name="mouseVector">The vector of the last mouse move.</param>
         /// <param name="maintainAnyGeneratedBrushes">If generated brushes should be maintained.</param>
-        public static void Update(PlanktonControl control, OrganicElementsHost area, Random random, Vector mouseVector, bool maintainAnyGeneratedBrushes)
+        public static void Update(PlanktonControl control, OrganicPlanktonElementsHost area, Random random, Vector mouseVector, bool maintainAnyGeneratedBrushes)
         {
             // if not updating already - too many elements on a slow processor could lock up if this is called too frequently
             if (control.IsUpdating)
@@ -527,20 +527,20 @@ namespace BP.Plankton.Model.Logic
             var useSeaBed = control.SeaBedGeometry != null && control.UseSeaBed;
 
             UpdateCurrent(control, random);
-            UpdateBubbles(control, area, random, mouseVector, useSeaBed, seaBedHeight, mousePosition, out var bubbleElements, out var forceBubbleRerender);
-            UpdatePlankton(control, area, random, useSeaBed, seaBedHeight, bubbleElements, out var mainBubbleCollisions);
+            UpdateBubbles(control, area, random, mouseVector, useSeaBed, seaBedHeight, mousePosition, out var bubblePlanktonElements, out var forceBubbleRerender);
+            UpdatePlankton(control, area, random, useSeaBed, seaBedHeight, bubblePlanktonElements, out var mainBubbleCollisions);
             UpdatePreview(control, area, mousePosition);
 
             // if plankton count has changed
-            if (control.Elements != area.Plankton)
+            if (control.PlanktonElements != area.Plankton)
             {
                 var planktonHostVisual = new DrawingVisual();
                 control.ElementHost.SpecifyPlanktonDrawingVisual(planktonHostVisual);
-                control.ElementHost.AddPlanktonElements(control.Plankton.ToArray());
+                control.ElementHost.AddPlanktonPlanktonElements(control.Plankton.ToArray());
             }
 
             // if forcing bubble re-render or bubble count has changed
-            if (forceBubbleRerender || bubbleElements != area.Bubbles)
+            if (forceBubbleRerender || bubblePlanktonElements != area.Bubbles)
             {
                 control.ElementHost.SpecifyBubbleDrawingVisual(new DrawingVisual());
                 
@@ -548,7 +548,7 @@ namespace BP.Plankton.Model.Logic
                     control.ElementHost.AddMainBubbleElement(control.Bubble);
 
                 if (control.ChildBubbles?.Any() ?? false)
-                    control.ElementHost.AddBubbleElements(control.ChildBubbles.Keys.ToArray());
+                    control.ElementHost.AddBubblePlanktonElements(control.ChildBubbles.Keys.ToArray());
             }
             else if (control.Bubble != null && !area.HasBubbleHostVisual)
             {
@@ -560,7 +560,7 @@ namespace BP.Plankton.Model.Logic
                 control.ElementHost.SpecifyMainBubbleDrawingVisual(new DrawingVisual());
             }
 
-            control.ActiveChildBubbles = bubbleElements;
+            control.ActiveChildBubbles = bubblePlanktonElements;
             control.MainBubbleCollisionsThisUpdate = mainBubbleCollisions;
             control.IsUpdating = false;
         }

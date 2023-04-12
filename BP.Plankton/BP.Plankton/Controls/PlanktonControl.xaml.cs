@@ -58,28 +58,28 @@ namespace BP.Plankton.Controls
         /// <summary>
         /// Get or set the number of plankton elements that should be used. This is a dependency property.
         /// </summary>
-        public int Elements
+        public int PlanktonElements
         {
-            get { return (int)GetValue(ElementsProperty); }
-            set { SetValue(ElementsProperty, value); }
+            get { return (int)GetValue(PlanktonElementsProperty); }
+            set { SetValue(PlanktonElementsProperty, value); }
         }
 
         /// <summary>
         /// Get or set the size of the plankton elements represented as equal with and height. This is a dependency property.
         /// </summary>
-        public double ElementsSize
+        public double PlanktonElementsSize
         {
-            get { return (double)GetValue(ElementsSizeProperty); }
-            set { SetValue(ElementsSizeProperty, value); }
+            get { return (double)GetValue(PlanktonElementsSizeProperty); }
+            set { SetValue(PlanktonElementsSizeProperty, value); }
         }
 
         /// <summary>
         /// Get or set the plankton elements size variation, represented as a percentage. This is a dependency property.
         /// </summary>
-        public double ElementsSizeVariation
+        public double PlanktonElementsSizeVariation
         {
-            get { return (double)GetValue(ElementsSizeVariationProperty); }
-            set { SetValue(ElementsSizeVariationProperty, value); }
+            get { return (double)GetValue(PlanktonElementsSizeVariationProperty); }
+            set { SetValue(PlanktonElementsSizeVariationProperty, value); }
         }
 
         /// <summary>
@@ -1058,19 +1058,19 @@ namespace BP.Plankton.Controls
         #region DependencyProperties
 
         /// <summary>
-        /// Identifies the PlanktonControl.Elements property.
+        /// Identifies the PlanktonControl.PlanktonElements property.
         /// </summary>
-        public static readonly DependencyProperty ElementsProperty = DependencyProperty.Register("Elements", typeof(int), typeof(PlanktonControl), new PropertyMetadata(750));
+        public static readonly DependencyProperty PlanktonElementsProperty = DependencyProperty.Register("PlanktonElements", typeof(int), typeof(PlanktonControl), new PropertyMetadata(750));
 
         /// <summary>
-        /// Identifies the PlanktonControl.ElementsSize property.
+        /// Identifies the PlanktonControl.PlanktonElementsSize property.
         /// </summary>
-        public static readonly DependencyProperty ElementsSizeProperty = DependencyProperty.Register("ElementsSize", typeof(double), typeof(PlanktonControl), new PropertyMetadata(10d));
+        public static readonly DependencyProperty PlanktonElementsSizeProperty = DependencyProperty.Register("PlanktonElementsSize", typeof(double), typeof(PlanktonControl), new PropertyMetadata(10d));
 
         /// <summary>
-        /// Identifies the PlanktonControl.ElementsSizeVariation property.
+        /// Identifies the PlanktonControl.PlanktonElementsSizeVariation property.
         /// </summary>
-        public static readonly DependencyProperty ElementsSizeVariationProperty = DependencyProperty.Register("ElementsSizeVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(75d));
+        public static readonly DependencyProperty PlanktonElementsSizeVariationProperty = DependencyProperty.Register("PlanktonElementsSizeVariation", typeof(double), typeof(PlanktonControl), new PropertyMetadata(75d));
 
         /// <summary>
         /// Identifies the PlanktonControl.Travel property.
@@ -1778,8 +1778,8 @@ namespace BP.Plankton.Controls
 
             ActiveCurrent = new Current(0, 0)
             {
-                MaximumZAdjustment = ElementsSizeSlider.Maximum / ElementsSize,
-                MinimumZAdjustment = -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d
+                MaximumZAdjustment = PlanktonElementsSizeSlider.Maximum / PlanktonElementsSize,
+                MinimumZAdjustment = -(PlanktonElementsSize - PlanktonElementsSize / 100d * PlanktonElementsSizeVariation) + 0.5d
             };
 
             CurrentZ = 0.0d;
@@ -1817,8 +1817,8 @@ namespace BP.Plankton.Controls
 
             var seaBedBounds = SeaBedPath?.Data?.GetRenderBounds(new Pen(SeaBedPath.Stroke, SeaBedPath.StrokeThickness)) ?? new Rect(0, area.ActualHeight, area.ActualWidth, 0);
             var space = new Size(area.ActualWidth, Math.Max(0d, area.ActualHeight - seaBedBounds.Height));
-            var radius = Math.Min(ElementsSize / 2d, Math.Min(space.Height, space.Width));
-            Populate(Elements, ElementsSize, (int)ElementsSizeVariation, Travel / 10d, (int)radius, Math.Max((int)(area.ActualWidth - radius), (int)radius), (int)radius, Math.Max((int)(space.Height - radius), (int)radius), lastGeneratedPlanktonBrushes);
+            var radius = Math.Min(PlanktonElementsSize / 2d, Math.Min(space.Height, space.Width));
+            Populate(PlanktonElements, PlanktonElementsSize, (int)PlanktonElementsSizeVariation, Travel / 10d, (int)radius, Math.Max((int)(area.ActualWidth - radius), (int)radius), (int)radius, Math.Max((int)(space.Height - radius), (int)radius), lastGeneratedPlanktonBrushes);
             
             // define update callback for timer
             EventHandler updateCallback = (s, args) => MainLoop.Update(this, area, RandomGenerator, mouseVector, maintainAnyGeneratedBrushes);
@@ -2082,9 +2082,9 @@ namespace BP.Plankton.Controls
                     file.CurrentZStep = CurrentZStep;
                     file.CurrentZStepVariation = CurrentZStepVariation;
                     file.Density = Density;
-                    file.Elements = Elements;
-                    file.ElementsSize = ElementsSize;
-                    file.ElementsSizeVariation = ElementsSizeVariation;
+                    file.PlanktonElements = PlanktonElements;
+                    file.PlanktonElementsSize = PlanktonElementsSize;
+                    file.PlanktonElementsSizeVariation = PlanktonElementsSizeVariation;
                     file.GenerateAndUseRandomSeaBedBrush = GenerateAndUseRandomSeaBedBrush;
                     file.GenerateAndUseRandomSeaBrush = GenerateAndUseRandomSeaBrush;
                     file.GenerateMultipleRandomElementFill = GenerateMultipleRandomElementFill;
@@ -2233,9 +2233,9 @@ namespace BP.Plankton.Controls
             ChildBubbleRate = file.ChildBubbleRate;
             ChildBubbleSizeVariation = file.ChildBubbleSizeVariation;
             Density = file.Density;
-            Elements = file.Elements;
-            ElementsSize = file.ElementsSize;
-            ElementsSizeVariation = file.ElementsSizeVariation;
+            PlanktonElements = file.PlanktonElements;
+            PlanktonElementsSize = file.PlanktonElementsSize;
+            PlanktonElementsSizeVariation = file.PlanktonElementsSizeVariation;
             GenerateMultipleRandomElementFill = file.GenerateMultipleRandomElementFill;
             GenerateRandomElementFill = file.GenerateRandomElementFill;
             GenerateRandomLuminousElementFill = file.GenerateRandomLuminousElementFill;
@@ -2485,12 +2485,12 @@ namespace BP.Plankton.Controls
                     file = new PlanktonSettingsFile();
 
                     if (UseEfficientValuesWhenRandomGenerating)
-                        file.Elements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count / 2)];
+                        file.PlanktonElements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count / 2)];
                     else
-                        file.Elements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count)];
+                        file.PlanktonElements = (int)AmountSlider.Ticks[RandomGenerator.Next(0, AmountSlider.Ticks.Count)];
 
-                    file.ElementsSize = ElementsSizeSlider.Ticks[RandomGenerator.Next(0, ElementsSizeSlider.Ticks.Count)];
-                    file.ElementsSizeVariation = RandomGenerator.Next(0, 100);
+                    file.PlanktonElementsSize = PlanktonElementsSizeSlider.Ticks[RandomGenerator.Next(0, PlanktonElementsSizeSlider.Ticks.Count)];
+                    file.PlanktonElementsSizeVariation = RandomGenerator.Next(0, 100);
                     file.WaterViscosity = MaintainStandardPhysicsWhenRandomGeneratingSettings ? 0.98d : ViscositySlider.Ticks[RandomGenerator.Next(0, ViscositySlider.Ticks.Count)];
                     file.Travel = TravelSlider.Ticks[RandomGenerator.Next(0, TravelSlider.Ticks.Count)];
                     file.Life = RandomGenerator.Next(0, 100);
@@ -2732,7 +2732,7 @@ namespace BP.Plankton.Controls
                         planktonBrushes = lastGeneratedPlanktonBrushes;
                     else
                     {
-                        planktonBrushes = new Brush[RandomGenerator.Next(1, Math.Max(1, GenerateMultipleRandomElementFill ? Elements > 100 ? Elements / 10 : Elements : 1))];
+                        planktonBrushes = new Brush[RandomGenerator.Next(1, Math.Max(1, GenerateMultipleRandomElementFill ? PlanktonElements > 100 ? PlanktonElements / 10 : PlanktonElements : 1))];
 
                         for (var index = 0; index < planktonBrushes.Length; index++)
                         {
@@ -2889,7 +2889,7 @@ namespace BP.Plankton.Controls
                 element.Fill = lastGeneratedPlanktonBrushes[RandomGenerator.Next(0, lastGeneratedPlanktonBrushes.Length)];
 
             ElementHost.SpecifyPlanktonDrawingVisual(new DrawingVisual());
-            ElementHost.AddPlanktonElements(Plankton.ToArray());
+            ElementHost.AddPlanktonPlanktonElements(Plankton.ToArray());
 
             if (update != null && !IsPaused)
                 update.Start();
@@ -3266,24 +3266,24 @@ namespace BP.Plankton.Controls
 
         private void QuickIncreasePlanktonCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!(Elements < AmountSlider.Maximum))
+            if (!(PlanktonElements < AmountSlider.Maximum))
                 return;
 
             var ticks = AmountSlider.Ticks.ToList();
-            var index = ticks.IndexOf(Elements);
-            Elements = (int)ticks[index + 1];
+            var index = ticks.IndexOf(PlanktonElements);
+            PlanktonElements = (int)ticks[index + 1];
 
             RegenerateWithCurrentSettings(true);
         }
 
         private void QuickDecreasePlanktonCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!(Elements > AmountSlider.Minimum))
+            if (!(PlanktonElements > AmountSlider.Minimum))
                 return;
 
             var ticks = AmountSlider.Ticks.ToList();
-            var index = ticks.IndexOf(Elements);
-            Elements = (int)ticks[index - 1];
+            var index = ticks.IndexOf(PlanktonElements);
+            PlanktonElements = (int)ticks[index - 1];
 
             RegenerateWithCurrentSettings(true);
         }
@@ -3397,7 +3397,7 @@ namespace BP.Plankton.Controls
 
         private void TriggerCurrentCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, ElementsSizeSlider.Maximum / ElementsSize, -(ElementsSize - ElementsSize / 100d * ElementsSizeVariation) + 0.5d, CurrentZ, RandomGenerator) : 0.0d, CurrentMode)
+            var c = new Current(CurrentStrength, UseRandomCurrentDirection ? RandomGenerator.Next(0, 2) % 2 == 0 ? RandomGenerator.Next(20, 160) : RandomGenerator.Next(200, 340) : CurrentDirection, UseZOnCurrent ? Current.GenerateZStep(CurrentZStep, CurrentZStepVariation, PlanktonElementsSizeSlider.Maximum / PlanktonElementsSize, -(PlanktonElementsSize - PlanktonElementsSize / 100d * PlanktonElementsSizeVariation) + 0.5d, CurrentZ, RandomGenerator) : 0.0d, CurrentMode)
             {
                 Deceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentDeceleration : WaterViscosity,
                 Acceleration = IgnoreWaterViscosityWhenGeneratingCurrent ? CurrentAcceleration : WaterViscosity

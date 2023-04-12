@@ -18,9 +18,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile AntiGravity => new PlanktonSettingsFile
         {
-            Elements = 750,
-            ElementsSize = 20,
-            ElementsSizeVariation = 0,
+            PlanktonElements = 750,
+            PlanktonElementsSize = 20,
+            PlanktonElementsSizeVariation = 0,
             WaterViscosity = 1,
             Travel = 0,
             Life = 0,
@@ -61,9 +61,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile Attraction => new PlanktonSettingsFile
         {
-            Elements = 500,
-            ElementsSize = 10,
-            ElementsSizeVariation = 0,
+            PlanktonElements = 500,
+            PlanktonElementsSize = 10,
+            PlanktonElementsSizeVariation = 0,
             WaterViscosity = 0.85d,
             Travel = 5,
             Life = 20,
@@ -112,9 +112,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile Default => new PlanktonSettingsFile
         {
-            Elements = 750,
-            ElementsSize = 10,
-            ElementsSizeVariation = 75,
+            PlanktonElements = 750,
+            PlanktonElementsSize = 10,
+            PlanktonElementsSizeVariation = 75,
             WaterViscosity = 0.95d,
             Travel = 3,
             Life = 0,
@@ -163,9 +163,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile Dense => new PlanktonSettingsFile
         {
-            Elements = 7500,
-            ElementsSize = 5,
-            ElementsSizeVariation = 100,
+            PlanktonElements = 7500,
+            PlanktonElementsSize = 5,
+            PlanktonElementsSizeVariation = 100,
             WaterViscosity = 0.85d,
             Travel = 15,
             Life = 10,
@@ -214,9 +214,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile Gunk => new PlanktonSettingsFile
         {
-            Elements = 500,
-            ElementsSize = 75,
-            ElementsSizeVariation = 0,
+            PlanktonElements = 500,
+            PlanktonElementsSize = 75,
+            PlanktonElementsSizeVariation = 0,
             WaterViscosity = 0.7d,
             Travel = 1,
             Life = 3,
@@ -258,9 +258,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile LuminousRandomStartup => new PlanktonSettingsFile
         {
-            Elements = 350,
-            ElementsSize = 30,
-            ElementsSizeVariation = 100,
+            PlanktonElements = 350,
+            PlanktonElementsSize = 30,
+            PlanktonElementsSizeVariation = 100,
             WaterViscosity = 0.97d,
             Travel = 10,
             Life = 5,
@@ -311,9 +311,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile Original => new PlanktonSettingsFile
         {
-            Elements = 750,
-            ElementsSize = 10,
-            ElementsSizeVariation = 0,
+            PlanktonElements = 750,
+            PlanktonElementsSize = 10,
+            PlanktonElementsSizeVariation = 0,
             WaterViscosity = 0.95d,
             Travel = 5,
             Life = 5,
@@ -356,9 +356,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile Performance => new PlanktonSettingsFile
         {
-            Elements = 250,
-            ElementsSize = 8,
-            ElementsSizeVariation = 0,
+            PlanktonElements = 250,
+            PlanktonElementsSize = 8,
+            PlanktonElementsSizeVariation = 0,
             WaterViscosity = 0.75d,
             Travel = 5,
             Life = 0,
@@ -401,9 +401,9 @@ namespace BP.Plankton.Model.Settings
         /// </summary>
         public static PlanktonSettingsFile Spikey => new PlanktonSettingsFile
         {
-            Elements = 750,
-            ElementsSize = 3,
-            ElementsSizeVariation = 100,
+            PlanktonElements = 750,
+            PlanktonElementsSize = 3,
+            PlanktonElementsSizeVariation = 100,
             WaterViscosity = 0.95d,
             Travel = 15,
             Life = 25,
@@ -457,17 +457,17 @@ namespace BP.Plankton.Model.Settings
         /// <summary>
         /// Get or set the number of elements that should be used.
         /// </summary>
-        public int Elements { get; set; }
+        public int PlanktonElements { get; set; }
 
         /// <summary>
         /// Get or set the size of the elements represented as equal with and height.
         /// </summary>
-        public double ElementsSize { get; set; }
+        public double PlanktonElementsSize { get; set; }
 
         /// <summary>
         /// Get or set the elements size variation, represented as a percentage.
         /// </summary>
-        public double ElementsSizeVariation { get; set; }
+        public double PlanktonElementsSizeVariation { get; set; }
 
         /// <summary>
         /// Get or set the amount of travel each element should make along it's vector on each update.
@@ -723,16 +723,16 @@ namespace BP.Plankton.Model.Settings
                 throw new NullReferenceException();
             }
 
-            var attribute = doc.CreateAttribute("Elements");
-            attribute.Value = Elements.ToString(CultureInfo.InvariantCulture);
+            var attribute = doc.CreateAttribute("PlanktonElements");
+            attribute.Value = PlanktonElements.ToString(CultureInfo.InvariantCulture);
             planktonNode.Attributes?.Append(attribute);
 
-            attribute = doc.CreateAttribute("ElementsSize");
-            attribute.Value = ElementsSize.ToString(CultureInfo.InvariantCulture);
+            attribute = doc.CreateAttribute("PlanktonElementsSize");
+            attribute.Value = PlanktonElementsSize.ToString(CultureInfo.InvariantCulture);
             planktonNode.Attributes?.Append(attribute);
 
-            attribute = doc.CreateAttribute("ElementsSizeVariation");
-            attribute.Value = ElementsSizeVariation.ToString(CultureInfo.InvariantCulture);
+            attribute = doc.CreateAttribute("PlanktonElementsSizeVariation");
+            attribute.Value = PlanktonElementsSizeVariation.ToString(CultureInfo.InvariantCulture);
             planktonNode.Attributes?.Append(attribute);
 
             attribute = doc.CreateAttribute("Travel");
@@ -947,14 +947,14 @@ namespace BP.Plankton.Model.Settings
             doc.LoadXml(data);
 
             var file = new PlanktonSettingsFile();
-            if (AttributeExists(doc, "Plankton", "Elements"))
-                file.Elements = int.Parse(GetAttribute(doc, "Plankton", "Elements").Value);
+            if (AttributeExists(doc, "Plankton", "PlanktonElements"))
+                file.PlanktonElements = int.Parse(GetAttribute(doc, "Plankton", "PlanktonElements").Value);
 
-            if (AttributeExists(doc, "Plankton", "ElementsSize"))
-                file.ElementsSize = double.Parse(GetAttribute(doc, "Plankton", "ElementsSize").Value);
+            if (AttributeExists(doc, "Plankton", "PlanktonElementsSize"))
+                file.PlanktonElementsSize = double.Parse(GetAttribute(doc, "Plankton", "PlanktonElementsSize").Value);
 
-            if (AttributeExists(doc, "Plankton", "ElementsSizeVariation"))
-                file.ElementsSizeVariation = double.Parse(GetAttribute(doc, "Plankton", "ElementsSizeVariation").Value);
+            if (AttributeExists(doc, "Plankton", "PlanktonElementsSizeVariation"))
+                file.PlanktonElementsSizeVariation = double.Parse(GetAttribute(doc, "Plankton", "PlanktonElementsSizeVariation").Value);
 
             if (AttributeExists(doc, "Plankton", "Travel"))
                 file.Travel = double.Parse(GetAttribute(doc, "Plankton", "Travel").Value);
