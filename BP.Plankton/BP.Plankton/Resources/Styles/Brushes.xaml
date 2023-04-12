@@ -31,7 +31,12 @@
     </RadialGradientBrush>
     <SolidColorBrush x:Key="PlanktonGunkBrush" Color="#FFE191AF"/>
     <SolidColorBrush x:Key="PlanktonPerformanceBrush" Color="#FF416B5F"/>
-    <RadialGradientBrush x:Key="BubbleBrush" GradientOrigin="0.35,0.35" Opacity="0.45">
+    <RadialGradientBrush x:Key="MainBubbleBrush" GradientOrigin="0.35,0.35" Opacity="0.65">
+        <GradientStop Offset="0.0" Color="LightSteelBlue"/>
+        <GradientStop Offset="0.25" Color="LightSteelBlue"/>
+        <GradientStop Offset="1.0" Color="SteelBlue"/>
+    </RadialGradientBrush>
+    <RadialGradientBrush x:Key="ChildBubbleBrush" GradientOrigin="0.35,0.35" Opacity="0.45">
         <GradientStop Offset="0.0" Color="LightSteelBlue"/>
         <GradientStop Offset="0.25" Color="LightSteelBlue"/>
         <GradientStop Offset="1.0" Color="SteelBlue"/>

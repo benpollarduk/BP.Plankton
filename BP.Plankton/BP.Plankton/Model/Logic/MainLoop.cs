@@ -84,7 +84,6 @@ namespace BP.Plankton.Model.Logic
         /// <param name="forceBubbleRerender">If bubble re-render should be forced.</param>
         private static void UpdateBubbles(PlanktonControl control, FrameworkElement area, Random random, Vector mouseVector, bool useSeaBed, double seaBedHeight, Point mousePosition, out int currentBubbleElements, out bool forceBubbleRerender)
         {
-            var bubbleBrush = control.FindResource("BubbleBrush") as Brush;
             var maxBubbleSize = control.BubbleSize * Math.PI;
             var childBubbleBuoyancy = control.ChildBubbleBuoyancy * control.WaterViscosity;
             forceBubbleRerender = false;
@@ -105,7 +104,7 @@ namespace BP.Plankton.Model.Logic
                 {
                     var relativeChildBubbleDimension = control.BubbleSize / 2d;
                     relativeChildBubbleDimension -= relativeChildBubbleDimension / 100d * random.Next(0, (int)control.ChildBubbleSizeVariation);
-                    control.ChildBubbles.Add(new Bubble(new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.BubblePen, bubbleBrush), true);
+                    control.ChildBubbles.Add(new Bubble(new Point(mousePosition.X - relativeChildBubbleDimension / 2d, mousePosition.Y - relativeChildBubbleDimension / 2d), Math.Max(3, relativeChildBubbleDimension), new Vector(0d, -childBubbleBuoyancy), control.ChildBubblePen, control.ChildBubbleBrush), true);
                     forceBubbleRerender = true;
                 }
             }

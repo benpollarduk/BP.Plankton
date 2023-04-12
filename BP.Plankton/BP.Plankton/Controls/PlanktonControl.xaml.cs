@@ -994,9 +994,24 @@ namespace BP.Plankton.Controls
         public Bubble Bubble { get; set; }
 
         /// <summary>
-        /// Get the pen used to draw bubbles.
+        /// Get the pen used to draw the main bubble.
         /// </summary>
-        public Pen BubblePen { get; }
+        public Pen MainBubblePen { get; }
+
+        /// <summary>
+        /// Get the pen used to draw child bubbles.
+        /// </summary>
+        public Pen ChildBubblePen { get; }
+
+        /// <summary>
+        /// Get the brush used to draw the main bubble.
+        /// </summary>
+        public Brush MainBubbleBrush { get; }
+
+        /// <summary>
+        /// Get the brush used to draw child bubbles.
+        /// </summary>
+        public Brush ChildBubbleBrush { get; }
 
         /// <summary>
         /// Get or set the pen used to draw the sea bed.
@@ -1571,7 +1586,10 @@ namespace BP.Plankton.Controls
             Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             ZoomPreviewFactor = MaximumZoom;
             var bubbleStroke = new SolidColorBrush(Color.FromArgb(165, Colors.SteelBlue.R, Colors.SteelBlue.G, Colors.SteelBlue.B));
-            BubblePen = new Pen(bubbleStroke, 0d);
+            MainBubblePen = new Pen(bubbleStroke, 0d);
+            MainBubbleBrush = FindResource("MainBubbleBrush") as Brush;
+            ChildBubblePen = new Pen(bubbleStroke, 0d);
+            ChildBubbleBrush = FindResource("ChildBubbleBrush") as Brush;
         }
 
         #endregion
@@ -2553,12 +2571,7 @@ namespace BP.Plankton.Controls
         /// <returns>The main bubble.</returns>
         private Bubble GenerateMainBubble(Point center, Vector vector)
         {
-            var b = FindResource("BubbleBrush") as Brush;
-
-            if (b != null)
-                b.Opacity = 0.65d;
-
-            return new Bubble(center, BubbleSize / 2d, vector, BubblePen, b);
+            return new Bubble(center, BubbleSize / 2d, vector, MainBubblePen, MainBubbleBrush);
         }
 
         /// <summary>
