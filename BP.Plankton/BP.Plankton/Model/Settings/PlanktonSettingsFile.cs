@@ -545,7 +545,7 @@ namespace BP.Plankton.Model.Settings
         public double PlanktonAttractionReach { get; set; }
 
         /// <summary>
-        /// Get or set the viscocity of the water.
+        /// Get or set the viscosity of the water.
         /// </summary>
         public double WaterViscosity { get; set; }
 
@@ -595,12 +595,12 @@ namespace BP.Plankton.Model.Settings
         public bool GenerateAndUseRandomSeaBrush { get; set; }
 
         /// <summary>
-        /// Get or set if arc segements are used in sea bed paths.
+        /// Get or set if arc segments are used in sea bed paths.
         /// </summary>
         public bool UseArcSegmentsInSeaBedPath { get; set; }
 
         /// <summary>
-        /// Get or set if line segements are used in sea bed paths.
+        /// Get or set if line segments are used in sea bed paths.
         /// </summary>
         public bool UseLineSegmentsInSeaBedPath { get; set; }
 
