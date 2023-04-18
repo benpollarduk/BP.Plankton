@@ -18,7 +18,7 @@
                 <EventTrigger RoutedEvent="Border.Loaded">
                     <BeginStoryboard>
                         <Storyboard x:Name="FadeIntoStoryboard" Completed="FadeIntoStoryboard_Completed">
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:2" BeginTime="0:0:7.5"/>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:2" BeginTime="0:0:3.5"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -36,24 +36,13 @@
                         <Setter Property="IsHitTestVisible" Value="False"/>
                     </Style>
                 </Grid.Resources>
-                <Image Source="pack://application:,,/Resources/Images/Assets/Plankton.png" Margin="40" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.0">
+                <Image Source="pack://application:,,/Resources/Images/Assets/Plankton.png" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.0">
                     <Image.Triggers>
                         <EventTrigger RoutedEvent="Image.Loaded">
                             <BeginStoryboard>
-                                <Storyboard x:Name="MainTitleStoryboard" Completed="MainTitleStoryboard_Completed">
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" BeginTime="0:0:5"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Image.Triggers>
-                </Image>
-                <Image Source="pack://application:,,/Resources/Images/Assets/0xdFXLogo.png" Margin="100" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.0">
-                    <Image.Triggers>
-                        <EventTrigger RoutedEvent="Image.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" BeginTime="0:0:1"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1" BeginTime="0:0:3.5"/>
+                                <Storyboard Name="MainTitleStoryboard" Completed="MainTitleStoryboard_Completed">
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1.5" BeginTime="0:0:0.5"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1.5" BeginTime="0:0:2"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>

@@ -212,9 +212,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\Assets\0xdFXLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\Assets\Plankton.png" />
   </ItemGroup>
   <ItemGroup>

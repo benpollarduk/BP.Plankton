@@ -1056,24 +1056,21 @@
                         </Grid>
                     </TabItem>
                     <TabItem Header="About" Visibility="{Binding Path=ShowAboutTab, Mode=OneWay, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
-                        <Grid>
+                        <Grid Margin="12">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30*" MaxWidth="120"/>
-                                <ColumnDefinition Width="40*"/>
-                                <ColumnDefinition Width="30*" MaxWidth="120"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="/Resources/Images/Assets/Plankton.png" Margin="6" RenderOptions.BitmapScalingMode="Fant" Grid.Row="0" Grid.RowSpan="4"/>
+                            <Image Source="/Resources/Images/Assets/Plankton.png" Margin="0" RenderOptions.BitmapScalingMode="Fant" Grid.Row="0" Grid.RowSpan="3"/>
                             <Label Content="Plankton" FontSize="18" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
                             <Label Content="{Binding Path=Version, Mode=OneWay}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
                             <TextBlock Text="Developed by Ben Pollard, 2013 - 2023" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="2" Grid.Column="1"/>
-                            <Label Content="Released by 0xd FX" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
-                            <Image Source="/Resources/Images/Assets/0xdFXLogo.png" Margin="6" RenderOptions.BitmapScalingMode="Fant" Grid.Row="0" Grid.Column="2" Grid.RowSpan="4"/>
                         </Grid>
                     </TabItem>
                 </TabControl>
