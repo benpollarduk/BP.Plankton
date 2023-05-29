@@ -13,7 +13,7 @@ Features lots of controls to adjust:
   * Water
   * Current
   * Mass
-  * Environmet
+  * Environment 
   * UI
 
 ![image](https://user-images.githubusercontent.com/129943363/231221171-fa35cb3d-464a-40b9-b6e8-7a5460d29341.png)
