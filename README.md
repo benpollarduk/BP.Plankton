@@ -38,8 +38,5 @@ This is a fairly old project now, it was started in 2013 as a bit of fun and gre
  * Build all projects
  * Run the BP.Plankton project
 
-# Contribute
-It´s Open Source (License >> MIT), please feel free to use or contribute. To raise a pull request visit https://github.com/ben-pollard-uk/plankton/pulls.
-
 # For Open Questions
 Visit https://github.com/ben-pollard-uk/plankton/issues
