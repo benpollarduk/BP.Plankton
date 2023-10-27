@@ -39,4 +39,4 @@ This is a fairly old project now, it was started in 2013 as a bit of fun and gre
  * Run the BP.Plankton project
 
 # For Open Questions
-Visit https://github.com/ben-pollard-uk/plankton/issues
+Visit https://github.com/benpollarduk/plankton/issues
