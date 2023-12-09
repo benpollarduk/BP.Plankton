@@ -1,3 +1,6 @@
+[![GitHub release](https://img.shields.io/github/release/benpollarduk/plankton.svg)](https://github.com/benpollarduk/ktvn/releases)
+[![License](https://img.shields.io/github/license/benpollarduk/plankton.svg)](https://opensource.org/licenses/MIT)
+
 # Introduction 
 A .NET 4.6.1 program that crudely simulates plankton in a pond. This was mainly developed as a way to help me understand WPF rendering, particularly the Visual and Geometry classes. Physics are not intended to be realistic or accurate, instead the emphasis is on having fun!
 
