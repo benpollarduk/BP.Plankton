@@ -1,4 +1,4 @@
-[![GitHub release](https://img.shields.io/github/release/benpollarduk/plankton.svg)](https://github.com/benpollarduk/ktvn/releases)
+[![GitHub release](https://img.shields.io/github/release/benpollarduk/plankton.svg)](https://github.com/benpollarduk/plankton/releases)
 [![License](https://img.shields.io/github/license/benpollarduk/plankton.svg)](https://opensource.org/licenses/MIT)
 
 # Introduction 
