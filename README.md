@@ -1,6 +1,6 @@
 <div align="center">
 
-# Plankton
+# BP.Plankton
 
 A C# program targeting .NET 4.6.1 that simulates plankton in a pond, with the emphasis on fun over realism.
 
