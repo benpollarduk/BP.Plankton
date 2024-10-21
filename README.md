@@ -40,10 +40,6 @@ This is a fairly old project now, it was started in 2013 as a bit of fun and gre
  * Generating complex sea bed paths
  * Too many bubbles
 
-## Prerequisites
- * Windows
-   * Download free IDE Visual Studio 2022 Community ( >> https://visualstudio.microsoft.com/de/vs/community/ ), or use commercial Visual Studio 2022 Version.
-
 ## Getting Started
  * Clone the repo.
  * Build all projects.
